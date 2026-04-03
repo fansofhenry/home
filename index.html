@@ -3,745 +3,1204 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Property Management - Room Photos</title>
+  <title>Esperanza Dr — Home in Los Altos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0f1117;
-      color: #e0e0e0;
+      font-family: 'DM Sans', sans-serif;
+      background: #f8f6f1;
+      color: #3d3929;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Header */
+    /* ─── Header ─── */
     header {
-      background: linear-gradient(135deg, #1a1d2e, #2a2d3e);
-      padding: 30px 40px;
-      border-bottom: 1px solid #333;
-      text-align: center;
-    }
-    header h1 {
-      font-size: 2rem;
-      font-weight: 300;
-      letter-spacing: 2px;
-      color: #fff;
-    }
-    header p {
-      margin-top: 8px;
-      color: #888;
-      font-size: 0.95rem;
-    }
-
-    /* Layout */
-    .container {
+      background: linear-gradient(to right, #fffcf7, #fff);
+      padding: 18px 36px;
+      border-bottom: 1px solid #ebe8e1;
       display: flex;
-      min-height: calc(100vh - 110px);
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 280px;
-      min-width: 280px;
-      background: #161822;
-      border-right: 1px solid #2a2d3e;
-      padding: 20px 0;
-      overflow-y: auto;
+      align-items: center;
+      justify-content: space-between;
       position: sticky;
       top: 0;
-      height: calc(100vh - 110px);
+      z-index: 100;
     }
-    .sidebar h2 {
-      padding: 0 20px 15px;
+    .header-left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: #2c2a22;
+    }
+    .header-left h1 span {
+      font-weight: 400;
+      font-style: italic;
+      color: #9c9785;
+    }
+    .header-left p {
+      margin-top: 1px;
+      color: #b5ae9e;
+      font-size: 0.78rem;
+      letter-spacing: 0.3px;
+    }
+    .header-pills {
+      display: flex;
+      gap: 8px;
+    }
+    .header-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 15px;
+      border-radius: 24px;
       font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #666;
+      font-weight: 500;
+      border: 1px solid #ebe8e1;
+      background: #fff;
+      color: #6b6656;
     }
-    .room-btn {
+    .header-pill.green {
+      background: #f0faf0;
+      border-color: #c6e6c6;
+      color: #2d7a2d;
+    }
+    .header-pill .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4caf50;
+      animation: softPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes softPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ─── Hero landing page ─── */
+    .hero {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      cursor: pointer;
+    }
+    .hero img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+      transition: transform 6s ease;
+    }
+    .hero:hover img { transform: scale(1.04); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(30,28,20,0.82) 0%, rgba(30,28,20,0.3) 50%, rgba(30,28,20,0.05) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 36px 40px;
+    }
+    .hero-overlay h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .hero-overlay p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem;
+      max-width: 500px;
+    }
+    .hero-pills {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-pill {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Quick-nav cards on landing */
+    .quick-nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .qn-card {
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 14px;
+      padding: 22px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .qn-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(60,50,30,0.08);
+      border-color: #d4cfc0;
+    }
+    .qn-card .qn-icon { font-size: 1.8rem; margin-bottom: 10px; display: block; }
+    .qn-card h3 { font-size: 0.9rem; font-weight: 600; color: #3d3929; margin-bottom: 4px; }
+    .qn-card p { font-size: 0.76rem; color: #9c9785; }
+
+    /* Amenity row on landing */
+    .amenity-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .amenity {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 24px;
+      font-size: 0.82rem;
+      color: #5c5647;
+      font-weight: 500;
+    }
+    .amenity .am-icon { font-size: 1rem; }
+
+    /* ─── Layout ─── */
+    .container {
+      display: flex;
+      min-height: calc(100vh - 66px);
+    }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      width: 260px;
+      min-width: 260px;
+      background: #fffcf7;
+      border-right: 1px solid #ebe8e1;
+      padding: 22px 0;
+      overflow-y: auto;
+      position: sticky;
+      top: 66px;
+      height: calc(100vh - 66px);
+    }
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: #ddd8cd; border-radius: 3px; }
+    .sb-label {
+      padding: 0 22px 8px;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: #b5ae9e;
+      font-weight: 700;
+    }
+    .sb-divider {
+      height: 1px;
+      background: #f0ede6;
+      margin: 12px 22px;
+    }
+    .sb-btn {
       display: flex;
       align-items: center;
       width: 100%;
-      padding: 14px 20px;
+      padding: 10px 22px;
       border: none;
       background: transparent;
-      color: #aaa;
-      font-size: 0.92rem;
+      color: #7a7464;
+      font-family: inherit;
+      font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       text-align: left;
-      gap: 12px;
+      gap: 10px;
+      border-left: 3px solid transparent;
     }
-    .room-btn:hover {
-      background: #1e2130;
-      color: #fff;
+    .sb-btn:hover { background: #faf8f4; color: #3d3929; }
+    .sb-btn.active {
+      background: #f5f0e8;
+      color: #5c4b28;
+      border-left-color: #b8945a;
+      font-weight: 500;
     }
-    .room-btn.active {
-      background: linear-gradient(90deg, #2563eb22, transparent);
-      color: #60a5fa;
-      border-left: 3px solid #2563eb;
-    }
-    .room-btn .room-num {
+    .sb-btn .sb-icon {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      background: #2a2d3e;
-      font-size: 0.8rem;
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: #f5f2ec;
+      font-size: 0.78rem;
       font-weight: 600;
       flex-shrink: 0;
+      color: #9c9785;
     }
-    .room-btn.active .room-num {
-      background: #2563eb;
-      color: #fff;
+    .sb-btn.active .sb-icon {
+      background: #ede4d4;
+      color: #7a6638;
     }
-    .room-btn .photo-count {
-      margin-left: auto;
-      font-size: 0.75rem;
-      color: #555;
-      background: #1a1d2e;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    /* Availability status */
-    .room-btn .status-dot {
-      width: 8px;
-      height: 8px;
+    .sb-btn .sb-dot {
+      width: 7px; height: 7px;
       border-radius: 50%;
       flex-shrink: 0;
     }
-    .room-btn .status-dot.available {
-      background: #22c55e;
-      box-shadow: 0 0 6px rgba(34,197,94,0.5);
+    .sb-btn .sb-dot.open { background: #4caf50; }
+    .sb-btn .sb-dot.taken { background: #ccc; }
+    .sb-btn .sb-count {
+      margin-left: auto;
+      font-size: 0.7rem;
+      color: #c4bfb2;
+      font-weight: 500;
     }
-    .room-btn .status-dot.occupied {
-      background: #ef4444;
-      box-shadow: 0 0 6px rgba(239,68,68,0.3);
-    }
-    .room-btn.unavailable {
-      opacity: 0.45;
-    }
-    .room-btn.unavailable:hover {
-      opacity: 0.65;
-    }
-    .status-badge {
-      display: inline-block;
-      margin-top: 8px;
-      margin-left: 8px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-    }
-    .status-badge.available {
-      background: rgba(34,197,94,0.15);
-      color: #4ade80;
-    }
-    .status-badge.occupied {
-      background: rgba(239,68,68,0.15);
-      color: #f87171;
-    }
-    .overview-section .status-tag {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 10px;
-      font-size: 0.75rem;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    .overview-section .status-tag.available {
-      background: rgba(34,197,94,0.15);
-      color: #4ade80;
-    }
-    .overview-section .status-tag.occupied {
-      background: rgba(239,68,68,0.15);
-      color: #f87171;
-    }
-    .overview-section.occupied-section .photo-grid {
-      opacity: 0.4;
-    }
-    .overview-section.occupied-section:hover .photo-grid {
-      opacity: 0.65;
+    .sb-btn.dim { opacity: 0.42; }
+    .sb-btn.dim:hover { opacity: 0.65; }
+
+    /* ─── Main ─── */
+    .main {
+      flex: 1;
+      padding: 32px 42px 60px;
+      overflow-y: auto;
+      max-width: 1100px;
     }
 
-    /* Legend */
+    /* Fade-in */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeUp 0.3s ease-out forwards; }
+
+    /* ─── Page titles ─── */
+    .pg-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: #2c2a22;
+      margin-bottom: 4px;
+    }
+    .pg-sub {
+      font-size: 0.88rem;
+      color: #9c9785;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .pill {
+      display: inline-block;
+      padding: 3px 11px;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    .pill-warm { background: #f5f0e8; color: #8a7245; }
+    .pill-green { background: #edf7ed; color: #3a7a3a; }
+    .pill-red { background: #fdf0ef; color: #b05050; }
+
+    /* ─── Legend ─── */
     .legend {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       align-items: center;
-      margin-bottom: 25px;
-      padding: 12px 16px;
-      background: #161822;
+      margin-bottom: 26px;
+      padding: 11px 16px;
+      background: #fff;
       border-radius: 10px;
-      border: 1px solid #2a2d3e;
-      font-size: 0.85rem;
+      border: 1px solid #ebe8e1;
+      font-size: 0.82rem;
     }
-    .legend-item {
+    .legend-item { display: flex; align-items: center; gap: 6px; color: #7a7464; }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+    .legend-dot.g { background: #4caf50; }
+    .legend-dot.r { background: #ccc; }
+    .legend .lg-count { margin-left: auto; color: #b5ae9e; font-weight: 500; }
+
+    /* ─── Section headings ─── */
+    .sec-head {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #3d3929;
+      margin-bottom: 14px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid #f0ede6;
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #aaa;
     }
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-    .legend-dot.green { background: #22c55e; }
-    .legend-dot.red { background: #ef4444; }
-    .legend .room-count {
-      margin-left: auto;
-      color: #666;
-    }
+    .sec-head .si { font-size: 1.1rem; }
 
-    /* Main content */
-    .main {
-      flex: 1;
-      padding: 30px 40px;
-      overflow-y: auto;
-    }
-    .room-header {
-      margin-bottom: 25px;
-    }
-    .room-header h2 {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #fff;
-    }
-    .room-header .badge {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 4px 12px;
-      background: #2563eb22;
-      color: #60a5fa;
-      border-radius: 20px;
-      font-size: 0.8rem;
-    }
-
-    /* Photo grid */
+    /* ─── Photo grid ─── */
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
     }
     .photo-card {
       position: relative;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      background: #1a1d2e;
+      background: #eee;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
       aspect-ratio: 4/3;
     }
     .photo-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+      box-shadow: 0 12px 32px rgba(60,50,30,0.12);
     }
     .photo-card img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.3s;
+      transition: transform 0.4s ease;
     }
-    .photo-card:hover img {
-      transform: scale(1.05);
-    }
+    .photo-card:hover img { transform: scale(1.04); }
     .photo-card .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 30px 14px 12px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.85));
-      font-size: 0.82rem;
-      color: #ccc;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .photo-card:hover .overlay {
-      opacity: 1;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 13px 10px;
+      background: linear-gradient(transparent, rgba(30,28,20,0.7));
+      font-size: 0.78rem;
+      color: #fff;
+      font-weight: 500;
     }
 
-    /* Lightbox */
+    /* ─── Room sections ─── */
+    .room-sec { margin-bottom: 34px; }
+    .room-sec-head {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: #6b6656;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0ede6;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .room-sec-head .rs-count {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: #c4bfb2;
+    }
+    .room-sec.dim .photo-grid { opacity: 0.3; transition: opacity 0.25s; }
+    .room-sec.dim:hover .photo-grid { opacity: 0.6; }
+
+    /* ─── Welcome banner ─── */
+    .welcome-banner {
+      background: linear-gradient(135deg, #f7f3ec, #eee8dd);
+      border-radius: 16px;
+      padding: 30px 34px;
+      margin-bottom: 28px;
+      border: 1px solid #e6dfd2;
+    }
+    .welcome-banner h3 {
+      font-family: 'Playfair Display', serif;
+      color: #3d3929;
+      font-weight: 400;
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+    .welcome-banner p {
+      color: #7a7464;
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+
+    /* ─── Host section ─── */
+    .host-section {
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 18px;
+      padding: 34px;
+      margin-bottom: 28px;
+    }
+    .host-top {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .host-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d4c4a0, #b8945a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .host-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: #2c2a22;
+      font-weight: 400;
+    }
+    .host-info p {
+      color: #9c9785;
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+    .host-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .host-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #f5f0e8;
+      color: #8a7245;
+    }
+    .host-body { line-height: 1.75; }
+    .host-body p {
+      color: #5c5647;
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+    }
+    .host-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .host-hl {
+      background: #faf8f4;
+      border: 1px solid #f0ede6;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .host-hl .hl-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .host-hl h4 {
+      font-size: 0.85rem;
+      color: #3d3929;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .host-hl p {
+      font-size: 0.8rem;
+      color: #9c9785;
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    /* ─── Lightbox ─── */
     .lightbox {
       display: none;
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       z-index: 1000;
-      background: rgba(0,0,0,0.95);
+      background: rgba(44,42,34,0.92);
+      backdrop-filter: blur(6px);
       align-items: center;
       justify-content: center;
       flex-direction: column;
     }
-    .lightbox.open {
-      display: flex;
-    }
+    .lightbox.open { display: flex; }
     .lightbox img {
-      max-width: 90vw;
-      max-height: 80vh;
+      max-width: 90vw; max-height: 82vh;
       object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border-radius: 10px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      animation: fadeUp 0.2s ease-out;
     }
-    .lightbox .caption {
-      margin-top: 16px;
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-    .lightbox .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      background: none;
-      border: none;
-      color: #888;
-      font-size: 2rem;
-      cursor: pointer;
-      transition: color 0.2s;
+    .lightbox .lb-caption { margin-top: 14px; color: #d4cfc3; font-size: 0.88rem; }
+    .lightbox .lb-close {
+      position: absolute; top: 16px; right: 24px;
+      background: rgba(255,255,255,0.12); border: none;
+      color: #e8e3d8; font-size: 1.5rem;
+      width: 42px; height: 42px; border-radius: 50%;
+      cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
       z-index: 1001;
     }
-    .lightbox .close-btn:hover { color: #fff; }
-    .lightbox .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #ccc;
-      font-size: 1.5rem;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .lightbox .lb-close:hover { background: rgba(255,255,255,0.25); }
+    .lightbox .lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.12); border: none;
+      color: #e8e3d8; font-size: 1.5rem;
+      width: 48px; height: 48px; border-radius: 50%;
+      cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
     }
-    .lightbox .nav-btn:hover {
-      background: rgba(255,255,255,0.15);
-      color: #fff;
-    }
-    .lightbox .nav-prev { left: 20px; }
-    .lightbox .nav-next { right: 20px; }
-    .lightbox .counter {
-      position: absolute;
-      bottom: 20px;
-      color: #666;
-      font-size: 0.85rem;
+    .lightbox .lb-nav:hover { background: rgba(255,255,255,0.25); }
+    .lightbox .lb-prev { left: 20px; }
+    .lightbox .lb-next { right: 20px; }
+    .lightbox .lb-counter {
+      position: absolute; bottom: 20px;
+      color: rgba(255,255,255,0.4); font-size: 0.82rem; font-weight: 500;
     }
 
-    /* "All Rooms" overview */
-    .overview-section {
-      margin-bottom: 40px;
+    /* ─── Neighborhood ─── */
+    .nbr-hero {
+      background: linear-gradient(135deg, #eef5ec, #f4f1e8);
+      border-radius: 16px;
+      padding: 34px;
+      margin-bottom: 28px;
+      border: 1px solid #dce8d8;
     }
-    .overview-section h3 {
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: #888;
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #222;
+    .nbr-hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 400; color: #2c2a22; margin-bottom: 8px;
+    }
+    .nbr-hero p { color: #6b7e62; font-size: 0.9rem; line-height: 1.7; }
+    .nbr-hero .loc-pill {
+      display: inline-block; margin-top: 12px;
+      padding: 5px 13px; background: rgba(76,175,80,0.1);
+      color: #3a7a3a; border-radius: 16px;
+      font-size: 0.78rem; font-weight: 600; margin-right: 6px;
     }
 
-    /* Mobile sidebar toggle */
+    .place-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px; margin-bottom: 34px;
+    }
+    .place-card {
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 14px; padding: 22px;
+      transition: transform 0.2s ease, box-shadow 0.2s;
+    }
+    .place-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(60,50,30,0.08); }
+    .place-card .pc-icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+    .place-card h3 { font-size: 0.95rem; font-weight: 600; color: #3d3929; margin-bottom: 4px; }
+    .place-card .pc-dist {
+      font-size: 0.72rem; color: #6b8f3a; margin-bottom: 8px;
+      display: inline-block; background: #f0f7ec;
+      padding: 3px 9px; border-radius: 8px; font-weight: 600;
+    }
+    .place-card p { font-size: 0.84rem; color: #7a7464; line-height: 1.6; }
+    .place-card .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .place-card .pc-tag {
+      font-size: 0.67rem; padding: 3px 8px; border-radius: 6px;
+      background: #f5f2ec; color: #9c9785; font-weight: 600;
+    }
+
+    .bike-routes { display: grid; gap: 10px; margin-bottom: 34px; }
+    .route-card {
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 12px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .route-card:hover { transform: translateX(3px); box-shadow: 0 4px 16px rgba(60,50,30,0.06); }
+    .rt-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .rt-info h4 { color: #3d3929; font-weight: 600; font-size: 0.88rem; margin-bottom: 2px; }
+    .rt-info p { color: #9c9785; font-size: 0.8rem; line-height: 1.5; }
+    .rt-meta { margin-left: auto; text-align: right; flex-shrink: 0; }
+    .rt-meta .rt-dist { font-size: 1rem; color: #6b8f3a; font-weight: 700; }
+    .rt-meta .rt-time { font-size: 0.7rem; color: #b5ae9e; margin-top: 1px; }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px; margin-bottom: 34px;
+    }
+    .shop-chip {
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 10px; padding: 14px 10px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .shop-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(60,50,30,0.06); }
+    .shop-chip .sc-icon { font-size: 1.3rem; display: block; margin-bottom: 6px; }
+    .shop-chip .sc-name { font-size: 0.8rem; color: #3d3929; font-weight: 600; }
+    .shop-chip .sc-type { font-size: 0.68rem; color: #b5ae9e; margin-top: 2px; }
+
+    .callout {
+      border-radius: 14px; padding: 20px 24px; margin-bottom: 22px;
+    }
+    .callout.sage {
+      background: linear-gradient(135deg, #f0f5ed, #f5f2ec);
+      border: 1px solid #dce8d8;
+    }
+    .callout.warm {
+      background: linear-gradient(135deg, #f8f3eb, #f5f0e8);
+      border: 1px solid #e6dfd2;
+    }
+    .callout h4 {
+      font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 6px; font-weight: 700;
+    }
+    .callout.sage h4 { color: #5a7a4a; }
+    .callout.warm h4 { color: #8a7245; }
+    .callout p { color: #6b6656; font-size: 0.86rem; line-height: 1.65; }
+
+    /* ─── Mobile ─── */
     .menu-toggle {
       display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 500;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: #2563eb;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
+      position: fixed; bottom: 20px; right: 20px; z-index: 500;
+      width: 50px; height: 50px; border-radius: 14px;
+      background: #b8945a; border: none;
+      color: #fff; font-size: 1.2rem;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(37,99,235,0.4);
+      box-shadow: 0 4px 16px rgba(184,148,90,0.35);
     }
-
     @media (max-width: 768px) {
       .sidebar {
-        position: fixed;
-        left: -280px;
-        top: 0;
-        height: 100vh;
-        z-index: 400;
-        transition: left 0.3s;
-        padding-top: 110px;
+        position: fixed; left: -260px; top: 0;
+        height: 100vh; z-index: 400;
+        transition: left 0.3s ease; padding-top: 66px;
       }
       .sidebar.open { left: 0; }
       .menu-toggle { display: flex; align-items: center; justify-content: center; }
-      .main { padding: 20px; }
-      .photo-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-      header h1 { font-size: 1.4rem; }
+      .main { padding: 20px 18px; }
+      .photo-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+      header { padding: 14px 18px; }
+      .header-left h1 { font-size: 1.15rem; }
+      .header-pills { display: none; }
+      .place-grid { grid-template-columns: 1fr; }
+      .shop-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+      .nbr-hero, .welcome-banner, .host-section { padding: 22px; }
+      .route-card { flex-direction: column; text-align: center; gap: 10px; }
+      .rt-meta { margin-left: 0; text-align: center; }
+      .host-top { flex-direction: column; text-align: center; }
+      .host-highlights { grid-template-columns: 1fr; }
+      .hero img { height: 240px; }
+      .hero-overlay { padding: 20px; }
+      .hero-overlay h2 { font-size: 1.4rem; }
+      .quick-nav { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Property Management</h1>
-  <p>Room Photo Gallery</p>
+  <div class="header-left" style="cursor:pointer;" onclick="showRoom('welcome')">
+    <h1>Esperanza Dr <span>Los Altos</span></h1>
+    <p>Rooms for rent &middot; Neighborhood guide &middot; Meet your host</p>
+  </div>
+  <div class="header-pills">
+    <div class="header-pill green">
+      <div class="dot"></div>
+      4 rooms available
+    </div>
+    <div class="header-pill">Esperanza Dr, Los Altos CA</div>
+  </div>
 </header>
 
 <div class="container">
   <nav class="sidebar" id="sidebar">
-    <h2>Rooms</h2>
-    <button class="room-btn active" data-room="all" onclick="showRoom('all')">
-      <span class="room-num">*</span>
-      All Rooms
-      <span class="photo-count" id="total-count"></span>
+    <button class="sb-btn active" data-room="welcome" onclick="showRoom('welcome')" style="padding:14px 22px;">
+      <span class="sb-icon" style="background:#f0ede6; color:#b8945a; font-size:1rem;">&#9750;</span>
+      <strong style="color:#3d3929;">Welcome</strong>
     </button>
-    <!-- Room buttons generated by JS -->
+
+    <div class="sb-divider"></div>
+    <div class="sb-label">Property</div>
+    <button class="sb-btn" data-room="home" onclick="showRoom('home')">
+      <span class="sb-icon">&#8962;</span>
+      Property Photos
+      <span class="sb-count">15</span>
+    </button>
+
+    <div class="sb-divider"></div>
+    <div class="sb-label">Rooms</div>
+    <button class="sb-btn" data-room="all" onclick="showRoom('all')">
+      <span class="sb-icon">&#9783;</span>
+      All Rooms
+    </button>
     <div id="room-buttons"></div>
+
+    <div class="sb-divider"></div>
+    <div class="sb-label">Explore</div>
+    <button class="sb-btn" data-room="neighborhood" onclick="showRoom('neighborhood')">
+      <span class="sb-icon" style="background:#edf7ed; color:#4caf50;">&#9733;</span>
+      Neighborhood
+    </button>
+    <button class="sb-btn" data-room="host" onclick="showRoom('host')">
+      <span class="sb-icon" style="background:#f5f0e8; color:#b8945a;">&#9829;</span>
+      Your Host
+    </button>
   </nav>
 
-  <main class="main" id="main-content">
-    <!-- Content generated by JS -->
-  </main>
+  <main class="main" id="main-content"></main>
 </div>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
-  <button class="close-btn" onclick="closeLightbox()">&times;</button>
-  <button class="nav-btn nav-prev" onclick="navigateLightbox(-1)">&#8249;</button>
-  <button class="nav-btn nav-next" onclick="navigateLightbox(1)">&#8250;</button>
+  <button class="lb-close" onclick="closeLightbox()">&times;</button>
+  <button class="lb-nav lb-prev" onclick="navigateLightbox(-1)">&#8249;</button>
+  <button class="lb-nav lb-next" onclick="navigateLightbox(1)">&#8250;</button>
   <img id="lb-img" src="" alt="">
-  <div class="caption" id="lb-caption"></div>
-  <div class="counter" id="lb-counter"></div>
+  <div class="lb-caption" id="lb-caption"></div>
+  <div class="lb-counter" id="lb-counter"></div>
 </div>
 
-<!-- Mobile menu toggle -->
-<button class="menu-toggle" id="menu-toggle" onclick="toggleSidebar()">&#9776;</button>
+<button class="menu-toggle" onclick="toggleSidebar()">&#9776;</button>
 
 <script>
-  // Room data
+  // ─── Data ───
+  const homePhotos = {
+    id: 0, folder: "0_HomeFotos", name: "Property Overview",
+    description: "Kitchen, bathrooms, pool, patio, and common areas",
+    photos: [
+      "Front Home View (2) (2).jpg","Back Home View (1) (2).JPG",
+      "Kitchen 1.JPG","Kitchen 3 (3).JPG","DiningTable.JPG",
+      "Bathroom 1 (2).JPG","Bathroom 2.JPG","Pool.JPG",
+      "Patio&BBQ (1).JPG","Stairs.JPG","GarageToilet (1).JPG",
+      "BathroomAppraisal.png","DiningRoomAppraisal.png",
+      "KitchenAppraisal.png","LaundryRoomAppraisal.png"
+    ]
+  };
+
   const rooms = [
-    {
-      id: 0,
-      folder: "0_HomeFotos",
-      name: "Home Photos",
-      description: "General property views",
-      photos: [
-        "Back Home View (1) (2).JPG",
-        "Bathroom 1 (2).JPG",
-        "Bathroom 2.JPG",
-        "BathroomAppraisal.png",
-        "DiningRoomAppraisal.png",
-        "DiningTable.JPG",
-        "Front Home View (2) (2).jpg",
-        "GarageToilet (1).JPG",
-        "Kitchen 1.JPG",
-        "Kitchen 3 (3).JPG",
-        "KitchenAppraisal.png",
-        "LaundryRoomAppraisal.png",
-        "Patio&BBQ (1).JPG",
-        "Pool.JPG",
-        "Stairs.JPG"
-      ]
-    },
-    {
-      id: 1,
-      folder: "1_RoomwithPatioView",
-      name: "Room 1 - Patio View",
-      description: "Room with patio view",
-      photos: [
-        "IMG_5041.JPG",
-        "IMG_5042.JPG",
-        "IMG_5043.JPG",
-        "IMG_5044.JPG"
-      ]
-    },
-    {
-      id: 2,
-      folder: "2_RoomwithFlowerTree",
-      name: "Room 2 - Flower Tree",
-      description: "Room with flower tree view",
-      photos: [
-        "IMG_5511.jpg",
-        "IMG_5512.jpg",
-        "IMG_5513.jpg"
-      ]
-    },
-    {
-      id: 3,
-      folder: "3_SmallRoom",
-      name: "Room 3 - Small Room",
-      description: "Small bedroom",
-      photos: [
-        "2 Small Room Bed.JPG",
-        "Small Room's bedroom 1 (dup) (1).JPG",
-        "Small Room's bedroom 3 (1).JPG"
-      ]
-    },
-    {
-      id: 4,
-      folder: "4_RoomwPoolView",
-      name: "Room 4 - Pool View",
-      description: "Room with pool view",
-      photos: [
-        "IMG_1334.JPG",
-        "IMG_1335.JPG",
-        "IMG_4878.JPG",
-        "IMG_4881.JPG"
-      ]
-    },
-    {
-      id: 5,
-      folder: "5_Masterbedroom",
-      name: "Room 5 - Master Bedroom",
-      description: "Master bedroom suite",
-      photos: [
-        "MasterBedroom_1.JPG",
-        "MasterBedroom_2.JPG",
-        "MasterBedroom_bathroom2.JPG",
-        "MasterBedroom_bathroom4.JPG",
-        "MasterBedroom_poolview6.JPG"
-      ]
-    },
-    {
-      id: 6,
-      folder: "6_RoomWindowOutdoorSunShade",
-      name: "Room 6 - Outdoor Sun Shade",
-      description: "Room with window to outdoor sun shade",
-      photos: [
-        "Room6_foto1.JPG",
-        "Room6_foto2.JPG",
-        "Room6_foto3.JPG",
-        "Room6_foto4.JPG",
-        "Room6_foto5.JPG"
-      ]
-    },
-    {
-      id: 7,
-      folder: "7_RoomWindowToFrontYard",
-      name: "Room 7 - Front Yard View",
-      description: "Room with window to front yard",
-      photos: [
-        "PanoFromEntrance (1).JPG",
-        "PanoFromInsideRoom (2).JPG"
-      ]
-    },
-    {
-      id: 8,
-      folder: "8_GarageRoom",
-      name: "Room 8 - Garage Room",
-      description: "Garage converted room",
-      photos: [
-        "GarageRoomPatio_5.JPG",
-        "GarageRoomViewintoRoom_1.JPG",
-        "GarageRoom_Bed_5.JPG",
-        "GarageroomViewfromBed_2.JPG",
-        "IMG_5634 (1).JPG",
-        "IMG_5945.JPG",
-        "OutsideView (1).JPG"
-      ]
-    },
-    {
-      id: 9,
-      folder: "9_TinyStudio",
-      name: "Room 9 - Tiny Studio",
-      description: "Compact studio room",
-      photos: [
-        "TinyStudio_Wide4.JPG",
-        "TinyStudio_Wide5.JPG",
-        "Tinystudio_Wide1.JPG",
-        "Tinystudio_Wide2.JPG"
-      ]
-    }
+    { id:1, folder:"1_RoomwithPatioView", name:"Patio View Room", desc:"Direct view of the patio and backyard",
+      photos:["IMG_5041.JPG","IMG_5042.JPG","IMG_5043.JPG","IMG_5044.JPG"] },
+    { id:2, folder:"2_RoomwithFlowerTree", name:"Flower Tree Room", desc:"Cozy room with a flowering tree view",
+      photos:["IMG_5511.jpg","IMG_5512.jpg","IMG_5513.jpg"] },
+    { id:3, folder:"3_SmallRoom", name:"Small Room", desc:"Compact and comfortable bedroom",
+      photos:["2 Small Room Bed.JPG","Small Room's bedroom 1 (dup) (1).JPG","Small Room's bedroom 3 (1).JPG"] },
+    { id:4, folder:"4_RoomwPoolView", name:"Pool View Room", desc:"Overlooking the swimming pool",
+      photos:["IMG_1334.JPG","IMG_1335.JPG","IMG_4878.JPG","IMG_4881.JPG"] },
+    { id:5, folder:"5_Masterbedroom", name:"Master Bedroom", desc:"Spacious suite with en-suite bath and pool view",
+      photos:["MasterBedroom_1.JPG","MasterBedroom_2.JPG","MasterBedroom_bathroom2.JPG","MasterBedroom_bathroom4.JPG","MasterBedroom_poolview6.JPG"] },
+    { id:6, folder:"6_RoomWindowOutdoorSunShade", name:"Sun Shade Room", desc:"Window facing the outdoor sun shade",
+      photos:["Room6_foto1.JPG","Room6_foto2.JPG","Room6_foto3.JPG","Room6_foto4.JPG","Room6_foto5.JPG"] },
+    { id:7, folder:"7_RoomWindowToFrontYard", name:"Front Yard Room", desc:"Panoramic window to the front yard",
+      photos:["PanoFromEntrance (1).JPG","PanoFromInsideRoom (2).JPG"] },
+    { id:8, folder:"8_GarageRoom", name:"Garage Room", desc:"Converted room with private patio access",
+      photos:["GarageRoomPatio_5.JPG","GarageRoomViewintoRoom_1.JPG","GarageRoom_Bed_5.JPG","GarageroomViewfromBed_2.JPG","IMG_5634 (1).JPG","IMG_5945.JPG","OutsideView (1).JPG"] },
+    { id:9, folder:"9_TinyStudio", name:"Tiny Studio", desc:"Compact studio for a single occupant",
+      photos:["TinyStudio_Wide4.JPG","TinyStudio_Wide5.JPG","Tinystudio_Wide1.JPG","Tinystudio_Wide2.JPG"] }
   ];
 
-  // Availability — rooms currently available for rent
   const availableRooms = new Set([2, 5, 7, 9]);
+  const TOTAL_ROOMS = rooms.length;
+  const availCount = rooms.filter(r => availableRooms.has(r.id)).length;
 
-  // State
-  let currentRoom = 'all';
-  let lightboxPhotos = [];
-  let lightboxIndex = 0;
+  let lightboxPhotos = [], lightboxIndex = 0;
 
-  // Total count
-  const totalPhotos = rooms.reduce((sum, r) => sum + r.photos.length, 0);
-  const availableCount = rooms.filter(r => availableRooms.has(r.id)).length;
-  document.getElementById('total-count').textContent = totalPhotos;
-
-  // Build sidebar buttons
-  const btnContainer = document.getElementById('room-buttons');
+  // ─── Sidebar buttons ───
+  const btnBox = document.getElementById('room-buttons');
   rooms.forEach(room => {
-    const isAvailable = availableRooms.has(room.id);
+    const avail = availableRooms.has(room.id);
     const btn = document.createElement('button');
-    btn.className = 'room-btn' + (isAvailable ? '' : ' unavailable');
+    btn.className = 'sb-btn' + (avail ? '' : ' dim');
     btn.dataset.room = room.id;
     btn.onclick = () => showRoom(room.id);
     btn.innerHTML = `
-      <span class="room-num">${room.id}</span>
+      <span class="sb-icon">${room.id}</span>
       ${room.name}
-      <span class="status-dot ${isAvailable ? 'available' : 'occupied'}"></span>
-      <span class="photo-count">${room.photos.length}</span>
+      <span class="sb-dot ${avail ? 'open' : 'taken'}"></span>
+      <span class="sb-count">${room.photos.length}</span>
     `;
-    btnContainer.appendChild(btn);
+    btnBox.appendChild(btn);
   });
 
-  function getPhotoPath(room, photo) {
-    return encodeURI(room.folder + '/' + photo);
+  // ─── Helpers ───
+  function pp(folder, photo) { return encodeURI(folder + '/' + photo); }
+  function cn(n) {
+    return n.replace(/\.(jpg|jpeg|png|gif|webp)$/i,'').replace(/[_-]/g,' ')
+      .replace(/\s*\(\d+\)\s*/g,' ').replace(/IMG \d+/i,'Photo').replace(/Appraisal$/i,'').trim();
+  }
+  function peekGrid() {
+    const picks = [6,2,7,8,4,1]; // indices into homePhotos.photos
+    return picks.map(idx => {
+      const p = homePhotos.photos[idx];
+      return `<div class="photo-card" onclick="openLightbox(0,${idx})">
+        <img src="${pp(homePhotos.folder,p)}" alt="${cn(p)}" loading="lazy">
+        <div class="overlay">${cn(p)}</div>
+      </div>`;
+    }).join('');
+  }
+  function grid(data, rid) {
+    return data.photos.map((p,i) => `
+      <div class="photo-card" onclick="openLightbox(${rid},${i})">
+        <img src="${pp(data.folder,p)}" alt="${cn(p)}" loading="lazy">
+        <div class="overlay">${cn(p)}</div>
+      </div>`).join('');
   }
 
-  function cleanFileName(name) {
-    return name
-      .replace(/\.(jpg|jpeg|png|gif|webp)$/i, '')
-      .replace(/[_-]/g, ' ')
-      .replace(/\s*\(\d+\)\s*/g, ' ')
-      .replace(/IMG \d+/i, 'Photo')
-      .trim();
-  }
+  // ─── Render ───
+  function showRoom(id) {
+    document.querySelectorAll('.sb-btn').forEach(b => b.classList.toggle('active', b.dataset.room == id));
+    const m = document.getElementById('main-content');
+    let h = '';
 
-  // Show room content
-  function showRoom(roomId) {
-    currentRoom = roomId;
-
-    // Update active button
-    document.querySelectorAll('.room-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.room == roomId);
-    });
-
-    const main = document.getElementById('main-content');
-
-    if (roomId === 'all') {
-      // Show all rooms overview — available first, then occupied
-      const availRooms = rooms.filter(r => availableRooms.has(r.id));
-      const occupiedRooms = rooms.filter(r => !availableRooms.has(r.id));
-
-      let html = `
-        <div class="legend">
-          <div class="legend-item"><span class="legend-dot green"></span> Available</div>
-          <div class="legend-item"><span class="legend-dot red"></span> Occupied</div>
-          <span class="room-count">${availableCount} of ${rooms.length} rooms available</span>
-        </div>
-      `;
-
-      html += '<h2 style="color:#4ade80; font-size:1.2rem; font-weight:400; margin-bottom:20px;">Available Rooms</h2>';
-      availRooms.forEach(room => {
-        html += `
-          <div class="overview-section">
-            <h3>Room ${room.id} &mdash; ${room.name} (${room.photos.length} photos)
-              <span class="status-tag available">Available</span>
-            </h3>
-            <div class="photo-grid">
-              ${room.photos.map((photo, i) => `
-                <div class="photo-card" onclick="openLightbox('${room.id}', ${i})">
-                  <img src="${getPhotoPath(room, photo)}" alt="${cleanFileName(photo)}" loading="lazy">
-                  <div class="overlay">${cleanFileName(photo)}</div>
-                </div>
-              `).join('')}
+    if (id === 'welcome') {
+      h = `<div class="fade-in">
+        <div class="hero" onclick="showRoom('home')">
+          <img src="${pp(homePhotos.folder, homePhotos.photos[0])}" alt="Esperanza Dr Home">
+          <div class="hero-overlay">
+            <h2>Welcome to Esperanza Dr</h2>
+            <p>A warm, welcoming home in the heart of Los Altos — with a pool, patio, and a host who truly cares about your experience.</p>
+            <div class="hero-pills">
+              <span class="hero-pill">Los Altos, California</span>
+              <span class="hero-pill">${availCount} rooms available</span>
+              <span class="hero-pill">1 mi to downtown</span>
             </div>
           </div>
-        `;
-      });
+        </div>
 
-      html += '<h2 style="color:#f87171; font-size:1.2rem; font-weight:400; margin: 30px 0 20px;">Occupied Rooms</h2>';
-      occupiedRooms.forEach(room => {
-        html += `
-          <div class="overview-section occupied-section">
-            <h3>Room ${room.id} &mdash; ${room.name} (${room.photos.length} photos)
-              <span class="status-tag occupied">Occupied</span>
-            </h3>
-            <div class="photo-grid">
-              ${room.photos.map((photo, i) => `
-                <div class="photo-card" onclick="openLightbox('${room.id}', ${i})">
-                  <img src="${getPhotoPath(room, photo)}" alt="${cleanFileName(photo)}" loading="lazy">
-                  <div class="overlay">${cleanFileName(photo)}</div>
-                </div>
-              `).join('')}
-            </div>
+        <div class="amenity-row">
+          <div class="amenity"><span class="am-icon">&#127946;</span> Pool</div>
+          <div class="amenity"><span class="am-icon">&#127860;</span> Full Kitchen</div>
+          <div class="amenity"><span class="am-icon">&#128293;</span> Patio &amp; BBQ</div>
+          <div class="amenity"><span class="am-icon">&#128087;</span> Laundry</div>
+          <div class="amenity"><span class="am-icon">&#128663;</span> Parking</div>
+          <div class="amenity"><span class="am-icon">&#128246;</span> WiFi</div>
+          <div class="amenity"><span class="am-icon">&#128075;</span> On-site Host</div>
+          <div class="amenity"><span class="am-icon">&#127795;</span> Quiet Neighborhood</div>
+        </div>
+
+        <div class="quick-nav">
+          <div class="qn-card" onclick="showRoom('all')">
+            <span class="qn-icon">&#128209;</span>
+            <h3>Browse Rooms</h3>
+            <p>${availCount} of ${TOTAL_ROOMS} available</p>
           </div>
-        `;
-      });
+          <div class="qn-card" onclick="showRoom('home')">
+            <span class="qn-icon">&#127968;</span>
+            <h3>Property Photos</h3>
+            <p>Kitchen, pool, patio &amp; more</p>
+          </div>
+          <div class="qn-card" onclick="showRoom('neighborhood')">
+            <span class="qn-icon">&#127795;</span>
+            <h3>Neighborhood</h3>
+            <p>Things to do nearby</p>
+          </div>
+          <div class="qn-card" onclick="showRoom('host')">
+            <span class="qn-icon">&#9829;</span>
+            <h3>Meet Your Host</h3>
+            <p>Henry, resident advisor</p>
+          </div>
+        </div>
 
-      main.innerHTML = html;
-    } else {
-      const room = rooms.find(r => r.id == roomId);
-      const isAvailable = availableRooms.has(room.id);
-      const statusLabel = isAvailable ? 'Available' : 'Occupied';
-      const statusClass = isAvailable ? 'available' : 'occupied';
-      let html = `
-        <div class="room-header">
-          <h2>${room.name}</h2>
-          <span class="badge">${room.photos.length} photo${room.photos.length !== 1 ? 's' : ''} &middot; ${room.description}</span>
-          <span class="status-badge ${statusClass}">${statusLabel}</span>
+        <div class="welcome-banner" style="text-align:center;">
+          <h3 style="font-style:italic; font-size:1.25rem;">More than just a room</h3>
+          <p style="max-width:600px; margin:8px auto 0;">
+            Living on Esperanza Dr means having a seasoned host who anticipates your needs,
+            a beautiful home with shared amenities, and a neighborhood that has everything
+            you could want — all just 1 mile from downtown Los Altos and Silicon Valley's
+            top employers.</p>
         </div>
-        <div class="photo-grid">
-          ${room.photos.map((photo, i) => `
-            <div class="photo-card" onclick="openLightbox('${room.id}', ${i})">
-              <img src="${getPhotoPath(room, photo)}" alt="${cleanFileName(photo)}" loading="lazy">
-              <div class="overlay">${cleanFileName(photo)}</div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-      main.innerHTML = html;
+
+        <div class="sec-head" style="margin-top:8px;"><span class="si">&#10024;</span> A peek inside</div>
+        <div class="photo-grid">${peekGrid()}</div>
+      </div>`;
     }
 
-    // Close mobile sidebar
+    else if (id === 'home') {
+      h = `<div class="fade-in">
+        <h2 class="pg-title">Property Photos</h2>
+        <p class="pg-sub">${homePhotos.description}</p>
+        <div class="welcome-banner">
+          <h3>Our Home on Esperanza Dr</h3>
+          <p>Take a look around the shared spaces. This property features ${TOTAL_ROOMS} rooms with
+          ${availCount} currently available, a pool, patio with BBQ, full kitchen, and more.
+          Located on Esperanza Dr, just 1 mile from downtown Los Altos.</p>
+        </div>
+        <div class="photo-grid">${grid(homePhotos,0)}</div>
+      </div>`;
+    }
+
+    else if (id === 'all') {
+      const av = rooms.filter(r => availableRooms.has(r.id));
+      const oc = rooms.filter(r => !availableRooms.has(r.id));
+      h = `<div class="fade-in">
+        <h2 class="pg-title">All Rooms</h2>
+        <p class="pg-sub">Browse every room in the property</p>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot g"></span> Available</div>
+          <div class="legend-item"><span class="legend-dot r"></span> Occupied</div>
+          <span class="lg-count">${availCount} of ${TOTAL_ROOMS} rooms available</span>
+        </div>`;
+      h += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available Rooms</div>`;
+      av.forEach(r => {
+        h += `<div class="room-sec"><div class="room-sec-head">
+          Room ${r.id} &mdash; ${r.name} <span class="pill pill-green">Available</span>
+          <span class="rs-count">${r.photos.length} photos</span></div>
+          <div class="photo-grid">${grid(r,r.id)}</div></div>`;
+      });
+      h += `<div class="sec-head" style="color:#9c9785;border-color:#f0ede6;margin-top:16px;"><span class="si">&mdash;</span> Occupied Rooms</div>`;
+      oc.forEach(r => {
+        h += `<div class="room-sec dim"><div class="room-sec-head">
+          Room ${r.id} &mdash; ${r.name} <span class="pill pill-red">Occupied</span>
+          <span class="rs-count">${r.photos.length} photos</span></div>
+          <div class="photo-grid">${grid(r,r.id)}</div></div>`;
+      });
+      h += '</div>';
+    }
+
+    else if (id === 'neighborhood') { h = buildNeighborhood(); }
+    else if (id === 'host') { h = buildHost(); }
+
+    else {
+      const r = rooms.find(x => x.id == id);
+      const av = availableRooms.has(r.id);
+      h = `<div class="fade-in">
+        <h2 class="pg-title">Room ${r.id} &mdash; ${r.name}</h2>
+        <p class="pg-sub">
+          <span class="pill pill-warm">${r.photos.length} photo${r.photos.length!==1?'s':''}</span>
+          <span class="pill ${av?'pill-green':'pill-red'}">${av?'Available':'Occupied'}</span>
+          ${r.desc}
+        </p>
+        <div class="photo-grid">${grid(r,r.id)}</div>
+      </div>`;
+    }
+
+    m.innerHTML = h;
+    m.scrollTop = 0;
     document.getElementById('sidebar').classList.remove('open');
   }
 
-  // Lightbox
-  function openLightbox(roomId, photoIndex) {
-    const room = rooms.find(r => r.id == roomId);
-    lightboxPhotos = room.photos.map(p => ({
-      src: getPhotoPath(room, p),
-      caption: `${room.name} — ${cleanFileName(p)}`
-    }));
-    lightboxIndex = photoIndex;
+  // ─── Neighborhood ───
+  function buildNeighborhood() {
+    return `<div class="fade-in">
+      <div class="nbr-hero">
+        <h2>Welcome to Los Altos, California</h2>
+        <p>Our home on Esperanza Dr sits in one of the most desirable neighborhoods
+        on the Peninsula. Tree-lined streets, excellent schools, and a charming
+        downtown are all just steps away.</p>
+        <span class="loc-pill">Esperanza Dr</span>
+        <span class="loc-pill">1 mi to Downtown</span>
+        <span class="loc-pill">1 mi to Tesla Deer Creek</span>
+        <span class="loc-pill">Silicon Valley</span>
+      </div>
+
+      <div class="sec-head"><span class="si">&#127963;</span> Within Walking &amp; Driving Distance</div>
+      <div class="place-grid">
+        <div class="place-card">
+          <span class="pc-icon">&#9889;</span><h3>Tesla Deer Creek</h3>
+          <span class="pc-dist">~1 mile</span>
+          <p>Tesla showroom and service center right around the corner. Browse the latest models or get your vehicle serviced.</p>
+          <div class="pc-tags"><span class="pc-tag">EV</span><span class="pc-tag">Auto</span><span class="pc-tag">Tech</span></div>
+        </div>
+        <div class="place-card">
+          <span class="pc-icon">&#127795;</span><h3>Hidden Villa</h3>
+          <span class="pc-dist">~3 miles</span>
+          <p>1,600-acre nonprofit farm and wilderness preserve in the Santa Cruz Mountain foothills. Hiking trails, organic farm, and wildlife programs.</p>
+          <div class="pc-tags"><span class="pc-tag">Hiking</span><span class="pc-tag">Nature</span><span class="pc-tag">Farm</span><span class="pc-tag">Family</span></div>
+        </div>
+        <div class="place-card">
+          <span class="pc-icon">&#127891;</span><h3>Stanford University</h3>
+          <span class="pc-dist">~6 miles</span>
+          <p>World-class campus open to visitors. Cantor Arts Center, the Dish trail, Hoover Tower, and gorgeous bike-friendly paths.</p>
+          <div class="pc-tags"><span class="pc-tag">Biking</span><span class="pc-tag">Arts</span><span class="pc-tag">Education</span><span class="pc-tag">The Dish</span></div>
+        </div>
+        <div class="place-card">
+          <span class="pc-icon">&#127758;</span><h3>Rancho San Antonio</h3>
+          <span class="pc-dist">~2 miles</span>
+          <p>One of the Bay Area's most popular preserves. Miles of trails through grasslands, oak woodlands, and creekside paths.</p>
+          <div class="pc-tags"><span class="pc-tag">Trails</span><span class="pc-tag">Wildlife</span><span class="pc-tag">Free</span></div>
+        </div>
+        <div class="place-card">
+          <span class="pc-icon">&#127860;</span><h3>Downtown Los Altos</h3>
+          <span class="pc-dist">~1 mile</span>
+          <p>Charming village downtown with boutiques, restaurants, coffee shops, and a weekly Thursday farmers' market.</p>
+          <div class="pc-tags"><span class="pc-tag">Dining</span><span class="pc-tag">Shopping</span><span class="pc-tag">Farmers Market</span></div>
+        </div>
+        <div class="place-card">
+          <span class="pc-icon">&#127946;</span><h3>Local Parks</h3>
+          <span class="pc-dist">Walking distance</span>
+          <p>Shoup Park (with Redwood Grove), McKenzie Park, and Lincoln Park. Perfect for picnics, playgrounds, and strolls.</p>
+          <div class="pc-tags"><span class="pc-tag">Parks</span><span class="pc-tag">Playgrounds</span><span class="pc-tag">Redwoods</span></div>
+        </div>
+      </div>
+
+      <div class="sec-head"><span class="si">&#128692;</span> Biking Routes from the Property</div>
+      <div class="bike-routes">
+        <div class="route-card"><span class="rt-icon">&#128692;</span>
+          <div class="rt-info"><h4>Los Altos to Stanford</h4><p>Scenic ride via Stevens Creek Trail. Mostly flat with bike lanes.</p></div>
+          <div class="rt-meta"><div class="rt-dist">~6 mi</div><div class="rt-time">30-40 min</div></div>
+        </div>
+        <div class="route-card"><span class="rt-icon">&#127796;</span>
+          <div class="rt-info"><h4>Stevens Creek Trail Loop</h4><p>Paved trail through parks and wetlands, Cupertino to Mountain View.</p></div>
+          <div class="rt-meta"><div class="rt-dist">~8 mi</div><div class="rt-time">40-50 min</div></div>
+        </div>
+        <div class="route-card"><span class="rt-icon">&#9968;</span>
+          <div class="rt-info"><h4>Foothills to Hidden Villa</h4><p>Challenging climb into Los Altos Hills with rewarding views.</p></div>
+          <div class="rt-meta"><div class="rt-dist">~6 mi</div><div class="rt-time">35-50 min</div></div>
+        </div>
+        <div class="route-card"><span class="rt-icon">&#127749;</span>
+          <div class="rt-info"><h4>Rancho San Antonio Loop</h4><p>Bike to the preserve, lock up, and hit the trails.</p></div>
+          <div class="rt-meta"><div class="rt-dist">~4 mi</div><div class="rt-time">20-25 min</div></div>
+        </div>
+      </div>
+
+      <div class="sec-head"><span class="si">&#9749;</span> Downtown Los Altos &mdash; Just 1 Mile Away</div>
+      <div class="callout sage">
+        <h4>Thursday Farmers' Market</h4>
+        <p>Every Thursday evening, May through September, on State Street. Fresh produce, artisan goods, live music, and real community spirit &mdash; all walkable from the property.</p>
+      </div>
+      <div class="shop-grid">
+        <div class="shop-chip"><span class="sc-icon">&#127790;</span><div class="sc-name">Safeway</div><div class="sc-type">Grocery</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#128138;</span><div class="sc-name">CVS Pharmacy</div><div class="sc-type">Pharmacy</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#9749;</span><div class="sc-name">Red Rock Coffee</div><div class="sc-type">Coffee Shop</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#127861;</span><div class="sc-name">Voyager Craft Coffee</div><div class="sc-type">Coffee &amp; Tea</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#127843;</span><div class="sc-name">Draeger's Market</div><div class="sc-type">Gourmet Grocery</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#127838;</span><div class="sc-name">Manresa Bread</div><div class="sc-type">Bakery</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#127835;</span><div class="sc-name">Chef Chu's</div><div class="sc-type">Chinese</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#127834;</span><div class="sc-name">Sumika</div><div class="sc-type">Japanese Grill</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#127829;</span><div class="sc-name">Los Altos Grill</div><div class="sc-type">American</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#127846;</span><div class="sc-name">Bump + Grind</div><div class="sc-type">Coffee &amp; Treats</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#128218;</span><div class="sc-name">Los Altos Library</div><div class="sc-type">Library</div></div>
+        <div class="shop-chip"><span class="sc-icon">&#127915;</span><div class="sc-name">Bus Stop Films</div><div class="sc-type">Cinema</div></div>
+      </div>
+
+      <div class="callout warm">
+        <h4>Great for Commuters</h4>
+        <p>Easy access to I-280 and Highway 85. Minutes from Apple, Google, Meta, and dozens of tech campuses. Caltrain stations in Mountain View and San Antonio are a short ride away.</p>
+      </div>
+    </div>`;
+  }
+
+  // ─── Your Host ───
+  function buildHost() {
+    return `<div class="fade-in">
+      <h2 class="pg-title">Your Host</h2>
+      <p class="pg-sub">More than a room &mdash; a welcoming home with a host who genuinely cares</p>
+
+      <div class="host-section">
+        <div class="host-top">
+          <div class="host-avatar">&#9733;</div>
+          <div class="host-info">
+            <h3>Henry &mdash; Seasoned Host &amp; Resident Advisor</h3>
+            <p>Esperanza Dr, Los Altos, California</p>
+            <div class="host-badges">
+              <span class="host-badge">&#9733; Experienced Host</span>
+              <span class="host-badge">&#9829; Resident Advisor</span>
+              <span class="host-badge">&#127968; Los Altos Local</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="host-body">
+          <p>As both the homeowner and a resident advisor, I live on-site and take a hands-on
+          approach to making sure every housemate feels welcome, supported, and at home.
+          This isn't just a room for rent &mdash; it's a place where you'll have someone in
+          your corner from day one.</p>
+
+          <p>Over the years, I've helped multiple interns who found themselves in uncomfortable
+          or uninviting living situations mid-internship. Hearing their stories &mdash; landlords
+          who were unresponsive, homes that felt isolating, basic needs that went unmet &mdash;
+          reinforced what I already believed: a good living environment is everything when
+          you're far from home and focused on your career.</p>
+
+          <p>That experience has made me confident in what I offer. I anticipate what you'll
+          need before you have to ask. Whether it's helping you get settled on your first day,
+          recommending the best coffee spot in downtown Los Altos, lending you gear for
+          a weekend hike at Hidden Villa, or just being a friendly face after a long day at
+          work &mdash; I've been there, and I'm happy to help.</p>
+        </div>
+
+        <div class="host-highlights">
+          <div class="host-hl">
+            <span class="hl-icon">&#128075;</span>
+            <div>
+              <h4>On-Site &amp; Available</h4>
+              <p>I live here too. If something comes up, you won't be waiting on a distant landlord &mdash; I'm right here to help.</p>
+            </div>
+          </div>
+          <div class="host-hl">
+            <span class="hl-icon">&#127919;</span>
+            <div>
+              <h4>Anticipates Your Needs</h4>
+              <p>From move-in essentials to local tips, I draw on years of hosting experience so you can focus on your internship or work.</p>
+            </div>
+          </div>
+          <div class="host-hl">
+            <span class="hl-icon">&#128161;</span>
+            <div>
+              <h4>Local Knowledge</h4>
+              <p>Best trails, restaurants, grocery runs, commute routes &mdash; I know the area inside and out and love sharing it.</p>
+            </div>
+          </div>
+          <div class="host-hl">
+            <span class="hl-icon">&#129309;</span>
+            <div>
+              <h4>Helped Interns Relocate</h4>
+              <p>I've taken in interns who needed to leave bad housing situations. I understand what makes a real difference.</p>
+            </div>
+          </div>
+          <div class="host-hl">
+            <span class="hl-icon">&#127968;</span>
+            <div>
+              <h4>A Real Home, Not Just a Room</h4>
+              <p>Shared kitchen, pool, patio &amp; BBQ, laundry &mdash; and a host who goes above and beyond the basics.</p>
+            </div>
+          </div>
+          <div class="host-hl">
+            <span class="hl-icon">&#127793;</span>
+            <div>
+              <h4>Community Spirit</h4>
+              <p>A welcoming, respectful environment where you can thrive during your time in Silicon Valley.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warm">
+        <h4>What past housemates have said</h4>
+        <p>"Moving across the country for an internship was stressful, but Henry made the transition so much easier. He had everything ready and even drove me around the neighborhood on my first day. It genuinely felt like home." &mdash; Former intern housemate</p>
+      </div>
+    </div>`;
+  }
+
+  // ─── Lightbox ───
+  function openLightbox(rid, idx) {
+    const d = rid === 0 ? homePhotos : rooms.find(r => r.id === rid);
+    lightboxPhotos = d.photos.map(p => ({ src: pp(d.folder,p), caption: `${d.name} \u2014 ${cn(p)}` }));
+    lightboxIndex = idx;
     updateLightbox();
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-
   function closeLightbox() {
     document.getElementById('lightbox').classList.remove('open');
     document.body.style.overflow = '';
   }
-
   function navigateLightbox(dir) {
     lightboxIndex = (lightboxIndex + dir + lightboxPhotos.length) % lightboxPhotos.length;
     updateLightbox();
   }
-
   function updateLightbox() {
     const item = lightboxPhotos[lightboxIndex];
     document.getElementById('lb-img').src = item.src;
     document.getElementById('lb-caption').textContent = item.caption;
-    document.getElementById('lb-counter').textContent = `${lightboxIndex + 1} / ${lightboxPhotos.length}`;
+    document.getElementById('lb-counter').textContent = `${lightboxIndex+1} / ${lightboxPhotos.length}`;
   }
-
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    const lb = document.getElementById('lightbox');
-    if (lb.classList.contains('open')) {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') navigateLightbox(-1);
-      if (e.key === 'ArrowRight') navigateLightbox(1);
-    }
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key==='Escape') closeLightbox();
+    if (e.key==='ArrowLeft') navigateLightbox(-1);
+    if (e.key==='ArrowRight') navigateLightbox(1);
   });
-
-  // Click outside image to close
-  document.getElementById('lightbox').addEventListener('click', (e) => {
-    if (e.target.id === 'lightbox') closeLightbox();
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target.id==='lightbox') closeLightbox();
   });
+  function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
-  // Mobile sidebar toggle
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-  }
-
-  // Initial render
-  showRoom('all');
+  // ─── Init ───
+  showRoom('welcome');
 </script>
 
 </body>
