@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Management - Room Photos</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f1117;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1a1d2e, #2a2d3e);
+      padding: 30px 40px;
+      border-bottom: 1px solid #333;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+    header p {
+      margin-top: 8px;
+      color: #888;
+      font-size: 0.95rem;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+      min-height: calc(100vh - 110px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      min-width: 280px;
+      background: #161822;
+      border-right: 1px solid #2a2d3e;
+      padding: 20px 0;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 110px);
+    }
+    .sidebar h2 {
+      padding: 0 20px 15px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #666;
+    }
+    .room-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 14px 20px;
+      border: none;
+      background: transparent;
+      color: #aaa;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      gap: 12px;
+    }
+    .room-btn:hover {
+      background: #1e2130;
+      color: #fff;
+    }
+    .room-btn.active {
+      background: linear-gradient(90deg, #2563eb22, transparent);
+      color: #60a5fa;
+      border-left: 3px solid #2563eb;
+    }
+    .room-btn .room-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: #2a2d3e;
+      font-size: 0.8rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .room-btn.active .room-num {
+      background: #2563eb;
+      color: #fff;
+    }
+    .room-btn .photo-count {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: #555;
+      background: #1a1d2e;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* Availability status */
+    .room-btn .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .room-btn .status-dot.available {
+      background: #22c55e;
+      box-shadow: 0 0 6px rgba(34,197,94,0.5);
+    }
+    .room-btn .status-dot.occupied {
+      background: #ef4444;
+      box-shadow: 0 0 6px rgba(239,68,68,0.3);
+    }
+    .room-btn.unavailable {
+      opacity: 0.45;
+    }
+    .room-btn.unavailable:hover {
+      opacity: 0.65;
+    }
+    .status-badge {
+      display: inline-block;
+      margin-top: 8px;
+      margin-left: 8px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+    .status-badge.available {
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+    }
+    .status-badge.occupied {
+      background: rgba(239,68,68,0.15);
+      color: #f87171;
+    }
+    .overview-section .status-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .overview-section .status-tag.available {
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+    }
+    .overview-section .status-tag.occupied {
+      background: rgba(239,68,68,0.15);
+      color: #f87171;
+    }
+    .overview-section.occupied-section .photo-grid {
+      opacity: 0.4;
+    }
+    .overview-section.occupied-section:hover .photo-grid {
+      opacity: 0.65;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 25px;
+      padding: 12px 16px;
+      background: #161822;
+      border-radius: 10px;
+      border: 1px solid #2a2d3e;
+      font-size: 0.85rem;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #aaa;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .legend-dot.green { background: #22c55e; }
+    .legend-dot.red { background: #ef4444; }
+    .legend .room-count {
+      margin-left: auto;
+      color: #666;
+    }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      padding: 30px 40px;
+      overflow-y: auto;
+    }
+    .room-header {
+      margin-bottom: 25px;
+    }
+    .room-header h2 {
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: #fff;
+    }
+    .room-header .badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 12px;
+      background: #2563eb22;
+      color: #60a5fa;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    /* Photo grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .photo-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #1a1d2e;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      aspect-ratio: 4/3;
+    }
+    .photo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s;
+    }
+    .photo-card:hover img {
+      transform: scale(1.05);
+    }
+    .photo-card .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 30px 14px 12px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      font-size: 0.82rem;
+      color: #ccc;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .photo-card:hover .overlay {
+      opacity: 1;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.95);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .lightbox.open {
+      display: flex;
+    }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .lightbox .caption {
+      margin-top: 16px;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    .lightbox .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      z-index: 1001;
+    }
+    .lightbox .close-btn:hover { color: #fff; }
+    .lightbox .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #ccc;
+      font-size: 1.5rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox .nav-btn:hover {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    .lightbox .nav-prev { left: 20px; }
+    .lightbox .nav-next { right: 20px; }
+    .lightbox .counter {
+      position: absolute;
+      bottom: 20px;
+      color: #666;
+      font-size: 0.85rem;
+    }
+
+    /* "All Rooms" overview */
+    .overview-section {
+      margin-bottom: 40px;
+    }
+    .overview-section h3 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #888;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #222;
+    }
+
+    /* Mobile sidebar toggle */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 500;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #2563eb;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37,99,235,0.4);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        height: 100vh;
+        z-index: 400;
+        transition: left 0.3s;
+        padding-top: 110px;
+      }
+      .sidebar.open { left: 0; }
+      .menu-toggle { display: flex; align-items: center; justify-content: center; }
+      .main { padding: 20px; }
+      .photo-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+      header h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Property Management</h1>
+  <p>Room Photo Gallery</p>
+</header>
+
+<div class="container">
+  <nav class="sidebar" id="sidebar">
+    <h2>Rooms</h2>
+    <button class="room-btn active" data-room="all" onclick="showRoom('all')">
+      <span class="room-num">*</span>
+      All Rooms
+      <span class="photo-count" id="total-count"></span>
+    </button>
+    <!-- Room buttons generated by JS -->
+    <div id="room-buttons"></div>
+  </nav>
+
+  <main class="main" id="main-content">
+    <!-- Content generated by JS -->
+  </main>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="close-btn" onclick="closeLightbox()">&times;</button>
+  <button class="nav-btn nav-prev" onclick="navigateLightbox(-1)">&#8249;</button>
+  <button class="nav-btn nav-next" onclick="navigateLightbox(1)">&#8250;</button>
+  <img id="lb-img" src="" alt="">
+  <div class="caption" id="lb-caption"></div>
+  <div class="counter" id="lb-counter"></div>
+</div>
+
+<!-- Mobile menu toggle -->
+<button class="menu-toggle" id="menu-toggle" onclick="toggleSidebar()">&#9776;</button>
+
+<script>
+  // Room data
+  const rooms = [
+    {
+      id: 0,
+      folder: "0_HomeFotos",
+      name: "Home Photos",
+      description: "General property views",
+      photos: [
+        "Back Home View (1) (2).JPG",
+        "Bathroom 1 (2).JPG",
+        "Bathroom 2.JPG",
+        "BathroomAppraisal.png",
+        "DiningRoomAppraisal.png",
+        "DiningTable.JPG",
+        "Front Home View (2) (2).jpg",
+        "GarageToilet (1).JPG",
+        "Kitchen 1.JPG",
+        "Kitchen 3 (3).JPG",
+        "KitchenAppraisal.png",
+        "LaundryRoomAppraisal.png",
+        "Patio&BBQ (1).JPG",
+        "Pool.JPG",
+        "Stairs.JPG"
+      ]
+    },
+    {
+      id: 1,
+      folder: "1_RoomwithPatioView",
+      name: "Room 1 - Patio View",
+      description: "Room with patio view",
+      photos: [
+        "IMG_5041.JPG",
+        "IMG_5042.JPG",
+        "IMG_5043.JPG",
+        "IMG_5044.JPG"
+      ]
+    },
+    {
+      id: 2,
+      folder: "2_RoomwithFlowerTree",
+      name: "Room 2 - Flower Tree",
+      description: "Room with flower tree view",
+      photos: [
+        "IMG_5511.jpg",
+        "IMG_5512.jpg",
+        "IMG_5513.jpg"
+      ]
+    },
+    {
+      id: 3,
+      folder: "3_SmallRoom",
+      name: "Room 3 - Small Room",
+      description: "Small bedroom",
+      photos: [
+        "2 Small Room Bed.JPG",
+        "Small Room's bedroom 1 (dup) (1).JPG",
+        "Small Room's bedroom 3 (1).JPG"
+      ]
+    },
+    {
+      id: 4,
+      folder: "4_RoomwPoolView",
+      name: "Room 4 - Pool View",
+      description: "Room with pool view",
+      photos: [
+        "IMG_1334.JPG",
+        "IMG_1335.JPG",
+        "IMG_4878.JPG",
+        "IMG_4881.JPG"
+      ]
+    },
+    {
+      id: 5,
+      folder: "5_Masterbedroom",
+      name: "Room 5 - Master Bedroom",
+      description: "Master bedroom suite",
+      photos: [
+        "MasterBedroom_1.JPG",
+        "MasterBedroom_2.JPG",
+        "MasterBedroom_bathroom2.JPG",
+        "MasterBedroom_bathroom4.JPG",
+        "MasterBedroom_poolview6.JPG"
+      ]
+    },
+    {
+      id: 6,
+      folder: "6_RoomWindowOutdoorSunShade",
+      name: "Room 6 - Outdoor Sun Shade",
+      description: "Room with window to outdoor sun shade",
+      photos: [
+        "Room6_foto1.JPG",
+        "Room6_foto2.JPG",
+        "Room6_foto3.JPG",
+        "Room6_foto4.JPG",
+        "Room6_foto5.JPG"
+      ]
+    },
+    {
+      id: 7,
+      folder: "7_RoomWindowToFrontYard",
+      name: "Room 7 - Front Yard View",
+      description: "Room with window to front yard",
+      photos: [
+        "PanoFromEntrance (1).JPG",
+        "PanoFromInsideRoom (2).JPG"
+      ]
+    },
+    {
+      id: 8,
+      folder: "8_GarageRoom",
+      name: "Room 8 - Garage Room",
+      description: "Garage converted room",
+      photos: [
+        "GarageRoomPatio_5.JPG",
+        "GarageRoomViewintoRoom_1.JPG",
+        "GarageRoom_Bed_5.JPG",
+        "GarageroomViewfromBed_2.JPG",
+        "IMG_5634 (1).JPG",
+        "IMG_5945.JPG",
+        "OutsideView (1).JPG"
+      ]
+    },
+    {
+      id: 9,
+      folder: "9_TinyStudio",
+      name: "Room 9 - Tiny Studio",
+      description: "Compact studio room",
+      photos: [
+        "TinyStudio_Wide4.JPG",
+        "TinyStudio_Wide5.JPG",
+        "Tinystudio_Wide1.JPG",
+        "Tinystudio_Wide2.JPG"
+      ]
+    }
+  ];
+
+  // Availability — rooms currently available for rent
+  const availableRooms = new Set([2, 5, 7, 9]);
+
+  // State
+  let currentRoom = 'all';
+  let lightboxPhotos = [];
+  let lightboxIndex = 0;
+
+  // Total count
+  const totalPhotos = rooms.reduce((sum, r) => sum + r.photos.length, 0);
+  const availableCount = rooms.filter(r => availableRooms.has(r.id)).length;
+  document.getElementById('total-count').textContent = totalPhotos;
+
+  // Build sidebar buttons
+  const btnContainer = document.getElementById('room-buttons');
+  rooms.forEach(room => {
+    const isAvailable = availableRooms.has(room.id);
+    const btn = document.createElement('button');
+    btn.className = 'room-btn' + (isAvailable ? '' : ' unavailable');
+    btn.dataset.room = room.id;
+    btn.onclick = () => showRoom(room.id);
+    btn.innerHTML = `
+      <span class="room-num">${room.id}</span>
+      ${room.name}
+      <span class="status-dot ${isAvailable ? 'available' : 'occupied'}"></span>
+      <span class="photo-count">${room.photos.length}</span>
+    `;
+    btnContainer.appendChild(btn);
+  });
+
+  function getPhotoPath(room, photo) {
+    return encodeURI(room.folder + '/' + photo);
+  }
+
+  function cleanFileName(name) {
+    return name
+      .replace(/\.(jpg|jpeg|png|gif|webp)$/i, '')
+      .replace(/[_-]/g, ' ')
+      .replace(/\s*\(\d+\)\s*/g, ' ')
+      .replace(/IMG \d+/i, 'Photo')
+      .trim();
+  }
+
+  // Show room content
+  function showRoom(roomId) {
+    currentRoom = roomId;
+
+    // Update active button
+    document.querySelectorAll('.room-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.room == roomId);
+    });
+
+    const main = document.getElementById('main-content');
+
+    if (roomId === 'all') {
+      // Show all rooms overview — available first, then occupied
+      const availRooms = rooms.filter(r => availableRooms.has(r.id));
+      const occupiedRooms = rooms.filter(r => !availableRooms.has(r.id));
+
+      let html = `
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot green"></span> Available</div>
+          <div class="legend-item"><span class="legend-dot red"></span> Occupied</div>
+          <span class="room-count">${availableCount} of ${rooms.length} rooms available</span>
+        </div>
+      `;
+
+      html += '<h2 style="color:#4ade80; font-size:1.2rem; font-weight:400; margin-bottom:20px;">Available Rooms</h2>';
+      availRooms.forEach(room => {
+        html += `
+          <div class="overview-section">
+            <h3>Room ${room.id} &mdash; ${room.name} (${room.photos.length} photos)
+              <span class="status-tag available">Available</span>
+            </h3>
+            <div class="photo-grid">
+              ${room.photos.map((photo, i) => `
+                <div class="photo-card" onclick="openLightbox('${room.id}', ${i})">
+                  <img src="${getPhotoPath(room, photo)}" alt="${cleanFileName(photo)}" loading="lazy">
+                  <div class="overlay">${cleanFileName(photo)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      html += '<h2 style="color:#f87171; font-size:1.2rem; font-weight:400; margin: 30px 0 20px;">Occupied Rooms</h2>';
+      occupiedRooms.forEach(room => {
+        html += `
+          <div class="overview-section occupied-section">
+            <h3>Room ${room.id} &mdash; ${room.name} (${room.photos.length} photos)
+              <span class="status-tag occupied">Occupied</span>
+            </h3>
+            <div class="photo-grid">
+              ${room.photos.map((photo, i) => `
+                <div class="photo-card" onclick="openLightbox('${room.id}', ${i})">
+                  <img src="${getPhotoPath(room, photo)}" alt="${cleanFileName(photo)}" loading="lazy">
+                  <div class="overlay">${cleanFileName(photo)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      main.innerHTML = html;
+    } else {
+      const room = rooms.find(r => r.id == roomId);
+      const isAvailable = availableRooms.has(room.id);
+      const statusLabel = isAvailable ? 'Available' : 'Occupied';
+      const statusClass = isAvailable ? 'available' : 'occupied';
+      let html = `
+        <div class="room-header">
+          <h2>${room.name}</h2>
+          <span class="badge">${room.photos.length} photo${room.photos.length !== 1 ? 's' : ''} &middot; ${room.description}</span>
+          <span class="status-badge ${statusClass}">${statusLabel}</span>
+        </div>
+        <div class="photo-grid">
+          ${room.photos.map((photo, i) => `
+            <div class="photo-card" onclick="openLightbox('${room.id}', ${i})">
+              <img src="${getPhotoPath(room, photo)}" alt="${cleanFileName(photo)}" loading="lazy">
+              <div class="overlay">${cleanFileName(photo)}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      main.innerHTML = html;
+    }
+
+    // Close mobile sidebar
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  // Lightbox
+  function openLightbox(roomId, photoIndex) {
+    const room = rooms.find(r => r.id == roomId);
+    lightboxPhotos = room.photos.map(p => ({
+      src: getPhotoPath(room, p),
+      caption: `${room.name} — ${cleanFileName(p)}`
+    }));
+    lightboxIndex = photoIndex;
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function navigateLightbox(dir) {
+    lightboxIndex = (lightboxIndex + dir + lightboxPhotos.length) % lightboxPhotos.length;
+    updateLightbox();
+  }
+
+  function updateLightbox() {
+    const item = lightboxPhotos[lightboxIndex];
+    document.getElementById('lb-img').src = item.src;
+    document.getElementById('lb-caption').textContent = item.caption;
+    document.getElementById('lb-counter').textContent = `${lightboxIndex + 1} / ${lightboxPhotos.length}`;
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const lb = document.getElementById('lightbox');
+    if (lb.classList.contains('open')) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+    }
+  });
+
+  // Click outside image to close
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox') closeLightbox();
+  });
+
+  // Mobile sidebar toggle
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  // Initial render
+  showRoom('all');
+</script>
+
+</body>
+</html>
