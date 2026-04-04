@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Esperanza Dr — Home in Los Altos</title>
+  <title>26363 Esperanza Dr — Los Altos Hills</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <style>
@@ -154,9 +154,63 @@
       box-shadow: 0 8px 24px rgba(60,50,30,0.08);
       border-color: #d4cfc0;
     }
-    .qn-card .qn-icon { font-size: 1.8rem; margin-bottom: 10px; display: block; }
-    .qn-card h3 { font-size: 0.9rem; font-weight: 600; color: #3d3929; margin-bottom: 4px; }
-    .qn-card p { font-size: 0.76rem; color: #9c9785; }
+    .qn-card .qn-icon { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+    .qn-card h3 { font-size: 0.88rem; font-weight: 600; color: #3d3929; margin-bottom: 3px; }
+    .qn-card p { font-size: 0.74rem; color: #9c9785; line-height: 1.4; }
+
+    /* ─── Footer ─── */
+    .site-footer {
+      background: #fff;
+      border-top: 1px solid #ebe8e1;
+      padding: 28px 40px;
+      text-align: center;
+    }
+    .site-footer .ft-addr {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: #3d3929;
+      margin-bottom: 4px;
+    }
+    .site-footer .ft-sub {
+      font-size: 0.78rem;
+      color: #b5ae9e;
+      margin-bottom: 12px;
+    }
+    .site-footer .ft-links {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .site-footer .ft-link {
+      padding: 5px 14px;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: #f5f2ec;
+      color: #7a7464;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .site-footer .ft-link:hover { background: #ede4d4; color: #5c4b28; }
+
+    /* ─── Dual hero ─── */
+    .hero-duo {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .hero-duo .hero { margin-bottom: 0; }
+    .hero-duo .hero-small { border-radius: 20px; overflow: hidden; }
+    .hero-duo .hero-small img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 4s ease;
+    }
+    .hero-duo .hero-small:hover img { transform: scale(1.04); }
 
     /* Amenity row on landing */
     .amenity-row {
@@ -369,10 +423,11 @@
     .photo-card .overlay {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 24px 13px 10px;
-      background: linear-gradient(transparent, rgba(30,28,20,0.7));
+      background: linear-gradient(transparent, rgba(30,28,20,0.65));
       font-size: 0.78rem;
-      color: #fff;
+      color: rgba(255,255,255,0.9);
       font-weight: 500;
+      letter-spacing: 0.2px;
     }
 
     /* ─── Room sections ─── */
@@ -653,6 +708,150 @@
     .callout.warm h4 { color: #8a7245; }
     .callout p { color: #6b6656; font-size: 0.86rem; line-height: 1.65; }
 
+    /* ─── Living Guide ─── */
+    .guide-hero {
+      background: linear-gradient(135deg, #eaf2e8, #f4f1e8);
+      border-radius: 16px;
+      padding: 34px;
+      margin-bottom: 28px;
+      border: 1px solid #d8e4d4;
+    }
+    .guide-hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 500; color: #2c2a22; margin-bottom: 6px;
+    }
+    .guide-hero p { color: #6b7e62; font-size: 0.9rem; line-height: 1.7; }
+
+    .guide-toc {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 30px;
+    }
+    .guide-toc a {
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600;
+      background: #fff; color: #6b6656;
+      border: 1px solid #ebe8e1;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .guide-toc a:hover { background: #f5f0e8; color: #5c4b28; border-color: #d4cfc0; }
+
+    .guide-section { margin-bottom: 36px; }
+    .guide-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #2c2a22;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f0ede6;
+      scroll-margin-top: 80px;
+    }
+
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .item-card {
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 12px;
+      padding: 18px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .item-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(60,50,30,0.06); }
+    .item-card .ic-head {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    }
+    .item-card .ic-icon { font-size: 1.3rem; }
+    .item-card h4 { font-size: 0.88rem; font-weight: 600; color: #3d3929; }
+    .item-card p { font-size: 0.82rem; color: #7a7464; line-height: 1.55; }
+    .item-card .ic-tip {
+      margin-top: 8px; padding: 8px 12px;
+      background: #faf8f4; border-radius: 8px;
+      font-size: 0.76rem; color: #8a7245; font-style: italic;
+    }
+
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+    .rule-card {
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .rule-card h4 {
+      font-size: 0.9rem; font-weight: 600; color: #3d3929;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .rule-card h4 .rc-icon { font-size: 1.1rem; }
+    .rule-card ul {
+      list-style: none; padding: 0;
+    }
+    .rule-card ul li {
+      font-size: 0.82rem; color: #5c5647; line-height: 1.6;
+      padding: 4px 0 4px 20px;
+      position: relative;
+    }
+    .rule-card ul li::before {
+      content: ''; position: absolute; left: 4px; top: 11px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #d4cfc0;
+    }
+    .rule-card .rc-note {
+      margin-top: 10px; padding: 10px 14px;
+      background: #fdf8f0; border-radius: 8px;
+      border-left: 3px solid #e6c87a;
+      font-size: 0.78rem; color: #8a7245; line-height: 1.5;
+    }
+
+    .bucket-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .bucket-card {
+      background: #fff;
+      border: 1px solid #ebe8e1;
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .bucket-card h4 {
+      font-size: 0.85rem; font-weight: 600; color: #3d3929;
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .bucket-card ul {
+      list-style: none; padding: 0;
+    }
+    .bucket-card ul li {
+      font-size: 0.8rem; color: #7a7464; line-height: 1.55;
+      padding: 3px 0 3px 18px; position: relative;
+    }
+    .bucket-card ul li::before {
+      content: ''; position: absolute; left: 2px; top: 10px;
+      width: 8px; height: 8px; border-radius: 2px;
+      border: 1.5px solid #c4bfb2;
+    }
+
+    .energy-schedule {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 10px 0;
+    }
+    .energy-time {
+      padding: 6px 14px;
+      background: #f5f0e8;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #8a7245;
+    }
+
     /* ─── Mobile ─── */
     .menu-toggle {
       display: none;
@@ -687,6 +886,11 @@
       .hero-overlay { padding: 20px; }
       .hero-overlay h2 { font-size: 1.4rem; }
       .quick-nav { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .item-grid, .rule-grid, .bucket-grid { grid-template-columns: 1fr; }
+      .guide-hero { padding: 22px; }
+      .hero-duo { grid-template-columns: 1fr; }
+      .hero-duo .hero-small { display: none; }
+      .site-footer { padding: 20px; }
     }
   </style>
 </head>
@@ -694,15 +898,15 @@
 
 <header>
   <div class="header-left" style="cursor:pointer;" onclick="showRoom('welcome')">
-    <h1>Esperanza Dr <span>Los Altos</span></h1>
-    <p>Rooms for rent &middot; Neighborhood guide &middot; Meet your host</p>
+    <h1>26363 Esperanza Dr <span>Los Altos Hills</span></h1>
+    <p>Rooms for rent &middot; Living guide &middot; Neighborhood &middot; Meet your host</p>
   </div>
   <div class="header-pills">
     <div class="header-pill green">
       <div class="dot"></div>
       4 rooms available
     </div>
-    <div class="header-pill">Esperanza Dr, Los Altos CA</div>
+    <div class="header-pill">Los Altos Hills, CA</div>
   </div>
 </header>
 
@@ -731,6 +935,10 @@
 
     <div class="sb-divider"></div>
     <div class="sb-label">Explore</div>
+    <button class="sb-btn" data-room="guide" onclick="showRoom('guide')">
+      <span class="sb-icon" style="background:#e8f0f5; color:#4a8ab5;">&#128214;</span>
+      Living Guide
+    </button>
     <button class="sb-btn" data-room="neighborhood" onclick="showRoom('neighborhood')">
       <span class="sb-icon" style="background:#edf7ed; color:#4caf50;">&#9733;</span>
       Neighborhood
@@ -743,6 +951,18 @@
 
   <main class="main" id="main-content"></main>
 </div>
+
+<footer class="site-footer">
+  <div class="ft-addr">26363 Esperanza Dr, Los Altos Hills</div>
+  <div class="ft-sub">We're glad you're here. Welcome home.</div>
+  <div class="ft-links">
+    <button class="ft-link" onclick="showRoom('welcome')">Home</button>
+    <button class="ft-link" onclick="showRoom('all')">Rooms</button>
+    <button class="ft-link" onclick="showRoom('guide')">Living Guide</button>
+    <button class="ft-link" onclick="showRoom('neighborhood')">Neighborhood</button>
+    <button class="ft-link" onclick="showRoom('host')">Your Host</button>
+  </div>
+</footer>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
@@ -847,76 +1067,97 @@
 
     if (id === 'welcome') {
       h = `<div class="fade-in">
-        <div class="hero" onclick="showRoom('home')">
-          <img src="${pp(homePhotos.folder, homePhotos.photos[0])}" alt="Esperanza Dr Home">
-          <div class="hero-overlay">
-            <h2>Welcome to Esperanza Dr</h2>
-            <p>A warm, welcoming home in the heart of Los Altos — with a pool, patio, and a host who truly cares about your experience.</p>
-            <div class="hero-pills">
-              <span class="hero-pill">Los Altos, California</span>
-              <span class="hero-pill">${availCount} rooms available</span>
-              <span class="hero-pill">1 mi to downtown</span>
+        <div class="hero-duo">
+          <div class="hero" onclick="showRoom('home')">
+            <img src="${pp(homePhotos.folder, homePhotos.photos[0])}" alt="Front of home">
+            <div class="hero-overlay">
+              <h2>Your New Home on Esperanza Dr</h2>
+              <p>Imagine morning coffee by the pool, sunset walks through oak-covered trails, and a host who has your back from day one.</p>
+              <div class="hero-pills">
+                <span class="hero-pill">Los Altos Hills, CA</span>
+                <span class="hero-pill">${availCount} rooms available</span>
+              </div>
             </div>
+          </div>
+          <div class="hero-small" onclick="showRoom('home')">
+            <img src="${pp(homePhotos.folder, homePhotos.photos[7])}" alt="Pool">
           </div>
         </div>
 
-        <div class="amenity-row">
-          <div class="amenity"><span class="am-icon">&#127946;</span> Pool</div>
-          <div class="amenity"><span class="am-icon">&#127860;</span> Full Kitchen</div>
-          <div class="amenity"><span class="am-icon">&#128293;</span> Patio &amp; BBQ</div>
-          <div class="amenity"><span class="am-icon">&#128087;</span> Laundry</div>
-          <div class="amenity"><span class="am-icon">&#128663;</span> Parking</div>
-          <div class="amenity"><span class="am-icon">&#128246;</span> WiFi</div>
-          <div class="amenity"><span class="am-icon">&#128075;</span> On-site Host</div>
-          <div class="amenity"><span class="am-icon">&#127795;</span> Quiet Neighborhood</div>
+        <div class="welcome-banner" style="text-align:center; margin-bottom:24px;">
+          <h3 style="font-style:italic; font-size:1.3rem;">This is the place you'll be glad you found</h3>
+          <p style="max-width:640px; margin:10px auto 0;">
+            Moving somewhere new &mdash; especially for an internship or a fresh start &mdash; can feel uncertain.
+            At 26363 Esperanza Dr, you'll have a real home: a beautiful property surrounded by nature,
+            shared spaces that actually feel welcoming, and a host who's helped dozens of people
+            settle into Silicon Valley life. You won't just have a room. You'll have someone in your corner.</p>
         </div>
 
+        <div class="amenity-row" style="justify-content:center;">
+          <div class="amenity"><span class="am-icon">&#128075;</span> On-site host</div>
+          <div class="amenity"><span class="am-icon">&#127946;</span> Backyard pool</div>
+          <div class="amenity"><span class="am-icon">&#127860;</span> Full kitchen</div>
+          <div class="amenity"><span class="am-icon">&#128293;</span> Patio &amp; BBQ</div>
+          <div class="amenity"><span class="am-icon">&#128087;</span> Washer &amp; dryer</div>
+          <div class="amenity"><span class="am-icon">&#128663;</span> Free parking</div>
+          <div class="amenity"><span class="am-icon">&#128246;</span> WiFi</div>
+          <div class="amenity"><span class="am-icon">&#127795;</span> Trails nearby</div>
+          <div class="amenity"><span class="am-icon">&#129414;</span> Wildlife &amp; nature</div>
+        </div>
+
+        <div class="callout sage" style="margin-bottom:28px;">
+          <h4>A day in the life on Esperanza Dr</h4>
+          <p>You wake up to birdsong and oak-filtered sunlight. Grab coffee in the kitchen
+          and eat on the patio before heading to work. After your day, you swim a few laps or
+          read by the pool. In the evening, you bike to downtown Los Altos for dinner or
+          walk the trails at golden hour while deer graze on the hillside. Back home,
+          you chat with a fellow housemate before settling into your room. It's quiet.
+          It's peaceful. It feels like yours.</p>
+        </div>
+
+        <div class="sec-head"><span class="si">&#128204;</span> Explore</div>
         <div class="quick-nav">
           <div class="qn-card" onclick="showRoom('all')">
             <span class="qn-icon">&#128209;</span>
-            <h3>Browse Rooms</h3>
-            <p>${availCount} of ${TOTAL_ROOMS} available</p>
+            <h3>Find Your Room</h3>
+            <p>${availCount} of ${TOTAL_ROOMS} rooms ready for you</p>
           </div>
-          <div class="qn-card" onclick="showRoom('home')">
-            <span class="qn-icon">&#127968;</span>
-            <h3>Property Photos</h3>
-            <p>Kitchen, pool, patio &amp; more</p>
+          <div class="qn-card" onclick="showRoom('guide')">
+            <span class="qn-icon">&#128214;</span>
+            <h3>Living Guide</h3>
+            <p>Everything you need to feel at home from day one</p>
           </div>
           <div class="qn-card" onclick="showRoom('neighborhood')">
             <span class="qn-icon">&#127795;</span>
-            <h3>Neighborhood</h3>
-            <p>Things to do nearby</p>
+            <h3>Your New Neighborhood</h3>
+            <p>Trails, coffee shops, farmers markets &amp; hidden gems</p>
           </div>
           <div class="qn-card" onclick="showRoom('host')">
             <span class="qn-icon">&#9829;</span>
-            <h3>Meet Your Host</h3>
-            <p>Henry, resident advisor</p>
+            <h3>Meet Henry</h3>
+            <p>Your host, advisor, and go-to person for anything</p>
+          </div>
+          <div class="qn-card" onclick="showRoom('home')">
+            <span class="qn-icon">&#127968;</span>
+            <h3>See the Home</h3>
+            <p>Pool, kitchen, patio &amp; all the shared spaces</p>
           </div>
         </div>
 
-        <div class="welcome-banner" style="text-align:center;">
-          <h3 style="font-style:italic; font-size:1.25rem;">More than just a room</h3>
-          <p style="max-width:600px; margin:8px auto 0;">
-            Living on Esperanza Dr means having a seasoned host who anticipates your needs,
-            a beautiful home with shared amenities, and a neighborhood that has everything
-            you could want — all just 1 mile from downtown Los Altos and Silicon Valley's
-            top employers.</p>
-        </div>
-
-        <div class="sec-head" style="margin-top:8px;"><span class="si">&#10024;</span> A peek inside</div>
+        <div class="sec-head"><span class="si">&#10024;</span> Come on in &mdash; take a look around</div>
         <div class="photo-grid">${peekGrid()}</div>
       </div>`;
     }
 
     else if (id === 'home') {
       h = `<div class="fade-in">
-        <h2 class="pg-title">Property Photos</h2>
-        <p class="pg-sub">${homePhotos.description}</p>
+        <h2 class="pg-title">The Home</h2>
+        <p class="pg-sub">Take a look around &mdash; these are the spaces you'll share and enjoy every day</p>
         <div class="welcome-banner">
-          <h3>Our Home on Esperanza Dr</h3>
-          <p>Take a look around the shared spaces. This property features ${TOTAL_ROOMS} rooms with
-          ${availCount} currently available, a pool, patio with BBQ, full kitchen, and more.
-          Located on Esperanza Dr, just 1 mile from downtown Los Altos.</p>
+          <h3>26363 Esperanza Dr, Los Altos Hills</h3>
+          <p>A pool for warm afternoons, a patio for morning coffee or evening BBQs, a full kitchen
+          for home-cooked meals, and quiet corners for reading or working. ${TOTAL_ROOMS} rooms total,
+          ${availCount} currently available.</p>
         </div>
         <div class="photo-grid">${grid(homePhotos,0)}</div>
       </div>`;
@@ -926,14 +1167,14 @@
       const av = rooms.filter(r => availableRooms.has(r.id));
       const oc = rooms.filter(r => !availableRooms.has(r.id));
       h = `<div class="fade-in">
-        <h2 class="pg-title">All Rooms</h2>
-        <p class="pg-sub">Browse every room in the property</p>
+        <h2 class="pg-title">Find Your Room</h2>
+        <p class="pg-sub">Each room has its own character and view. Take a look and see which one feels right for you.</p>
         <div class="legend">
-          <div class="legend-item"><span class="legend-dot g"></span> Available</div>
+          <div class="legend-item"><span class="legend-dot g"></span> Available &mdash; ready for you</div>
           <div class="legend-item"><span class="legend-dot r"></span> Occupied</div>
-          <span class="lg-count">${availCount} of ${TOTAL_ROOMS} rooms available</span>
+          <span class="lg-count">${availCount} of ${TOTAL_ROOMS} available</span>
         </div>`;
-      h += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available Rooms</div>`;
+      h += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available &mdash; Move In Ready</div>`;
       av.forEach(r => {
         h += `<div class="room-sec"><div class="room-sec-head">
           Room ${r.id} &mdash; ${r.name} <span class="pill pill-green">Available</span>
@@ -950,6 +1191,7 @@
       h += '</div>';
     }
 
+    else if (id === 'guide') { h = buildGuide(); }
     else if (id === 'neighborhood') { h = buildNeighborhood(); }
     else if (id === 'host') { h = buildHost(); }
 
@@ -963,6 +1205,10 @@
           <span class="pill ${av?'pill-green':'pill-red'}">${av?'Available':'Occupied'}</span>
           ${r.desc}
         </p>
+        ${av ? `<div class="callout sage" style="margin-bottom:20px;">
+          <h4>This room is available</h4>
+          <p>This could be yours. If you're interested or have questions, reach out to Henry &mdash; he's happy to tell you more, arrange a video tour, or help you plan your move-in.</p>
+        </div>` : ''}
         <div class="photo-grid">${grid(r,r.id)}</div>
       </div>`;
     }
@@ -972,15 +1218,381 @@
     document.getElementById('sidebar').classList.remove('open');
   }
 
+  // ─── Living Guide ───
+  function buildGuide() {
+    return `<div class="fade-in">
+      <div class="guide-hero">
+        <h2>Your Guide to Living Here</h2>
+        <p>Think of this as friendly advice from someone who wants you to have an amazing time.
+        Los Altos Hills is a special place &mdash; nature-rich, peaceful, and full of things to discover.
+        This guide covers what to pack, where to explore, and how we take care of the home together.
+        Whether you're here for 3 months or a year, this will help you live like a local.</p>
+      </div>
+
+      <div class="guide-toc">
+        <a href="#guide-bring">What to Bring</a>
+        <a href="#guide-about">About the Area</a>
+        <a href="#guide-essentials">Everyday Essentials</a>
+        <a href="#guide-nature">Parks &amp; Nature</a>
+        <a href="#guide-food">Food &amp; Markets</a>
+        <a href="#guide-shop">Shopping &amp; Fun</a>
+        <a href="#guide-bucket">Bucket List</a>
+        <a href="#guide-transport">Getting Around</a>
+        <a href="#guide-house">House Guidelines</a>
+        <a href="#guide-energy">Energy &amp; Safety</a>
+      </div>
+
+      <!-- WHAT TO BRING -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-bring">Suggested Items to Bring or Purchase</h3>
+        <p class="pg-sub" style="margin-bottom:16px;">Los Altos Hills is peaceful, beautiful, and nature-forward &mdash; a little preparation goes a long way toward staying safe, cozy, and happy.</p>
+        <div class="item-grid">
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#128294;</span><h4>Flashlight or Headlamp</h4></div>
+            <p>Los Altos Hills has limited streetlights. A flashlight or headlamp lets you enjoy evening walks without surprises.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#128690;</span><h4>Bike Safety Gear</h4></div>
+            <p>If you bike, please bring a bike lock, front &amp; rear lights (non-negotiable after sunset), and reflective or high-visibility gear. Bike lights are one of the best ~$50 investments you'll make here.</p>
+            <div class="ic-tip">Cardinal Bike Shop, Summit Bicycles, and Mike's Bikes all have great bikes on sale. Buy from them over Walmart &mdash; they can help repair &amp; maintain your bike too.</div>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#129507;</span><h4>Layers &amp; Warm Clothing</h4></div>
+            <p>Sunny afternoons can turn into chilly evenings quickly. A beanie, light gloves, and a warm layer will save you. Gloves are also great for biking in the cold.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#127782;</span><h4>Rain Gear</h4></div>
+            <p>A light rain jacket or poncho is your friend. Rain here tends to arrive politely&hellip; and then surprise you anyway.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#129406;</span><h4>Indoor &amp; Outdoor Slippers</h4></div>
+            <p>Shoes never touch indoor floors &mdash; especially carpet. Your slippers are tiny heroes that keep rooms clean and help maximize your security deposit return.</p>
+            <div class="ic-tip">Deep-cleaning carpet takes multiple multi-hour sessions per bedroom (not including steam-cleaner rental). Slippers save everyone time and money.</div>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#128703;</span><h4>Towels</h4></div>
+            <p>Please bring your own bath and hand towels &mdash; consider them part of your personal comfort kit.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#128167;</span><h4>Reusable Water Bottle</h4></div>
+            <p>Hydration is key, especially if you're walking, biking, or hiking the hills. Los Altos Hills tap water is perfectly drinkable.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT THE AREA -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-about">About Los Altos Hills</h3>
+        <div class="callout sage">
+          <h4>A Semi-Rural Paradise</h4>
+          <p>Los Altos Hills is a residential, semi-rural town known for open space preserves and quiet trails, proximity to Stanford, Palo Alto, and Mountain View, and a slower pace of life while still being close to world-class amenities. It's ideal for people who enjoy nature, reflection, and intentional living.</p>
+        </div>
+        <div class="amenity-row">
+          <div class="amenity"><span class="am-icon">&#127795;</span> Open Space Preserves</div>
+          <div class="amenity"><span class="am-icon">&#127891;</span> Near Stanford</div>
+          <div class="amenity"><span class="am-icon">&#128740;</span> Mountain Views</div>
+          <div class="amenity"><span class="am-icon">&#129414;</span> Wildlife</div>
+          <div class="amenity"><span class="am-icon">&#127748;</span> Quiet &amp; Peaceful</div>
+          <div class="amenity"><span class="am-icon">&#128187;</span> Heart of Silicon Valley</div>
+        </div>
+        <p style="font-size:0.85rem; color:#7a7464; margin-top:4px;">Also worth exploring: Cupertino Main, downtown Sunnyvale, Santana Row, and Redwood City.</p>
+      </div>
+
+      <!-- EVERYDAY ESSENTIALS -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-essentials">Everyday Essentials</h3>
+        <div class="item-grid">
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#128218;</span><h4>Los Altos Library</h4></div>
+            <p>A gem of the community. Great place to work, read, relax, or use basic printing and scanning services.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#128424;</span><h4>Printing &amp; Office</h4></div>
+            <p>Los Altos Library for basics. FedEx Office in Mountain View or Palo Alto for professional printing, shipping, and notary services.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#127963;</span><h4>Los Altos Community Center</h4></div>
+            <p>A hub for classes, events, and wellness activities. Check their schedule for what's happening during your stay.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARKS & NATURE -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-nature">Parks, Nature &amp; Outdoor Living</h3>
+        <div class="callout sage">
+          <h4>Morning &amp; Sunset Tip</h4>
+          <p>Morning and sunset walks in Los Altos Hills are magical. The light through the oaks, the quiet trails, the occasional deer sighting &mdash; it's the kind of thing you'll remember long after you leave.</p>
+        </div>
+        <div class="place-grid">
+          <div class="place-card">
+            <span class="pc-icon">&#127794;</span><h3>Shoup Park</h3>
+            <span class="pc-dist">Nearby</span>
+            <p>One of the most beloved local parks. Redwood trees, creek-side benches &mdash; perfect for reading, journaling, or light walks.</p>
+          </div>
+          <div class="place-card">
+            <span class="pc-icon">&#127758;</span><h3>Rancho San Antonio Preserve</h3>
+            <span class="pc-dist">~2 miles</span>
+            <p>Hiking, deer sightings, and sweeping views. One of the Bay Area's most popular preserves.</p>
+          </div>
+          <div class="place-card">
+            <span class="pc-icon">&#128004;</span><h3>Hidden Villa</h3>
+            <span class="pc-dist">~3 miles</span>
+            <p>Farm animals, trail heads, and 1,600 acres of wilderness preserve. Great for all ages.</p>
+          </div>
+          <div class="place-card">
+            <span class="pc-icon">&#127800;</span><h3>Foothills Nature Preserve</h3>
+            <span class="pc-dist">Nearby</span>
+            <p>Lakes, rolling hills, and seasonal wildflowers. Beautiful for sunset walks.</p>
+          </div>
+          <div class="place-card">
+            <span class="pc-icon">&#128014;</span><h3>Westwind Barn &amp; Open Space</h3>
+            <span class="pc-dist">Nearby</span>
+            <p>Historic barn and peaceful trails. A quiet escape close to home.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOD & MARKETS -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-food">Farmers Markets &amp; Local Food</h3>
+        <div class="item-grid">
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#127819;</span><h4>California Ave Farmers Market</h4></div>
+            <p>A must-do experience. Fresh produce, local bread, honey, flowers, live music, and neighborhood vibe. Sundays, year-round, on California Ave in Palo Alto.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#127805;</span><h4>Los Altos Farmers Market</h4></div>
+            <p>Smaller and relaxed. Great for weekly essentials. Thursdays on State Street, May through September.</p>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <h4 style="font-size:0.88rem; color:#3d3929; margin-bottom:10px;">Budget-Friendly Eats Nearby</h4>
+          <div class="amenity-row">
+            <div class="amenity">Sajj</div>
+            <div class="amenity">Chipotle</div>
+            <div class="amenity">In-N-Out</div>
+            <div class="amenity">Poke House</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;">
+          <h4 style="font-size:0.88rem; color:#3d3929; margin-bottom:10px;">Caf&eacute; Culture</h4>
+          <div class="amenity-row">
+            <div class="amenity"><span class="am-icon">&#9749;</span> Los Altos Coffee Shop</div>
+            <div class="amenity"><span class="am-icon">&#9749;</span> Coupa Caf&eacute; (Palo Alto)</div>
+            <div class="amenity"><span class="am-icon">&#9749;</span> Red Rock Coffee (Mountain View)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOPPING & FUN -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-shop">Shopping &amp; Entertainment</h3>
+        <div class="item-grid">
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#127981;</span><h4>Stanford Shopping Center</h4></div>
+            <p>Open-air mall with beautiful landscaping. High-end and everyday stores, great dining, pleasant for evening walks.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#127751;</span><h4>Santana Row (San Jose)</h4></div>
+            <p>More lively and urban. Restaurants, bars, boutiques, weekend energy and events. Great for social outings.</p>
+          </div>
+          <div class="item-card">
+            <div class="ic-head"><span class="ic-icon">&#127916;</span><h4>Movies &amp; Arts</h4></div>
+            <p>Stanford Theatre for classic films. Local live talks and events at Stanford or Foothill College.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUCKET LIST -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-bucket">Your Los Altos Hills Bucket List</h3>
+        <p class="pg-sub" style="margin-bottom:16px;">Don't just pass through &mdash; make this time count. These are the experiences past housemates have loved most.</p>
+        <div class="bucket-grid">
+          <div class="bucket-card">
+            <h4>&#127749; Daily &amp; Weekly Rituals</h4>
+            <ul>
+              <li>Quiet morning walk in Los Altos Hills</li>
+              <li>Read a book at Shoup Park</li>
+              <li>Visit a farmers market monthly</li>
+              <li>Work from the library or a caf&eacute;</li>
+            </ul>
+          </div>
+          <div class="bucket-card">
+            <h4>&#9968; Nature &amp; Exploration</h4>
+            <ul>
+              <li>Hike Rancho San Antonio</li>
+              <li>Sunset at Foothills Nature Preserve</li>
+              <li>Spot deer or wild turkeys on local roads</li>
+              <li>Visit Hidden Villa farm</li>
+            </ul>
+          </div>
+          <div class="bucket-card">
+            <h4>&#127961; Culture &amp; City Life</h4>
+            <ul>
+              <li>Afternoon in Palo Alto or Mountain View</li>
+              <li>Stanford public lecture or event</li>
+              <li>Explore Santana Row at night</li>
+            </ul>
+          </div>
+          <div class="bucket-card">
+            <h4>&#127869; Food Experiences</h4>
+            <ul>
+              <li>Try multiple farmers market vendors</li>
+              <li>Explore Asian, Mediterranean &amp; CA cuisine</li>
+              <li>Cook a seasonal meal with local produce</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- GETTING AROUND -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-transport">Getting Around</h3>
+        <div class="amenity-row">
+          <div class="amenity"><span class="am-icon">&#128663;</span> Waymo / RoboTaxi</div>
+          <div class="amenity"><span class="am-icon">&#128661;</span> Uber / Lyft</div>
+          <div class="amenity"><span class="am-icon">&#128651;</span> Public Transit</div>
+          <div class="amenity"><span class="am-icon">&#128690;</span> Biking</div>
+        </div>
+        <p style="font-size:0.84rem; color:#7a7464;">Your maps app will show public transit options. Biking is great for nearby destinations. Waymo is expanding in the area.</p>
+      </div>
+
+      <!-- HOUSE GUIDELINES -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-house">Taking Care of Our Home Together</h3>
+        <p class="pg-sub" style="margin-bottom:16px;">Perfection isn't expected &mdash; consideration is. These are the little things that keep the home comfortable and welcoming for everyone who lives here.</p>
+        <div class="rule-grid">
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#127859;</span> Kitchen</h4>
+            <ul>
+              <li>Do not pour grease or oil down the sink</li>
+              <li>Just because food can go down the disposal doesn't mean it should &mdash; bones, potato peels, corn husks, fruit pits, and coffee grounds go in the trash</li>
+              <li>Clean up spills immediately to prevent stains</li>
+              <li>Remove leftovers from the fridge after 1 week</li>
+              <li>Do not overload trash or recycling bins</li>
+            </ul>
+          </div>
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#128704;</span> Bathroom</h4>
+            <ul>
+              <li>Only flush toilet paper</li>
+              <li>Do not pour oils, grease, or coffee grounds down the sink</li>
+              <li>Use the bathroom fan &amp; open the window to reduce moisture and mold</li>
+              <li>Wipe excess hair from sink and shower drain after use</li>
+            </ul>
+          </div>
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#128087;</span> Laundry</h4>
+            <ul>
+              <li>Clean the lint trap after each dryer use</li>
+              <li>Do not overload the washer with clothes or detergent &mdash; it damages the machine</li>
+              <li>Buy your own detergent and dryer sheets</li>
+            </ul>
+          </div>
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#129529;</span> Shared Spaces</h4>
+            <ul>
+              <li>Clean up after yourself in shared spaces</li>
+              <li>Empty the kitchen and shower drain catcher when full</li>
+              <li>Close doors quietly to avoid disturbing others</li>
+              <li>Main door: pull for full closure when exiting, push close after entering</li>
+            </ul>
+          </div>
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#128704;</span> Trash &amp; Recycling</h4>
+            <ul>
+              <li>Green bins: yard waste only (no compost program)</li>
+              <li>Recycling must be clean and free of food residue &mdash; dirty items go in trash</li>
+              <li>Contaminated recycling can result in the entire bin not being collected</li>
+            </ul>
+            <div class="rc-note">Pickup is Friday morning. I handle rolling bins to the curb Thursday evening or Friday early morning. Just use the garage bins.</div>
+          </div>
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#129414;</span> Wildlife</h4>
+            <ul>
+              <li>You may see lizards, squirrels, deer, wild turkeys, raccoons, possums, owls, or the occasional coyote</li>
+              <li>Common at dawn and dusk &mdash; they're part of life here</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENERGY & SAFETY -->
+      <div class="guide-section">
+        <h3 class="guide-section-title" id="guide-energy">Energy, Heating &amp; Safety</h3>
+
+        <div class="rule-grid">
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#128293;</span> Heating &amp; Space Heaters</h4>
+            <p style="font-size:0.82rem; color:#5c5647; margin-bottom:10px;">This is an older home. Its electrical system was not designed for high-wattage plug-in heating devices, which are a leading cause of household fires.</p>
+            <p style="font-size:0.82rem; color:#5c5647; font-weight:600; margin-bottom:6px;">Central heating runs:</p>
+            <div class="energy-schedule">
+              <span class="energy-time">7:00 AM &ndash; 9:30 AM</span>
+              <span class="energy-time">6:45 PM &ndash; 10:30 PM</span>
+            </div>
+            <p style="font-size:0.82rem; color:#5c5647; margin-top:8px;">Outside these hours, warm layers and cozy socks make a big difference. If you feel cold, please reach out to me first &mdash; I can provide an approved heater and review safe usage.</p>
+            <div class="rc-note">If a space heater is needed: plug directly into a wall outlet, never leave unattended or running while sleeping, and keep clear of bedding, curtains, and furniture.</div>
+          </div>
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#9889;</span> PG&amp;E Peak Energy Hours</h4>
+            <p style="font-size:0.82rem; color:#5c5647; margin-bottom:8px;">Peak electricity hours are <strong>4:00 PM &ndash; 9:00 PM</strong> daily. When possible, run these before 4pm or after 9pm:</p>
+            <ul>
+              <li>Oven</li>
+              <li>Washing machine</li>
+            </ul>
+            <p style="font-size:0.8rem; color:#7a7464; margin-top:6px;">The dryer is gas, so it's less of a concern. This helps manage utility costs.</p>
+          </div>
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#128267;</span> E-Bikes &amp; Battery Charging</h4>
+            <p style="font-size:0.82rem; color:#5c5647;">If shopping for an e-bike, we recommend models with detachable batteries. For safety, please charge e-bike batteries off-site when possible (e.g., at work). Check in with me if you need to coordinate a safe charging option.</p>
+          </div>
+          <div class="rule-card">
+            <h4><span class="rc-icon">&#128680;</span> General Safety</h4>
+            <ul>
+              <li>Turn off lights, heaters, or appliances when not in use</li>
+              <li>Do not leave candles or open flames unattended</li>
+              <li>Close doors quietly to avoid disturbing others</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVING WELL -->
+      <div class="guide-section">
+        <div class="callout warm" style="text-align:center;">
+          <h4>Living Well in Los Altos Hills</h4>
+          <p style="max-width:600px; margin:0 auto;">Los Altos Hills is best enjoyed when you slow down. Many residents prioritize walks, reflection, and time outdoors. They limit noise and light pollution and respect shared spaces and nature. You'll get the most out of your stay by embracing the calm.</p>
+        </div>
+      </div>
+
+      <!-- FINAL -->
+      <div class="guide-section">
+        <div class="host-section" style="text-align:center;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:500; color:#2c2a22; margin-bottom:12px; font-style:italic;">You're not just renting a room &mdash; you're joining a home.</h3>
+          <p style="font-size:0.9rem; color:#5c5647; max-width:620px; margin:0 auto; line-height:1.75;">
+            Over the years, something special has happened here. People who arrived as strangers
+            became friends. They shared meals, explored the neighborhood together, and supported
+            each other through the intensity of internship life. Many still keep in touch long after
+            they've moved on.</p>
+          <p style="font-size:0.9rem; color:#5c5647; max-width:620px; margin:8px auto 0; line-height:1.75;">
+            I encourage you to say hello, share a meal, or invite someone on a walk. These small
+            moments are often the ones you remember most.</p>
+          <p style="font-size:0.95rem; color:#8a7245; margin-top:18px; font-weight:500;">Welcome to Esperanza Dr. We're glad you're here.</p>
+        </div>
+      </div>
+    </div>`;
+  }
+
   // ─── Neighborhood ───
   function buildNeighborhood() {
     return `<div class="fade-in">
       <div class="nbr-hero">
-        <h2>Welcome to Los Altos, California</h2>
-        <p>Our home on Esperanza Dr sits in one of the most desirable neighborhoods
-        on the Peninsula. Tree-lined streets, excellent schools, and a charming
-        downtown are all just steps away.</p>
-        <span class="loc-pill">Esperanza Dr</span>
+        <h2>Your New Neighborhood</h2>
+        <p>You're not just moving into a house &mdash; you're moving into one of the most beautiful
+        communities in Silicon Valley. Quiet trails, oak-covered hills, friendly neighbors,
+        and a charming downtown just a mile away. Here's what's waiting for you.</p>
+        <span class="loc-pill">26363 Esperanza Dr</span>
         <span class="loc-pill">1 mi to Downtown</span>
         <span class="loc-pill">1 mi to Tesla Deer Creek</span>
         <span class="loc-pill">Silicon Valley</span>
@@ -1076,15 +1688,15 @@
   // ─── Your Host ───
   function buildHost() {
     return `<div class="fade-in">
-      <h2 class="pg-title">Your Host</h2>
-      <p class="pg-sub">More than a room &mdash; a welcoming home with a host who genuinely cares</p>
+      <h2 class="pg-title">Meet Henry</h2>
+      <p class="pg-sub">The person who'll make sure you feel at home from the moment you arrive</p>
 
       <div class="host-section">
         <div class="host-top">
           <div class="host-avatar">&#9733;</div>
           <div class="host-info">
             <h3>Henry &mdash; Seasoned Host &amp; Resident Advisor</h3>
-            <p>Esperanza Dr, Los Altos, California</p>
+            <p>26363 Esperanza Dr, Los Altos Hills, California</p>
             <div class="host-badges">
               <span class="host-badge">&#9733; Experienced Host</span>
               <span class="host-badge">&#9829; Resident Advisor</span>
@@ -1094,65 +1706,64 @@
         </div>
 
         <div class="host-body">
-          <p>As both the homeowner and a resident advisor, I live on-site and take a hands-on
-          approach to making sure every housemate feels welcome, supported, and at home.
-          This isn't just a room for rent &mdash; it's a place where you'll have someone in
-          your corner from day one.</p>
+          <p>I live here too. I'm not a distant landlord &mdash; I'm the person who'll help you
+          carry your bags in on move-in day, show you the best coffee spot downtown, and
+          make sure you have everything you need to feel settled. This is my home, and when
+          you live here, it becomes yours too.</p>
 
           <p>Over the years, I've helped multiple interns who found themselves in uncomfortable
-          or uninviting living situations mid-internship. Hearing their stories &mdash; landlords
-          who were unresponsive, homes that felt isolating, basic needs that went unmet &mdash;
-          reinforced what I already believed: a good living environment is everything when
-          you're far from home and focused on your career.</p>
+          living situations mid-internship &mdash; unresponsive landlords, isolating environments,
+          basic needs that went unmet. Hearing their stories made me even more committed to
+          being the kind of host I'd want if I were in their shoes: present, thoughtful, and
+          genuinely invested in your experience.</p>
 
-          <p>That experience has made me confident in what I offer. I anticipate what you'll
-          need before you have to ask. Whether it's helping you get settled on your first day,
-          recommending the best coffee spot in downtown Los Altos, lending you gear for
-          a weekend hike at Hidden Villa, or just being a friendly face after a long day at
-          work &mdash; I've been there, and I'm happy to help.</p>
+          <p>I anticipate what you'll need before you have to ask. Whether it's directions to
+          the nearest grocery store, gear for a weekend hike at Hidden Villa, advice on your
+          commute, or just a friendly conversation after a long day &mdash; I've been there,
+          and I'm glad to help. Your comfort and wellbeing matter to me.</p>
         </div>
 
         <div class="host-highlights">
           <div class="host-hl">
             <span class="hl-icon">&#128075;</span>
             <div>
-              <h4>On-Site &amp; Available</h4>
-              <p>I live here too. If something comes up, you won't be waiting on a distant landlord &mdash; I'm right here to help.</p>
+              <h4>I'm Right Here</h4>
+              <p>Something come up? You won't be texting a landlord who takes three days to reply. I live here &mdash; just knock.</p>
             </div>
           </div>
           <div class="host-hl">
             <span class="hl-icon">&#127919;</span>
             <div>
-              <h4>Anticipates Your Needs</h4>
-              <p>From move-in essentials to local tips, I draw on years of hosting experience so you can focus on your internship or work.</p>
+              <h4>Already Thought of That</h4>
+              <p>From move-in essentials to your first grocery run, I've hosted enough people to know what you'll need before you realize it.</p>
             </div>
           </div>
           <div class="host-hl">
             <span class="hl-icon">&#128161;</span>
             <div>
-              <h4>Local Knowledge</h4>
-              <p>Best trails, restaurants, grocery runs, commute routes &mdash; I know the area inside and out and love sharing it.</p>
+              <h4>Your Local Guide</h4>
+              <p>Best trails, hidden restaurants, commute shortcuts, weekend plans &mdash; ask me anything. I love sharing this area.</p>
             </div>
           </div>
           <div class="host-hl">
             <span class="hl-icon">&#129309;</span>
             <div>
-              <h4>Helped Interns Relocate</h4>
-              <p>I've taken in interns who needed to leave bad housing situations. I understand what makes a real difference.</p>
+              <h4>Been There for Others</h4>
+              <p>I've helped interns leave bad housing situations mid-internship. I know what matters, and I don't take it for granted.</p>
             </div>
           </div>
           <div class="host-hl">
-            <span class="hl-icon">&#127968;</span>
+            <span class="hl-icon">&#127946;</span>
             <div>
-              <h4>A Real Home, Not Just a Room</h4>
-              <p>Shared kitchen, pool, patio &amp; BBQ, laundry &mdash; and a host who goes above and beyond the basics.</p>
+              <h4>A Home, Not a Rental</h4>
+              <p>Pool, patio, full kitchen, BBQ &mdash; this is a place to actually live, not just sleep. Use it. Enjoy it.</p>
             </div>
           </div>
           <div class="host-hl">
             <span class="hl-icon">&#127793;</span>
             <div>
-              <h4>Community Spirit</h4>
-              <p>A welcoming, respectful environment where you can thrive during your time in Silicon Valley.</p>
+              <h4>You'll Make Friends Here</h4>
+              <p>Past housemates have formed real friendships and still keep in touch. There's something about this place.</p>
             </div>
           </div>
         </div>
@@ -1161,6 +1772,14 @@
       <div class="callout warm">
         <h4>What past housemates have said</h4>
         <p>"Moving across the country for an internship was stressful, but Henry made the transition so much easier. He had everything ready and even drove me around the neighborhood on my first day. It genuinely felt like home." &mdash; Former intern housemate</p>
+      </div>
+
+      <div class="callout sage">
+        <h4>Community at Esperanza Dr</h4>
+        <p>My favorite part of hosting is not just the individual connections, but the shared sense of community
+        that forms within the home. Over the years, I've seen residents support one another, form friendships,
+        and continue to reconnect long after their stay. I encourage you to take the opportunity to meet others,
+        share meals, or just say hello &mdash; these small interactions often lead to meaningful memories.</p>
       </div>
     </div>`;
   }
