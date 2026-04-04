@@ -74,6 +74,49 @@
       background: #4caf50;
       animation: softPulse 2.5s ease-in-out infinite;
     }
+
+    /* ─── Apply button ─── */
+    .apply-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 22px;
+      border-radius: 24px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #5c4b28;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .apply-btn:hover {
+      background: #3d3929;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(92,75,40,0.25);
+    }
+    .apply-btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 22px;
+      border-radius: 24px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: transparent;
+      color: #5c4b28;
+      border: 2px solid #d4cfc0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .apply-btn-outline:hover {
+      border-color: #5c4b28;
+      background: #f5f0e8;
+    }
     @keyframes softPulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.5; }
@@ -136,9 +179,16 @@
     /* Quick-nav cards on landing */
     .quick-nav {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
       margin-bottom: 32px;
+    }
+    .quick-nav .qn-card:nth-child(-n+2) {
+      grid-column: span 1;
+    }
+    @media (min-width: 769px) {
+      .quick-nav { grid-template-columns: repeat(5, 1fr); }
+      .quick-nav .qn-card:nth-child(-n+2) { grid-column: span 1; }
     }
     .qn-card {
       background: #fff;
@@ -336,6 +386,37 @@
     }
     .fade-in { animation: fadeUp 0.3s ease-out forwards; }
 
+    /* Staggered photo entrance */
+    .photo-grid .photo-card {
+      opacity: 0;
+      animation: fadeUp 0.35s ease-out forwards;
+    }
+    .photo-grid .photo-card:nth-child(1) { animation-delay: 0.05s; }
+    .photo-grid .photo-card:nth-child(2) { animation-delay: 0.1s; }
+    .photo-grid .photo-card:nth-child(3) { animation-delay: 0.15s; }
+    .photo-grid .photo-card:nth-child(4) { animation-delay: 0.2s; }
+    .photo-grid .photo-card:nth-child(5) { animation-delay: 0.25s; }
+    .photo-grid .photo-card:nth-child(6) { animation-delay: 0.3s; }
+    .photo-grid .photo-card:nth-child(7) { animation-delay: 0.35s; }
+    .photo-grid .photo-card:nth-child(n+8) { animation-delay: 0.4s; }
+
+    /* Scroll hint on hero */
+    .scroll-hint {
+      display: flex;
+      justify-content: center;
+      margin: -14px 0 24px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint span {
+      font-size: 0.75rem;
+      color: #b5ae9e;
+      letter-spacing: 1px;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
     /* ─── Page titles ─── */
     .pg-title {
       font-family: 'Playfair Display', serif;
@@ -397,8 +478,8 @@
     /* ─── Photo grid ─── */
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
     }
     .photo-card {
       position: relative;
@@ -410,8 +491,8 @@
       aspect-ratio: 4/3;
     }
     .photo-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(60,50,30,0.12);
+      transform: translateY(-5px);
+      box-shadow: 0 14px 36px rgba(60,50,30,0.14);
     }
     .photo-card img {
       width: 100%; height: 100%;
@@ -442,6 +523,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+    .room-sec-head span[onclick] {
+      transition: color 0.15s;
+    }
+    .room-sec-head span[onclick]:hover {
+      color: #5c4b28;
+      text-decoration: underline;
     }
     .room-sec-head .rs-count {
       margin-left: auto;
@@ -874,7 +962,8 @@
       .photo-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
       header { padding: 14px 18px; }
       .header-left h1 { font-size: 1.15rem; }
-      .header-pills { display: none; }
+      .header-pills .header-pill { display: none; }
+      .header-pills .apply-btn { font-size: 0.78rem; padding: 8px 16px; }
       .place-grid { grid-template-columns: 1fr; }
       .shop-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
       .nbr-hero, .welcome-banner, .host-section { padding: 22px; }
@@ -885,7 +974,7 @@
       .hero img { height: 240px; }
       .hero-overlay { padding: 20px; }
       .hero-overlay h2 { font-size: 1.4rem; }
-      .quick-nav { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .quick-nav { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
       .item-grid, .rule-grid, .bucket-grid { grid-template-columns: 1fr; }
       .guide-hero { padding: 22px; }
       .hero-duo { grid-template-columns: 1fr; }
@@ -906,7 +995,7 @@
       <div class="dot"></div>
       4 rooms available
     </div>
-    <div class="header-pill">Los Altos Hills, CA</div>
+    <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn">Apply Now</a>
   </div>
 </header>
 
@@ -961,6 +1050,7 @@
     <button class="ft-link" onclick="showRoom('guide')">Living Guide</button>
     <button class="ft-link" onclick="showRoom('neighborhood')">Neighborhood</button>
     <button class="ft-link" onclick="showRoom('host')">Your Host</button>
+    <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="ft-link" style="background:#5c4b28; color:#fff;">Apply Now</a>
   </div>
 </footer>
 
@@ -984,7 +1074,7 @@
     photos: [
       "Front Home View (2) (2).jpg","Back Home View (1) (2).JPG",
       "Kitchen 1.JPG","Kitchen 3 (3).JPG","DiningTable.JPG",
-      "Bathroom 1 (2).JPG","Bathroom 2.JPG","Pool.JPG",
+      "Bathroom 1 (2).JPG","Bathroom 2.JPG",
       "Patio&BBQ (1).JPG","Stairs.JPG","GarageToilet (1).JPG",
       "BathroomAppraisal.png","DiningRoomAppraisal.png",
       "KitchenAppraisal.png","LaundryRoomAppraisal.png"
@@ -1042,7 +1132,7 @@
       .replace(/\s*\(\d+\)\s*/g,' ').replace(/IMG \d+/i,'Photo').replace(/Appraisal$/i,'').trim();
   }
   function peekGrid() {
-    const picks = [6,2,7,8,4,1]; // indices into homePhotos.photos
+    const picks = [1,2,7,4,5,6]; // Back View, Kitchen, Patio&BBQ, Dining, Bathroom, Bathroom2
     return picks.map(idx => {
       const p = homePhotos.photos[idx];
       return `<div class="photo-card" onclick="openLightbox(0,${idx})">
@@ -1079,10 +1169,12 @@
               </div>
             </div>
           </div>
-          <div class="hero-small" onclick="showRoom('home')">
-            <img src="${pp(homePhotos.folder, homePhotos.photos[7])}" alt="Pool">
+          <div class="hero-small" onclick="showRoom(5)">
+            <img src="${pp('5_Masterbedroom', 'MasterBedroom_poolview6.JPG')}" alt="Pool view from master bedroom">
           </div>
         </div>
+
+        <div class="scroll-hint"><span>&#9660; scroll to explore</span></div>
 
         <div class="welcome-banner" style="text-align:center; margin-bottom:24px;">
           <h3 style="font-style:italic; font-size:1.3rem;">This is the place you'll be glad you found</h3>
@@ -1103,6 +1195,11 @@
           <div class="amenity"><span class="am-icon">&#128246;</span> WiFi</div>
           <div class="amenity"><span class="am-icon">&#127795;</span> Trails nearby</div>
           <div class="amenity"><span class="am-icon">&#129414;</span> Wildlife &amp; nature</div>
+        </div>
+
+        <div style="text-align:center; margin-bottom:28px;">
+          <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn" style="padding:13px 32px; font-size:0.92rem;">Apply for Housing</a>
+          <p style="font-size:0.76rem; color:#b5ae9e; margin-top:8px;">Takes just a few minutes &mdash; no commitment</p>
         </div>
 
         <div class="callout sage" style="margin-bottom:28px;">
@@ -1177,10 +1274,15 @@
       h += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available &mdash; Move In Ready</div>`;
       av.forEach(r => {
         h += `<div class="room-sec"><div class="room-sec-head">
-          Room ${r.id} &mdash; ${r.name} <span class="pill pill-green">Available</span>
+          <span style="cursor:pointer;" onclick="showRoom(${r.id})">Room ${r.id} &mdash; ${r.name}</span>
+          <span class="pill pill-green">Available</span>
           <span class="rs-count">${r.photos.length} photos</span></div>
+          <p style="font-size:0.84rem; color:#7a7464; margin:-6px 0 12px; line-height:1.5;">${r.desc}</p>
           <div class="photo-grid">${grid(r,r.id)}</div></div>`;
       });
+      h += `<div style="text-align:center; margin:24px 0 32px;">
+        <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn-outline">Apply for a Room</a>
+      </div>`;
       h += `<div class="sec-head" style="color:#9c9785;border-color:#f0ede6;margin-top:16px;"><span class="si">&mdash;</span> Occupied Rooms</div>`;
       oc.forEach(r => {
         h += `<div class="room-sec dim"><div class="room-sec-head">
@@ -1199,6 +1301,10 @@
       const r = rooms.find(x => x.id == id);
       const av = availableRooms.has(r.id);
       h = `<div class="fade-in">
+        <p style="margin-bottom:14px;">
+          <span onclick="showRoom('all')" style="cursor:pointer; font-size:0.82rem; color:#9c9785; transition:color 0.15s;"
+            onmouseover="this.style.color='#5c4b28'" onmouseout="this.style.color='#9c9785'">&larr; All rooms</span>
+        </p>
         <h2 class="pg-title">Room ${r.id} &mdash; ${r.name}</h2>
         <p class="pg-sub">
           <span class="pill pill-warm">${r.photos.length} photo${r.photos.length!==1?'s':''}</span>
@@ -1210,11 +1316,19 @@
           <p>This could be yours. If you're interested or have questions, reach out to Henry &mdash; he's happy to tell you more, arrange a video tour, or help you plan your move-in.</p>
         </div>` : ''}
         <div class="photo-grid">${grid(r,r.id)}</div>
+        ${av ? `<div style="text-align:center; margin-top:28px;">
+          <div class="callout warm" style="display:inline-block; max-width:520px;">
+            <h4>Like what you see?</h4>
+            <p style="margin-bottom:14px;">Fill out a quick application and Henry will get back to you. He's happy to answer questions, arrange a video tour, or help you plan your move-in.</p>
+            <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn">Apply for This Room</a>
+          </div>
+        </div>` : ''}
       </div>`;
     }
 
     m.innerHTML = h;
-    m.scrollTop = 0;
+    m.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
     document.getElementById('sidebar').classList.remove('open');
   }
 
