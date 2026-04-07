@@ -1090,7 +1090,7 @@
       photos:["2 Small Room Bed.JPG","Small Room's bedroom 1 (dup) (1).JPG","Small Room's bedroom 3 (1).JPG"] },
     { id:4, folder:"4_RoomwPoolView", name:"Pool View Room", desc:"Overlooking the swimming pool",
       photos:["IMG_1334.JPG","IMG_1335.JPG","IMG_4878.JPG","IMG_4881.JPG"] },
-    { id:5, folder:"5_Masterbedroom", name:"Master Bedroom", desc:"Spacious suite with en-suite bath and pool view",
+    { id:5, folder:"5_Masterbedroom", name:"Master Bedroom", desc:"Spacious suite with private en-suite bathroom and pool view",
       photos:["MasterBedroom_1.JPG","MasterBedroom_2.JPG","MasterBedroom_bathroom2.JPG","MasterBedroom_bathroom4.JPG","MasterBedroom_poolview6.JPG"] },
     { id:6, folder:"6_RoomWindowOutdoorSunShade", name:"Sun Shade Room", desc:"Window facing the outdoor sun shade",
       photos:["Room6_foto1.JPG","Room6_foto2.JPG","Room6_foto3.JPG","Room6_foto4.JPG","Room6_foto5.JPG"] },
@@ -1098,7 +1098,7 @@
       photos:["PanoFromEntrance (1).JPG","PanoFromInsideRoom (2).JPG"] },
     { id:8, folder:"8_GarageRoom", name:"Garage Room", desc:"Converted room with private patio access",
       photos:["GarageRoomPatio_5.JPG","GarageRoomViewintoRoom_1.JPG","GarageRoom_Bed_5.JPG","GarageroomViewfromBed_2.JPG","IMG_5634 (1).JPG","IMG_5945.JPG","OutsideView (1).JPG"] },
-    { id:9, folder:"9_TinyStudio", name:"Tiny Studio", desc:"Compact studio for a single occupant",
+    { id:9, folder:"9_TinyStudio", name:"Tiny Studio", desc:"Compact studio with private bathroom — ideal for a single occupant",
       photos:["TinyStudio_Wide4.JPG","TinyStudio_Wide5.JPG","Tinystudio_Wide1.JPG","Tinystudio_Wide2.JPG"] }
   ];
 
@@ -1271,11 +1271,19 @@
           <div class="legend-item"><span class="legend-dot r"></span> Occupied</div>
           <span class="lg-count">${availCount} of ${TOTAL_ROOMS} available</span>
         </div>`;
+      h += `<div class="callout sage" style="margin-bottom:24px;">
+          <h4>Bathroom Situation</h4>
+          <p>The <strong>Master Bedroom</strong> and <strong>Tiny Studio</strong> each have their own private bathroom.
+          The remaining rooms share two full bathrooms. At full occupancy that's 7 people across 2 bathrooms,
+          but the house isn't always at capacity &mdash; in practice the ratio is often much more comfortable.</p>
+        </div>`;
       h += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available &mdash; Move In Ready</div>`;
       av.forEach(r => {
+        const pvt = r.id === 5 || r.id === 9;
         h += `<div class="room-sec"><div class="room-sec-head">
           <span style="cursor:pointer;" onclick="showRoom(${r.id})">Room ${r.id} &mdash; ${r.name}</span>
           <span class="pill pill-green">Available</span>
+          ${pvt ? '<span class="pill pill-warm">Private Bath</span>' : '<span class="pill" style="background:#f0f0f0; color:#999;">Shared Bath</span>'}
           <span class="rs-count">${r.photos.length} photos</span></div>
           <p style="font-size:0.84rem; color:#7a7464; margin:-6px 0 12px; line-height:1.5;">${r.desc}</p>
           <div class="photo-grid">${grid(r,r.id)}</div></div>`;
@@ -1285,8 +1293,10 @@
       </div>`;
       h += `<div class="sec-head" style="color:#9c9785;border-color:#f0ede6;margin-top:16px;"><span class="si">&mdash;</span> Occupied Rooms</div>`;
       oc.forEach(r => {
+        const pvt = r.id === 5 || r.id === 9;
         h += `<div class="room-sec dim"><div class="room-sec-head">
           Room ${r.id} &mdash; ${r.name} <span class="pill pill-red">Occupied</span>
+          ${pvt ? '<span class="pill pill-warm">Private Bath</span>' : '<span class="pill" style="background:#f0f0f0; color:#999;">Shared Bath</span>'}
           <span class="rs-count">${r.photos.length} photos</span></div>
           <div class="photo-grid">${grid(r,r.id)}</div></div>`;
       });
@@ -1309,8 +1319,10 @@
         <p class="pg-sub">
           <span class="pill pill-warm">${r.photos.length} photo${r.photos.length!==1?'s':''}</span>
           <span class="pill ${av?'pill-green':'pill-red'}">${av?'Available':'Occupied'}</span>
+          ${r.id === 5 || r.id === 9 ? '<span class="pill pill-warm">Private Bathroom</span>' : ''}
           ${r.desc}
         </p>
+        ${(r.id !== 5 && r.id !== 9 && av) ? '<p style="font-size:0.82rem; color:#7a7464; margin:-16px 0 16px;">This room shares two full bathrooms with the other non-suite rooms.</p>' : ''}
         ${av ? `<div class="callout sage" style="margin-bottom:20px;">
           <h4>This room is available</h4>
           <p>This could be yours. If you're interested or have questions, reach out to Henry &mdash; he's happy to tell you more, arrange a video tour, or help you plan your move-in.</p>
@@ -1589,6 +1601,7 @@
           </div>
           <div class="rule-card">
             <h4><span class="rc-icon">&#128704;</span> Bathroom</h4>
+            <p style="font-size:0.82rem; color:#5c5647; margin-bottom:10px;">The Master Bedroom and Tiny Studio each have a private bath. The other rooms share two full bathrooms &mdash; at max capacity that's 7 people between them, though in practice the house is often below capacity.</p>
             <ul>
               <li>Only flush toilet paper</li>
               <li>Do not pour oils, grease, or coffee grounds down the sink</li>
