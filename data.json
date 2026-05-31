@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "rooms": {
+    "1": { "price": 1400, "available": false, "availableFrom": "" },
+    "2": { "price": 1400, "available": true, "availableFrom": "" },
+    "3": { "price": 1200, "available": false, "availableFrom": "" },
+    "4": { "price": 1400, "available": false, "availableFrom": "" },
+    "5": { "price": 1700, "available": true, "availableFrom": "" },
+    "6": { "price": 1400, "available": false, "availableFrom": "" },
+    "7": { "price": 1400, "available": true, "availableFrom": "" },
+    "8": { "price": 1500, "available": false, "availableFrom": "" },
+    "9": { "price": 1600, "available": true, "availableFrom": "" }
+  }
+}

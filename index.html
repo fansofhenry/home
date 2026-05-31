@@ -470,6 +470,60 @@
     .pill-green { background: #edf7ed; color: #3a7a3a; }
     .pill-red { background: #fdf0ef; color: #b05050; }
     .pill-price { background: #ede4d4; color: #6b5224; font-weight: 600; letter-spacing: 0.02em; }
+    .pill-date { background: #eef2f7; color: #4a648c; }
+
+    /* ─── Admin panel ─── */
+    #admin-fab {
+      position: fixed; right: 20px; bottom: 20px; z-index: 900;
+      background: #6b5224; color: #fff; border: none; cursor: pointer;
+      padding: 12px 18px; border-radius: 30px; font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    #admin-overlay {
+      position: fixed; inset: 0; z-index: 1000; background: rgba(30,28,20,0.55);
+      display: none; align-items: flex-start; justify-content: center; overflow-y: auto;
+      padding: 40px 16px;
+    }
+    #admin-overlay.open { display: flex; }
+    .admin-card {
+      background: #fffdf9; border-radius: 14px; width: 100%; max-width: 720px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden;
+    }
+    .admin-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px; border-bottom: 1px solid #ece8df; background: #fff;
+    }
+    .admin-head h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: #2c2a22; }
+    .admin-head p { font-size: 0.78rem; color: #b5ae9e; margin-top: 2px; }
+    .admin-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #9c9785; line-height: 1; }
+    .admin-body { padding: 20px 22px; }
+    .admin-token { margin-bottom: 18px; }
+    .admin-token label, .admin-room label { display: block; font-size: 0.72rem; color: #9c9785; margin-bottom: 4px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+    .admin-token input { width: 100%; padding: 9px 11px; border: 1px solid #ddd6c8; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; }
+    .admin-token small { display: block; font-size: 0.74rem; color: #b5ae9e; margin-top: 6px; line-height: 1.5; }
+    .admin-token small a { color: #6b5224; }
+    .admin-room {
+      display: grid; grid-template-columns: 1.4fr 0.9fr 1fr auto; gap: 12px; align-items: end;
+      padding: 12px 0; border-bottom: 1px solid #f2efe8;
+    }
+    .admin-room .rname { font-size: 0.92rem; font-weight: 600; color: #3d3929; padding-bottom: 9px; }
+    .admin-room .rname span { display: block; font-size: 0.72rem; font-weight: 400; color: #b5ae9e; }
+    .admin-room input[type=number], .admin-room input[type=date] {
+      width: 100%; padding: 8px 9px; border: 1px solid #ddd6c8; border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    }
+    .admin-room .avail-toggle { display: flex; align-items: center; gap: 7px; padding-bottom: 8px; font-size: 0.85rem; color: #3d3929; white-space: nowrap; }
+    .admin-room .avail-toggle input { width: 17px; height: 17px; accent-color: #3a7a3a; }
+    .admin-foot { padding: 16px 22px; border-top: 1px solid #ece8df; background: #fff; display: flex; align-items: center; gap: 14px; }
+    .admin-save { background: #3a7a3a; color: #fff; border: none; cursor: pointer; padding: 11px 22px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; }
+    .admin-save:disabled { opacity: 0.5; cursor: default; }
+    .admin-status { font-size: 0.84rem; color: #7a7464; }
+    .admin-status.err { color: #b05050; }
+    .admin-status.ok { color: #3a7a3a; }
+    @media (max-width: 560px) {
+      .admin-room { grid-template-columns: 1fr 1fr; }
+      .admin-room .rname { grid-column: 1 / -1; }
+    }
 
     /* ─── Legend ─── */
     .legend {
@@ -1163,28 +1217,63 @@
 
   const fmtPrice = p => '$' + p.toLocaleString() + '/mo';
 
-  const availableRooms = new Set([2, 5, 7, 9]);
+  // Defaults (used if data.json is missing or fails to load).
+  const DEFAULT_AVAIL = new Set([2, 5, 7, 9]);
+  const availableRooms = new Set(DEFAULT_AVAIL);   // live set, rebuilt from data.json
   const TOTAL_ROOMS = rooms.length;
-  const availCount = rooms.filter(r => availableRooms.has(r.id)).length;
+  let availCount = rooms.filter(r => availableRooms.has(r.id)).length;
+  rooms.forEach(r => { if (r.availableFrom === undefined) r.availableFrom = ''; });
+
+  // Format an ISO date (YYYY-MM-DD) as "Jun 15"; returns '' if blank/invalid.
+  function fmtFrom(iso) {
+    if (!iso) return '';
+    const parts = String(iso).split('-').map(Number);
+    const [y, m, d] = parts;
+    if (!y || !m || !d || m < 1 || m > 12) return '';
+    const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1];
+    return mon + ' ' + d;
+  }
+  // The optional "Available from <date>" pill, or '' if no date set.
+  function datePill(r) {
+    const f = fmtFrom(r.availableFrom);
+    return f ? `<span class="pill pill-date">Available from ${f}</span>` : '';
+  }
+
+  // Overlay editable values from data.json onto the rooms.
+  function applyData(data) {
+    if (!data || !data.rooms) return;
+    availableRooms.clear();
+    rooms.forEach(r => {
+      const d = data.rooms[String(r.id)];
+      if (!d) { if (DEFAULT_AVAIL.has(r.id)) availableRooms.add(r.id); return; }
+      if (typeof d.price === 'number') r.price = d.price;
+      r.availableFrom = d.availableFrom || '';
+      if (d.available) availableRooms.add(r.id);
+    });
+    availCount = rooms.filter(r => availableRooms.has(r.id)).length;
+  }
 
   let lightboxPhotos = [], lightboxIndex = 0;
 
   // ─── Sidebar buttons ───
   const btnBox = document.getElementById('room-buttons');
-  rooms.forEach(room => {
-    const avail = availableRooms.has(room.id);
-    const btn = document.createElement('button');
-    btn.className = 'sb-btn' + (avail ? '' : ' dim');
-    btn.dataset.room = room.id;
-    btn.onclick = () => showRoom(room.id);
-    btn.innerHTML = `
-      <span class="sb-icon">${room.id}</span>
-      ${room.name}
-      <span class="sb-dot ${avail ? 'open' : 'taken'}"></span>
-      <span class="sb-count">${fmtPrice(room.price)}</span>
-    `;
-    btnBox.appendChild(btn);
-  });
+  function renderSidebar() {
+    btnBox.innerHTML = '';
+    rooms.forEach(room => {
+      const avail = availableRooms.has(room.id);
+      const btn = document.createElement('button');
+      btn.className = 'sb-btn' + (avail ? '' : ' dim');
+      btn.dataset.room = room.id;
+      btn.onclick = () => showRoom(room.id);
+      btn.innerHTML = `
+        <span class="sb-icon">${room.id}</span>
+        ${room.name}
+        <span class="sb-dot ${avail ? 'open' : 'taken'}"></span>
+        <span class="sb-count">${fmtPrice(room.price)}</span>
+      `;
+      btnBox.appendChild(btn);
+    });
+  }
 
   // ─── Helpers ───
   function pp(folder, photo) { return encodeURI(folder + '/' + photo); }
@@ -1365,6 +1454,7 @@
           <span style="cursor:pointer;" onclick="showRoom(${r.id})">Room ${r.id} &mdash; ${r.name}</span>
           <span class="pill pill-price">${fmtPrice(r.price)}</span>
           <span class="pill pill-green">Available</span>
+          ${datePill(r)}
           ${pvt ? '<span class="pill pill-warm">Private Bath</span>' : '<span class="pill" style="background:#f0f0f0; color:#999;">Shared Bath</span>'}
           <span class="rs-count">${r.photos.length} photos</span></div>
           <p style="font-size:0.84rem; color:#7a7464; margin:-6px 0 12px; line-height:1.5;">${r.desc}</p>
@@ -1380,6 +1470,7 @@
           Room ${r.id} &mdash; ${r.name}
           <span class="pill pill-price">${fmtPrice(r.price)}</span>
           <span class="pill pill-red">Occupied</span>
+          ${datePill(r)}
           ${pvt ? '<span class="pill pill-warm">Private Bath</span>' : '<span class="pill" style="background:#f0f0f0; color:#999;">Shared Bath</span>'}
           <span class="rs-count">${r.photos.length} photos</span></div>
           <div class="photo-grid">${grid(r,r.id)}</div></div>`;
@@ -1403,6 +1494,7 @@
         <p class="pg-sub">
           <span class="pill pill-price">${fmtPrice(r.price)}</span>
           <span class="pill ${av?'pill-green':'pill-red'}">${av?'Available':'Occupied'}</span>
+          ${datePill(r)}
           ${r.id === 5 || r.id === 9 ? '<span class="pill pill-warm">Private Bathroom</span>' : ''}
           <span class="pill pill-warm">${r.photos.length} photo${r.photos.length!==1?'s':''}</span>
           ${r.desc}
@@ -2041,9 +2133,165 @@
   });
   function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
+  // ═══════════════════════════════════════════════════════════════
+  //  Admin panel — edit price / availability / move-in date, save to GitHub
+  // ═══════════════════════════════════════════════════════════════
+  const GH_REPO = 'fansofhenry/home';
+  const GH_PATH = 'data.json';
+  const GH_BRANCH = 'main';
+
+  function adminEnabled() {
+    return location.hash.toLowerCase() === '#admin' || /(\?|&)admin\b/i.test(location.search);
+  }
+
+  function renderAdminRooms() {
+    const box = document.getElementById('admin-rooms');
+    box.innerHTML = rooms.map(r => `
+      <div class="admin-room" data-room="${r.id}">
+        <div class="rname">${r.name}<span>Room ${r.id}</span></div>
+        <div>
+          <label>Price / mo</label>
+          <input type="number" class="ar-price" value="${r.price}" min="0" step="50">
+        </div>
+        <div>
+          <label>Available from</label>
+          <input type="date" class="ar-date" value="${r.availableFrom || ''}">
+        </div>
+        <label class="avail-toggle">
+          <input type="checkbox" class="ar-avail" ${availableRooms.has(r.id) ? 'checked' : ''}>
+          Available
+        </label>
+      </div>
+    `).join('');
+  }
+
+  function openAdmin() {
+    document.getElementById('admin-token-input').value = localStorage.getItem('gh_token') || '';
+    renderAdminRooms();
+    setStatus('');
+    document.getElementById('admin-overlay').classList.add('open');
+  }
+  function closeAdmin() {
+    document.getElementById('admin-overlay').classList.remove('open');
+  }
+  function setStatus(msg, kind) {
+    const el = document.getElementById('admin-status');
+    el.textContent = msg;
+    el.className = 'admin-status' + (kind ? ' ' + kind : '');
+  }
+
+  // Read the form into a data.json-shaped object.
+  function collectFromForm() {
+    const out = { version: 1, rooms: {} };
+    document.querySelectorAll('.admin-room').forEach(row => {
+      const id = row.dataset.room;
+      out.rooms[id] = {
+        price: Number(row.querySelector('.ar-price').value) || 0,
+        available: row.querySelector('.ar-avail').checked,
+        availableFrom: row.querySelector('.ar-date').value || ''
+      };
+    });
+    return out;
+  }
+
+  // UTF-8 safe base64 (GitHub Contents API wants base64).
+  function b64(str) { return btoa(unescape(encodeURIComponent(str))); }
+
+  async function adminSave() {
+    const token = document.getElementById('admin-token-input').value.trim();
+    if (!token) { setStatus('Paste your GitHub token first.', 'err'); return; }
+    localStorage.setItem('gh_token', token);
+
+    const data = collectFromForm();
+    const btn = document.getElementById('admin-save-btn');
+    btn.disabled = true;
+    setStatus('Saving to GitHub…');
+
+    const api = `https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}`;
+    const headers = { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' };
+    try {
+      // Look up the current file SHA (required to update an existing file).
+      let sha;
+      const getRes = await fetch(api + '?ref=' + GH_BRANCH, { headers, cache: 'no-store' });
+      if (getRes.ok) { sha = (await getRes.json()).sha; }
+      else if (getRes.status !== 404) { throw new Error('Read failed (' + getRes.status + '). Check the token has Contents access to this repo.'); }
+
+      const body = {
+        message: 'Update room prices/availability via admin panel',
+        content: b64(JSON.stringify(data, null, 2) + '\n'),
+        branch: GH_BRANCH
+      };
+      if (sha) body.sha = sha;
+
+      const putRes = await fetch(api, { method: 'PUT', headers, body: JSON.stringify(body) });
+      if (!putRes.ok) {
+        const t = await putRes.text();
+        throw new Error('Save failed (' + putRes.status + '). ' + (putRes.status === 401 || putRes.status === 403 ? 'Token is invalid or missing Contents: Read and write.' : t.slice(0, 140)));
+      }
+      // Reflect changes immediately for the admin; live site updates after Pages rebuilds (~1 min).
+      applyData(data);
+      renderSidebar();
+      showRoom(document.querySelector('.sb-btn.active')?.dataset.room || 'welcome');
+      setStatus('Saved. The public site updates in about a minute.', 'ok');
+    } catch (e) {
+      setStatus(e.message || 'Something went wrong.', 'err');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
   // ─── Init ───
-  showRoom('welcome');
+  async function init() {
+    try {
+      const res = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
+      if (res.ok) applyData(await res.json());
+    } catch (e) { /* fall back to baked-in defaults */ }
+    renderSidebar();
+    showRoom('welcome');
+    if (adminEnabled()) {
+      let fab = document.getElementById('admin-fab');
+      if (!fab) {
+        fab = document.createElement('button');
+        fab.id = 'admin-fab';
+        fab.textContent = '⚙ Edit rooms';
+        fab.onclick = openAdmin;
+        document.body.appendChild(fab);
+      }
+      openAdmin();
+    }
+  }
+  init();
 </script>
+
+<!-- ─── Admin panel (only shown when URL ends in #admin or ?admin) ─── -->
+<div id="admin-overlay">
+  <div class="admin-card">
+    <div class="admin-head">
+      <div>
+        <h2>Edit Rooms</h2>
+        <p>Change price, availability &amp; move-in dates, then Save to GitHub.</p>
+      </div>
+      <button class="admin-close" onclick="closeAdmin()" aria-label="Close">&times;</button>
+    </div>
+    <div class="admin-body">
+      <div class="admin-token">
+        <label for="admin-token-input">GitHub token (saved in this browser only)</label>
+        <input id="admin-token-input" type="password" placeholder="github_pat_..." autocomplete="off" spellcheck="false">
+        <small>
+          Create a <strong>fine-grained</strong> token at
+          <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a>:
+          set <em>Repository access</em> to <strong>only</strong> the <code>home</code> repo, and under
+          <em>Repository permissions</em> set <strong>Contents → Read and write</strong>. Nothing else.
+        </small>
+      </div>
+      <div id="admin-rooms"></div>
+    </div>
+    <div class="admin-foot">
+      <button id="admin-save-btn" class="admin-save" onclick="adminSave()">Save to GitHub</button>
+      <span id="admin-status" class="admin-status"></span>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
