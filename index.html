@@ -1239,6 +1239,24 @@
     return f ? `<span class="pill pill-date">Available from ${f}</span>` : '';
   }
 
+  // Build the "Rent runs from … to … most rooms are …" sentence from live prices,
+  // so the blurb stays correct after edits instead of hard-coding amounts.
+  function rentRangeSentence() {
+    const lo = rooms.reduce((a, b) => b.price < a.price ? b : a);
+    const hi = rooms.reduce((a, b) => b.price > a.price ? b : a);
+    // Most common price (mode).
+    const counts = {};
+    rooms.forEach(r => { counts[r.price] = (counts[r.price] || 0) + 1; });
+    let modePrice = lo.price, modeN = 0;
+    Object.keys(counts).forEach(p => { if (counts[p] > modeN) { modeN = counts[p]; modePrice = Number(p); } });
+    if (lo.price === hi.price) {
+      return `All rooms are <strong>${fmtPrice(lo.price)}</strong>.`;
+    }
+    let s = `Rent runs from <strong>${fmtPrice(lo.price)}</strong> (${lo.name}) to <strong>${fmtPrice(hi.price)}</strong> (${hi.name}).`;
+    if (modeN >= 2) s += ` Most rooms are <strong>${fmtPrice(modePrice)}</strong>.`;
+    return s;
+  }
+
   // Overlay editable values from data.json onto the rooms.
   function applyData(data) {
     if (!data || !data.rooms) return;
@@ -1436,8 +1454,7 @@
         </div>`;
       h += `<div class="callout warm" style="margin-bottom:18px;">
           <h4>Rent &amp; Utilities</h4>
-          <p>Rent runs from <strong>$1,200/mo</strong> (Small Room) to <strong>$1,700/mo</strong> (Master Bedroom with private bath).
-          Most rooms are <strong>$1,400/mo</strong>. Utilities are <strong>not included</strong> &mdash; they're split evenly
+          <p>${rentRangeSentence()} Utilities are <strong>not included</strong> &mdash; they're split evenly
           among everyone living here and average <strong>$60&ndash;110/mo per person</strong>, with winter months a bit higher
           since the home heats with central heat and there's not much AC use.</p>
         </div>`;
@@ -2174,6 +2191,15 @@
   function closeAdmin() {
     document.getElementById('admin-overlay').classList.remove('open');
   }
+  function forgetToken(e) {
+    if (e) e.preventDefault();
+    localStorage.removeItem('gh_token');
+    document.getElementById('admin-token-input').value = '';
+    setStatus('Saved token cleared from this browser.', 'ok');
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('admin-overlay').classList.contains('open')) closeAdmin();
+  });
   function setStatus(msg, kind) {
     const el = document.getElementById('admin-status');
     el.textContent = msg;
@@ -2282,6 +2308,7 @@
           <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a>:
           set <em>Repository access</em> to <strong>only</strong> the <code>home</code> repo, and under
           <em>Repository permissions</em> set <strong>Contents → Read and write</strong>. Nothing else.
+          &nbsp;<a href="#" onclick="forgetToken(event)">Forget saved token</a>
         </small>
       </div>
       <div id="admin-rooms"></div>
