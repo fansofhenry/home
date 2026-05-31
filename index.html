@@ -502,27 +502,25 @@
     .admin-token input { width: 100%; padding: 9px 11px; border: 1px solid #ddd6c8; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; }
     .admin-token small { display: block; font-size: 0.74rem; color: #b5ae9e; margin-top: 6px; line-height: 1.5; }
     .admin-token small a { color: #6b5224; }
-    .admin-room {
-      display: grid; grid-template-columns: 1.4fr 0.9fr 1fr auto; gap: 12px; align-items: end;
-      padding: 12px 0; border-bottom: 1px solid #f2efe8;
+    .admin-room { padding: 16px 0; border-bottom: 1px solid #f2efe8; }
+    .admin-room .ar-head { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #b5ae9e; margin-bottom: 9px; }
+    .admin-room input[type=text], .admin-room input[type=number], .admin-room input[type=date], .admin-room textarea {
+      width: 100%; padding: 8px 10px; border: 1px solid #ddd6c8; border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: #3d3929; background: #fff;
     }
-    .admin-room .rname { font-size: 0.92rem; font-weight: 600; color: #3d3929; padding-bottom: 9px; }
-    .admin-room .rname span { display: block; font-size: 0.72rem; font-weight: 400; color: #b5ae9e; }
-    .admin-room input[type=number], .admin-room input[type=date] {
-      width: 100%; padding: 8px 9px; border: 1px solid #ddd6c8; border-radius: 8px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
-    }
+    .admin-room textarea { resize: vertical; line-height: 1.5; }
+    .admin-room .ar-grid { display: grid; grid-template-columns: 130px 150px auto; gap: 14px; align-items: end; margin: 11px 0; }
     .admin-room .avail-toggle { display: flex; align-items: center; gap: 7px; padding-bottom: 8px; font-size: 0.85rem; color: #3d3929; white-space: nowrap; }
     .admin-room .avail-toggle input { width: 17px; height: 17px; accent-color: #3a7a3a; }
-    .admin-foot { padding: 16px 22px; border-top: 1px solid #ece8df; background: #fff; display: flex; align-items: center; gap: 14px; }
+    .admin-foot { padding: 16px 22px; border-top: 1px solid #ece8df; background: #fff; display: flex; align-items: center; gap: 12px; }
     .admin-save { background: #3a7a3a; color: #fff; border: none; cursor: pointer; padding: 11px 22px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; }
     .admin-save:disabled { opacity: 0.5; cursor: default; }
-    .admin-status { font-size: 0.84rem; color: #7a7464; }
+    .admin-discard { background: none; border: 1px solid #ddd6c8; color: #7a7464; cursor: pointer; padding: 10px 16px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.86rem; }
+    .admin-status { font-size: 0.84rem; color: #7a7464; margin-left: auto; text-align: right; }
     .admin-status.err { color: #b05050; }
     .admin-status.ok { color: #3a7a3a; }
     @media (max-width: 560px) {
-      .admin-room { grid-template-columns: 1fr 1fr; }
-      .admin-room .rname { grid-column: 1 / -1; }
+      .admin-room .ar-grid { grid-template-columns: 1fr 1fr; }
     }
 
     /* ─── Legend ─── */
@@ -620,6 +618,42 @@
     }
     .room-sec.dim .photo-grid { opacity: 0.3; transition: opacity 0.25s; }
     .room-sec.dim:hover .photo-grid { opacity: 0.6; }
+
+    /* Elevated room header (All Rooms) */
+    .room-sec-head { align-items: flex-start; }
+    .rsh-main { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+    .rsh-name { font-size: 1.04rem; font-weight: 600; color: #2c2a22; cursor: pointer; transition: color 0.15s; }
+    .rsh-name:hover { color: #5c4b28; }
+    .rsh-pills { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .rsh-side { margin-left: auto; text-align: right; padding-left: 14px; white-space: nowrap; }
+    .rsh-price { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 500; color: #5c4b28; line-height: 1; }
+    .rsh-price small { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 500; color: #b5ae9e; letter-spacing: 0.02em; }
+    .rsh-count { display: block; font-size: 0.7rem; color: #c4bfb2; margin-top: 5px; }
+
+    /* Status pill variants */
+    .pill-amber { background: #fbf2e0; color: #9a6b1e; }
+
+    /* Filter / sort bar */
+    .filterbar {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+      margin-bottom: 22px; padding: 11px 14px;
+      background: #fff; border: 1px solid #ece8df; border-radius: 12px;
+    }
+    .fb-label { font-size: 0.76rem; color: #9c9785; font-weight: 600; letter-spacing: 0.02em; }
+    .fb-seg { display: inline-flex; background: #f4f1ea; border-radius: 9px; padding: 3px; }
+    .fb-seg button {
+      border: none; background: transparent; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; color: #7a7464; padding: 6px 14px; border-radius: 7px; transition: all 0.15s;
+    }
+    .fb-seg button.on { background: #fff; color: #3d3929; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .fb-select {
+      border: 1px solid #ddd6c8; background: #fff; border-radius: 8px; padding: 7px 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: #3d3929; cursor: pointer;
+    }
+    .fb-result { margin-left: auto; font-size: 0.78rem; color: #b5ae9e; }
+    .updated-stamp { font-size: 0.74rem; color: #b5ae9e; margin: -14px 0 18px; }
+    .empty-note { text-align: center; padding: 34px; color: #9c9785; font-size: 0.9rem; }
+    .sb-dot.soon { background: #e0a93a; }
 
     /* ─── Welcome banner ─── */
     .welcome-banner {
@@ -1222,6 +1256,7 @@
   const availableRooms = new Set(DEFAULT_AVAIL);   // live set, rebuilt from data.json
   const TOTAL_ROOMS = rooms.length;
   let availCount = rooms.filter(r => availableRooms.has(r.id)).length;
+  let dataUpdated = '';   // "YYYY-MM" stamp written by the admin panel on save
   rooms.forEach(r => { if (r.availableFrom === undefined) r.availableFrom = ''; });
 
   // Format an ISO date (YYYY-MM-DD) as "Jun 15"; returns '' if blank/invalid.
@@ -1233,10 +1268,88 @@
     const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1];
     return mon + ' ' + d;
   }
-  // The optional "Available from <date>" pill, or '' if no date set.
-  function datePill(r) {
-    const f = fmtFrom(r.availableFrom);
-    return f ? `<span class="pill pill-date">Available from ${f}</span>` : '';
+  // Today as YYYY-MM-DD (ISO strings sort/compare lexically).
+  function todayISO() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  // Resolve a room into one of three renter-facing states using availability + date.
+  //   now      → available, no future date            (green "Available now")
+  //   soon     → available, dated in the future        (amber "Available <date>")
+  //   occupied → not available; if a future free-date is set, surface it
+  function roomStatus(r) {
+    const avail = availableRooms.has(r.id);
+    const from = r.availableFrom || '';
+    const future = from && fmtFrom(from) && from > todayISO();
+    if (avail && future)  return { kind: 'soon',     dot: 'soon',  cls: 'pill-amber', label: 'Available ' + fmtFrom(from) };
+    if (avail)            return { kind: 'now',      dot: 'open',  cls: 'pill-green', label: 'Available now' };
+    if (future)           return { kind: 'occupied', dot: 'taken', cls: 'pill-red',   label: 'Occupied · free ' + fmtFrom(from) };
+    return                       { kind: 'occupied', dot: 'taken', cls: 'pill-red',   label: 'Occupied' };
+  }
+  function statusPill(r) {
+    const s = roomStatus(r);
+    return `<span class="pill ${s.cls}">${s.label}</span>`;
+  }
+  // True when a renter should consider the room "gettable" (now or soon).
+  function isBookable(r) { const k = roomStatus(r).kind; return k === 'now' || k === 'soon'; }
+
+  // One room block on the All Rooms page (elevated price, status, photos).
+  function roomRow(r) {
+    const pvt = r.id === 5 || r.id === 9;
+    const bookable = isBookable(r);
+    const bath = pvt
+      ? '<span class="pill pill-warm">Private Bath</span>'
+      : '<span class="pill" style="background:#f0f0f0; color:#999;">Shared Bath</span>';
+    return `<div class="room-sec${bookable ? '' : ' dim'}">
+      <div class="room-sec-head">
+        <div class="rsh-main">
+          <span class="rsh-name" onclick="showRoom(${r.id})">Room ${r.id} &mdash; ${r.name}</span>
+          <div class="rsh-pills">${statusPill(r)} ${bath}</div>
+        </div>
+        <div class="rsh-side">
+          <div class="rsh-price">${'$' + r.price.toLocaleString()}<small>/mo</small></div>
+          <span class="rsh-count">${r.photos.length} photo${r.photos.length !== 1 ? 's' : ''}</span>
+        </div>
+      </div>
+      ${bookable ? `<p style="font-size:0.84rem; color:#7a7464; margin:-2px 0 12px; line-height:1.5;">${r.desc}</p>` : ''}
+      <div class="photo-grid">${grid(r, r.id)}</div>
+    </div>`;
+  }
+
+  // Filter/sort state for the All Rooms page.
+  const roomView = { availOnly: false, sort: 'default' };
+  function setRoomFilter(key, val) { roomView[key] = val; renderAllRoomsList(); }
+  function renderAllRoomsList() {
+    const box = document.getElementById('all-rooms-list');
+    if (!box) return;
+    let list = rooms.slice();
+    if (roomView.availOnly) list = list.filter(isBookable);
+    if (roomView.sort === 'price-asc')  list.sort((a, b) => a.price - b.price);
+    if (roomView.sort === 'price-desc') list.sort((a, b) => b.price - a.price);
+
+    const book = list.filter(isBookable);
+    const occ  = list.filter(r => !isBookable(r));
+    let html = '';
+    if (book.length) {
+      html += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available &mdash; Move In Ready</div>`;
+      html += book.map(roomRow).join('');
+      html += `<div style="text-align:center; margin:24px 0 32px;">
+        <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn-outline">Apply for a Room</a>
+      </div>`;
+    }
+    if (occ.length && !roomView.availOnly) {
+      html += `<div class="sec-head" style="color:#9c9785;border-color:#f0ede6;margin-top:16px;"><span class="si">&mdash;</span> Occupied Rooms</div>`;
+      html += occ.map(roomRow).join('');
+    }
+    if (!book.length && (roomView.availOnly || !occ.length)) {
+      html = `<div class="empty-note">No rooms match this filter right now. Try “All rooms,” or reach out &mdash; openings come up often.</div>`;
+    }
+    box.innerHTML = html;
+    const resEl = document.getElementById('fb-result');
+    if (resEl) resEl.textContent = roomView.availOnly
+      ? `${book.length} available`
+      : `${availCount} of ${TOTAL_ROOMS} available`;
   }
 
   // Build the "Rent runs from … to … most rooms are …" sentence from live prices,
@@ -1260,15 +1373,26 @@
   // Overlay editable values from data.json onto the rooms.
   function applyData(data) {
     if (!data || !data.rooms) return;
+    dataUpdated = data.updated || '';
     availableRooms.clear();
     rooms.forEach(r => {
       const d = data.rooms[String(r.id)];
       if (!d) { if (DEFAULT_AVAIL.has(r.id)) availableRooms.add(r.id); return; }
       if (typeof d.price === 'number') r.price = d.price;
+      if (d.name && d.name.trim()) r.name = d.name.trim();
+      if (d.desc && d.desc.trim()) r.desc = d.desc.trim();
       r.availableFrom = d.availableFrom || '';
       if (d.available) availableRooms.add(r.id);
     });
     availCount = rooms.filter(r => availableRooms.has(r.id)).length;
+  }
+  // "2026-05" → "May 2026" for the public "Updated …" stamp.
+  function fmtUpdated(ym) {
+    if (!ym) return '';
+    const p = String(ym).split('-').map(Number);
+    if (!p[0] || !p[1] || p[1] < 1 || p[1] > 12) return '';
+    const mon = ['January','February','March','April','May','June','July','August','September','October','November','December'][p[1]-1];
+    return mon + ' ' + p[0];
   }
 
   let lightboxPhotos = [], lightboxIndex = 0;
@@ -1278,15 +1402,15 @@
   function renderSidebar() {
     btnBox.innerHTML = '';
     rooms.forEach(room => {
-      const avail = availableRooms.has(room.id);
+      const st = roomStatus(room);
       const btn = document.createElement('button');
-      btn.className = 'sb-btn' + (avail ? '' : ' dim');
+      btn.className = 'sb-btn' + (st.kind === 'occupied' ? ' dim' : '');
       btn.dataset.room = room.id;
       btn.onclick = () => showRoom(room.id);
       btn.innerHTML = `
         <span class="sb-icon">${room.id}</span>
         ${room.name}
-        <span class="sb-dot ${avail ? 'open' : 'taken'}"></span>
+        <span class="sb-dot ${st.dot}"></span>
         <span class="sb-count">${fmtPrice(room.price)}</span>
       `;
       btnBox.appendChild(btn);
@@ -1442,57 +1566,39 @@
     }
 
     else if (id === 'all') {
-      const av = rooms.filter(r => availableRooms.has(r.id));
-      const oc = rooms.filter(r => !availableRooms.has(r.id));
+      const stamp = fmtUpdated(dataUpdated);
       h = `<div class="fade-in">
         <h2 class="pg-title">Find Your Room</h2>
         <p class="pg-sub">Each room has its own character and view. Take a look and see which one feels right for you.</p>
-        <div class="legend">
-          <div class="legend-item"><span class="legend-dot g"></span> Available &mdash; ready for you</div>
-          <div class="legend-item"><span class="legend-dot r"></span> Occupied</div>
-          <span class="lg-count">${availCount} of ${TOTAL_ROOMS} available</span>
-        </div>`;
-      h += `<div class="callout warm" style="margin-bottom:18px;">
+        ${stamp ? `<p class="updated-stamp">Prices &amp; availability updated ${stamp}</p>` : ''}
+        <div class="callout warm" style="margin-bottom:18px;">
           <h4>Rent &amp; Utilities</h4>
           <p>${rentRangeSentence()} Utilities are <strong>not included</strong> &mdash; they're split evenly
           among everyone living here and average <strong>$60&ndash;110/mo per person</strong>, with winter months a bit higher
           since the home heats with central heat and there's not much AC use.</p>
-        </div>`;
-      h += `<div class="callout sage" style="margin-bottom:24px;">
+        </div>
+        <div class="callout sage" style="margin-bottom:24px;">
           <h4>Bathroom Situation</h4>
           <p>The <strong>Master Bedroom</strong> and <strong>Tiny Studio</strong> each have their own private bathroom.
           The remaining rooms share two full bathrooms. At full occupancy that's 7 people across 2 bathrooms,
           but the house isn't always at capacity &mdash; in practice the ratio is often much more comfortable.</p>
-        </div>`;
-      h += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available &mdash; Move In Ready</div>`;
-      av.forEach(r => {
-        const pvt = r.id === 5 || r.id === 9;
-        h += `<div class="room-sec"><div class="room-sec-head">
-          <span style="cursor:pointer;" onclick="showRoom(${r.id})">Room ${r.id} &mdash; ${r.name}</span>
-          <span class="pill pill-price">${fmtPrice(r.price)}</span>
-          <span class="pill pill-green">Available</span>
-          ${datePill(r)}
-          ${pvt ? '<span class="pill pill-warm">Private Bath</span>' : '<span class="pill" style="background:#f0f0f0; color:#999;">Shared Bath</span>'}
-          <span class="rs-count">${r.photos.length} photos</span></div>
-          <p style="font-size:0.84rem; color:#7a7464; margin:-6px 0 12px; line-height:1.5;">${r.desc}</p>
-          <div class="photo-grid">${grid(r,r.id)}</div></div>`;
-      });
-      h += `<div style="text-align:center; margin:24px 0 32px;">
-        <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn-outline">Apply for a Room</a>
+        </div>
+        <div class="filterbar">
+          <span class="fb-label">Show</span>
+          <div class="fb-seg" id="fb-avail">
+            <button data-v="all">All rooms</button>
+            <button data-v="avail">Available only</button>
+          </div>
+          <span class="fb-label" style="margin-left:6px;">Sort</span>
+          <select class="fb-select" id="fb-sort">
+            <option value="default">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+          </select>
+          <span class="fb-result" id="fb-result"></span>
+        </div>
+        <div id="all-rooms-list"></div>
       </div>`;
-      h += `<div class="sec-head" style="color:#9c9785;border-color:#f0ede6;margin-top:16px;"><span class="si">&mdash;</span> Occupied Rooms</div>`;
-      oc.forEach(r => {
-        const pvt = r.id === 5 || r.id === 9;
-        h += `<div class="room-sec dim"><div class="room-sec-head">
-          Room ${r.id} &mdash; ${r.name}
-          <span class="pill pill-price">${fmtPrice(r.price)}</span>
-          <span class="pill pill-red">Occupied</span>
-          ${datePill(r)}
-          ${pvt ? '<span class="pill pill-warm">Private Bath</span>' : '<span class="pill" style="background:#f0f0f0; color:#999;">Shared Bath</span>'}
-          <span class="rs-count">${r.photos.length} photos</span></div>
-          <div class="photo-grid">${grid(r,r.id)}</div></div>`;
-      });
-      h += '</div>';
     }
 
     else if (id === 'guide') { h = buildGuide(); }
@@ -1508,14 +1614,15 @@
             onmouseover="this.style.color='#5c4b28'" onmouseout="this.style.color='#9c9785'">&larr; All rooms</span>
         </p>
         <h2 class="pg-title">Room ${r.id} &mdash; ${r.name}</h2>
-        <p class="pg-sub">
-          <span class="pill pill-price">${fmtPrice(r.price)}</span>
-          <span class="pill ${av?'pill-green':'pill-red'}">${av?'Available':'Occupied'}</span>
-          ${datePill(r)}
-          ${r.id === 5 || r.id === 9 ? '<span class="pill pill-warm">Private Bathroom</span>' : ''}
-          <span class="pill pill-warm">${r.photos.length} photo${r.photos.length!==1?'s':''}</span>
-          ${r.desc}
-        </p>
+        <div style="display:flex; align-items:baseline; flex-wrap:wrap; gap:10px 14px; margin:-6px 0 14px;">
+          <span style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:500; color:#5c4b28; line-height:1;">$${r.price.toLocaleString()}<span style="font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:500; color:#b5ae9e;">/mo</span></span>
+          <span style="display:flex; flex-wrap:wrap; gap:6px;">
+            ${statusPill(r)}
+            ${r.id === 5 || r.id === 9 ? '<span class="pill pill-warm">Private Bathroom</span>' : ''}
+            <span class="pill pill-warm">${r.photos.length} photo${r.photos.length!==1?'s':''}</span>
+          </span>
+        </div>
+        <p class="pg-sub" style="margin-bottom:10px;">${r.desc}</p>
         <p style="font-size:0.78rem; color:#9c9785; margin:-12px 0 16px;">+ utilities (split evenly among housemates, ~$60–110/mo, higher in winter for heating)</p>
         ${(r.id !== 5 && r.id !== 9 && av) ? '<p style="font-size:0.82rem; color:#7a7464; margin:-16px 0 16px;">This room shares two full bathrooms with the other non-suite rooms.</p>' : ''}
         ${av ? `<div class="callout sage" style="margin-bottom:20px;">
@@ -1534,6 +1641,24 @@
     }
 
     m.innerHTML = h;
+
+    // Wire up the All Rooms filter/sort controls and paint the list.
+    if (id === 'all') {
+      const seg = document.getElementById('fb-avail');
+      seg.querySelectorAll('button').forEach(b => {
+        b.classList.toggle('on', (b.dataset.v === 'avail') === roomView.availOnly);
+        b.onclick = () => {
+          seg.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+          b.classList.add('on');
+          setRoomFilter('availOnly', b.dataset.v === 'avail');
+        };
+      });
+      const sortSel = document.getElementById('fb-sort');
+      sortSel.value = roomView.sort;
+      sortSel.onchange = () => setRoomFilter('sort', sortSel.value);
+      renderAllRoomsList();
+    }
+
     m.scrollTo({ top: 0, behavior: 'instant' });
     window.scrollTo({ top: 0, behavior: 'instant' });
     document.getElementById('sidebar').classList.remove('open');
@@ -2161,25 +2286,38 @@
     return location.hash.toLowerCase() === '#admin' || /(\?|&)admin\b/i.test(location.search);
   }
 
+  function escAttr(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+  function escHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
   function renderAdminRooms() {
     const box = document.getElementById('admin-rooms');
     box.innerHTML = rooms.map(r => `
       <div class="admin-room" data-room="${r.id}">
-        <div class="rname">${r.name}<span>Room ${r.id}</span></div>
-        <div>
-          <label>Price / mo</label>
-          <input type="number" class="ar-price" value="${r.price}" min="0" step="50">
+        <div class="ar-head">Room ${r.id}</div>
+        <label>Room name</label>
+        <input type="text" class="ar-name" value="${escAttr(r.name)}">
+        <div class="ar-grid">
+          <div>
+            <label>Price / mo</label>
+            <input type="number" class="ar-price" value="${r.price}" min="0" step="50">
+          </div>
+          <div>
+            <label>Available from</label>
+            <input type="date" class="ar-date" value="${r.availableFrom || ''}">
+          </div>
+          <label class="avail-toggle">
+            <input type="checkbox" class="ar-avail" ${availableRooms.has(r.id) ? 'checked' : ''}>
+            Available
+          </label>
         </div>
-        <div>
-          <label>Available from</label>
-          <input type="date" class="ar-date" value="${r.availableFrom || ''}">
-        </div>
-        <label class="avail-toggle">
-          <input type="checkbox" class="ar-avail" ${availableRooms.has(r.id) ? 'checked' : ''}>
-          Available
-        </label>
+        <label>Description</label>
+        <textarea class="ar-desc" rows="2">${escHtml(r.desc)}</textarea>
       </div>
     `).join('');
+  }
+  function adminDiscard() {
+    renderAdminRooms();
+    setStatus('Reverted to the last loaded values.', 'ok');
   }
 
   function openAdmin() {
@@ -2208,13 +2346,17 @@
 
   // Read the form into a data.json-shaped object.
   function collectFromForm() {
-    const out = { version: 1, rooms: {} };
+    const now = new Date();
+    const updated = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    const out = { version: 1, updated, rooms: {} };
     document.querySelectorAll('.admin-room').forEach(row => {
       const id = row.dataset.room;
       out.rooms[id] = {
+        name: row.querySelector('.ar-name').value.trim(),
         price: Number(row.querySelector('.ar-price').value) || 0,
         available: row.querySelector('.ar-avail').checked,
-        availableFrom: row.querySelector('.ar-date').value || ''
+        availableFrom: row.querySelector('.ar-date').value || '',
+        desc: row.querySelector('.ar-desc').value.trim()
       };
     });
     return out;
@@ -2315,6 +2457,7 @@
     </div>
     <div class="admin-foot">
       <button id="admin-save-btn" class="admin-save" onclick="adminSave()">Save to GitHub</button>
+      <button class="admin-discard" onclick="adminDiscard()">Discard</button>
       <span id="admin-status" class="admin-status"></span>
     </div>
   </div>
