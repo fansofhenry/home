@@ -20,35 +20,35 @@
       "name": "Small Room",
       "price": 1200,
       "available": true,
-      "availableFrom": "2026-08-01",
+      "availableFrom": "",
       "desc": "Compact and comfortable bedroom"
     },
     "4": {
       "name": "Pool View Room",
       "price": 1400,
       "available": true,
-      "availableFrom": "2026-08-01",
+      "availableFrom": "",
       "desc": "Overlooking the swimming pool"
     },
     "5": {
       "name": "Master Bedroom",
       "price": 1700,
       "available": true,
-      "availableFrom": "2026-08-01",
+      "availableFrom": "",
       "desc": "Spacious suite with private en-suite bathroom and pool view"
     },
     "6": {
       "name": "Sun Shade Room",
       "price": 1400,
       "available": true,
-      "availableFrom": "2026-08-01",
+      "availableFrom": "",
       "desc": "Window facing the outdoor sun shade"
     },
     "7": {
       "name": "Front Yard Room",
       "price": 1400,
       "available": true,
-      "availableFrom": "2026-08-01",
+      "availableFrom": "",
       "desc": "Panoramic window to the front yard"
     },
     "8": {
@@ -62,7 +62,7 @@
       "name": "Tiny Studio",
       "price": 1600,
       "available": true,
-      "availableFrom": "2026-08-01",
+      "availableFrom": "",
       "desc": "Compact studio with private bathroom — ideal for a single occupant"
     }
   }
