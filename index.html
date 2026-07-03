@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>26363 Esperanza Dr — Los Altos Hills</title>
+  <title>26363 Esperanza Dr, Los Altos Hills</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <style>
@@ -1237,7 +1237,7 @@
       photos:["2 Small Room Bed.JPG","Small Room's bedroom 1 (dup) (1).JPG","Small Room's bedroom 3 (1).JPG"] },
     { id:4, folder:"4_RoomwPoolView", name:"Pool View Room", price:1400, desc:"Overlooking the swimming pool",
       photos:["IMG_1334.JPG","IMG_1335.JPG","IMG_4878.JPG","IMG_4881.JPG"] },
-    { id:5, folder:"5_Masterbedroom", name:"Master Bedroom", price:1700, desc:"Spacious suite with private en-suite bathroom and pool view",
+    { id:5, folder:"5_Masterbedroom", name:"Master Bedroom", price:1800, desc:"Spacious suite with private en-suite bathroom and pool view",
       photos:["MasterBedroom_1.JPG","MasterBedroom_2.JPG","MasterBedroom_bathroom2.JPG","MasterBedroom_bathroom4.JPG","MasterBedroom_poolview6.JPG"] },
     { id:6, folder:"6_RoomWindowOutdoorSunShade", name:"Sun Shade Room", price:1400, desc:"Window facing the outdoor sun shade",
       photos:["Room6_foto1.JPG","Room6_foto2.JPG","Room6_foto3.JPG","Room6_foto4.JPG","Room6_foto5.JPG"] },
@@ -1245,7 +1245,7 @@
       photos:["PanoFromEntrance (1).JPG","PanoFromInsideRoom (2).JPG"] },
     { id:8, folder:"8_GarageRoom", name:"Garage Room", price:1500, desc:"Converted room with private patio access",
       photos:["GarageRoomPatio_5.JPG","GarageRoomViewintoRoom_1.JPG","GarageRoom_Bed_5.JPG","GarageroomViewfromBed_2.JPG","IMG_5634 (1).JPG","IMG_5945.JPG","OutsideView (1).JPG"] },
-    { id:9, folder:"9_TinyStudio", name:"Tiny Studio", price:1600, desc:"Compact studio with private bathroom — ideal for a single occupant",
+    { id:9, folder:"9_TinyStudio", name:"Tiny Studio", price:1600, desc:"Compact studio with private bathroom, ideal for a single occupant",
       photos:["TinyStudio_Wide4.JPG","TinyStudio_Wide5.JPG","Tinystudio_Wide1.JPG","Tinystudio_Wide2.JPG"] }
   ];
 
@@ -1304,7 +1304,7 @@
     return `<div class="room-sec${bookable ? '' : ' dim'}">
       <div class="room-sec-head">
         <div class="rsh-main">
-          <span class="rsh-name" onclick="showRoom(${r.id})">Room ${r.id} &mdash; ${r.name}</span>
+          <span class="rsh-name" onclick="showRoom(${r.id})">Room ${r.id}: ${r.name}</span>
           <div class="rsh-pills">${statusPill(r)} ${bath}</div>
         </div>
         <div class="rsh-side">
@@ -1332,18 +1332,18 @@
     const occ  = list.filter(r => !isBookable(r));
     let html = '';
     if (book.length) {
-      html += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available &mdash; Move In Ready</div>`;
+      html += `<div class="sec-head" style="color:#3a7a3a;border-color:#dce8d8;"><span class="si">&#10003;</span> Available &middot; Move In Ready</div>`;
       html += book.map(roomRow).join('');
       html += `<div style="text-align:center; margin:24px 0 32px;">
         <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn-outline">Apply for a Room</a>
       </div>`;
     }
     if (occ.length && !roomView.availOnly) {
-      html += `<div class="sec-head" style="color:#9c9785;border-color:#f0ede6;margin-top:16px;"><span class="si">&mdash;</span> Occupied Rooms</div>`;
+      html += `<div class="sec-head" style="color:#9c9785;border-color:#f0ede6;margin-top:16px;"><span class="si">&middot;</span> Occupied Rooms</div>`;
       html += occ.map(roomRow).join('');
     }
     if (!book.length && (roomView.availOnly || !occ.length)) {
-      html = `<div class="empty-note">No rooms match this filter right now. Try “All rooms,” or reach out &mdash; openings come up often.</div>`;
+      html = `<div class="empty-note">No rooms match this filter right now. Try “All rooms,” or reach out. Openings come up often.</div>`;
     }
     box.innerHTML = html;
     const resEl = document.getElementById('fb-result');
@@ -1605,7 +1605,7 @@
           <span onclick="showRoom('all')" style="cursor:pointer; font-size:0.82rem; color:#9c9785; transition:color 0.15s;"
             onmouseover="this.style.color='#5c4b28'" onmouseout="this.style.color='#9c9785'">&larr; All rooms</span>
         </p>
-        <h2 class="pg-title">Room ${r.id} &mdash; ${r.name}</h2>
+        <h2 class="pg-title">Room ${r.id}: ${r.name}</h2>
         <div style="display:flex; align-items:baseline; flex-wrap:wrap; gap:10px 14px; margin:-6px 0 14px;">
           <span style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:500; color:#5c4b28; line-height:1;">$${r.price.toLocaleString()}<span style="font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:500; color:#b5ae9e;">/mo</span></span>
           <span style="display:flex; flex-wrap:wrap; gap:6px;">
@@ -1690,7 +1690,7 @@
           <div class="item-card">
             <div class="ic-head"><span class="ic-icon">&#128690;</span><h4>Bike Safety Gear</h4></div>
             <p>If you bike, please bring a bike lock, front &amp; rear lights (non-negotiable after sunset), and reflective or high-visibility gear. Bike lights are one of the best ~$50 investments you'll make here.</p>
-            <div class="ic-tip">Cardinal Bike Shop, Summit Bicycles, and Mike's Bikes all have great bikes on sale. Buy from them over Walmart &mdash; they can help repair &amp; maintain your bike too.</div>
+            <div class="ic-tip">Cardinal Bike Shop, Summit Bicycles, and Mike's Bikes all have great bikes on sale. Buy from them over Walmart. They can help repair &amp; maintain your bike too.</div>
           </div>
           <div class="item-card">
             <div class="ic-head"><span class="ic-icon">&#129507;</span><h4>Layers &amp; Warm Clothing</h4></div>
@@ -1702,12 +1702,12 @@
           </div>
           <div class="item-card">
             <div class="ic-head"><span class="ic-icon">&#129406;</span><h4>Indoor &amp; Outdoor Slippers</h4></div>
-            <p>Shoes never touch indoor floors &mdash; especially carpet. Your slippers are tiny heroes that keep rooms clean and help maximize your security deposit return.</p>
+            <p>Shoes never touch indoor floors, especially carpet. Your slippers are tiny heroes that keep rooms clean and help maximize your security deposit return.</p>
             <div class="ic-tip">Deep-cleaning carpet takes multiple multi-hour sessions per bedroom (not including steam-cleaner rental). Slippers save everyone time and money.</div>
           </div>
           <div class="item-card">
             <div class="ic-head"><span class="ic-icon">&#128703;</span><h4>Towels</h4></div>
-            <p>Please bring your own bath and hand towels &mdash; consider them part of your personal comfort kit.</p>
+            <p>Please bring your own bath and hand towels. Consider them part of your comfort kit.</p>
           </div>
           <div class="item-card">
             <div class="ic-head"><span class="ic-icon">&#128167;</span><h4>Reusable Water Bottle</h4></div>
@@ -1758,13 +1758,13 @@
         <h3 class="guide-section-title" id="guide-nature">Parks, Nature &amp; Outdoor Living</h3>
         <div class="callout sage">
           <h4>Morning &amp; Sunset Tip</h4>
-          <p>Morning and sunset walks in Los Altos Hills are magical. The light through the oaks, the quiet trails, the occasional deer sighting &mdash; it's the kind of thing you'll remember long after you leave.</p>
+          <p>Morning and sunset walks in Los Altos Hills are magical. The light through the oaks, the quiet trails, the occasional deer sighting. It's the kind of thing you'll remember long after you leave.</p>
         </div>
         <div class="place-grid">
           <div class="place-card">
             <span class="pc-icon">&#127794;</span><h3>Shoup Park</h3>
             <span class="pc-dist">Nearby</span>
-            <p>One of the most beloved local parks. Redwood trees, creek-side benches &mdash; perfect for reading, journaling, or light walks.</p>
+            <p>One of the most beloved local parks. Redwood trees, creek-side benches. Perfect for reading, journaling, or light walks.</p>
           </div>
           <div class="place-card">
             <span class="pc-icon">&#127758;</span><h3>Rancho San Antonio Preserve</h3>
@@ -1903,7 +1903,7 @@
             <h4><span class="rc-icon">&#127859;</span> Kitchen</h4>
             <ul>
               <li>Do not pour grease or oil down the sink</li>
-              <li>Just because food can go down the disposal doesn't mean it should &mdash; bones, potato peels, corn husks, fruit pits, and coffee grounds go in the trash</li>
+              <li>Just because food can go down the disposal doesn't mean it should: bones, potato peels, corn husks, fruit pits, and coffee grounds go in the trash</li>
               <li>Clean up spills immediately to prevent stains</li>
               <li>Remove leftovers from the fridge after 1 week</li>
               <li>Do not overload trash or recycling bins</li>
@@ -1911,7 +1911,7 @@
           </div>
           <div class="rule-card">
             <h4><span class="rc-icon">&#128704;</span> Bathroom</h4>
-            <p style="font-size:0.82rem; color:#5c5647; margin-bottom:10px;">The Master Bedroom and Tiny Studio each have a private bath. The other rooms share two full bathrooms &mdash; at max capacity that's 7 people between them, though in practice the house is often below capacity.</p>
+            <p style="font-size:0.82rem; color:#5c5647; margin-bottom:10px;">The Master Bedroom and Tiny Studio each have a private bath. The other rooms share two full bathrooms. At max capacity that's 7 people between them, though in practice the house is often below capacity.</p>
             <ul>
               <li>Only flush toilet paper</li>
               <li>Do not pour oils, grease, or coffee grounds down the sink</li>
@@ -1923,7 +1923,7 @@
             <h4><span class="rc-icon">&#128087;</span> Laundry</h4>
             <ul>
               <li>Clean the lint trap after each dryer use</li>
-              <li>Do not overload the washer with clothes or detergent &mdash; it damages the machine</li>
+              <li>Do not overload the washer with clothes or detergent. It damages the machine</li>
               <li>Buy your own detergent and dryer sheets</li>
             </ul>
           </div>
@@ -1940,7 +1940,7 @@
             <h4><span class="rc-icon">&#128704;</span> Trash &amp; Recycling</h4>
             <ul>
               <li>Green bins: yard waste only (no compost program)</li>
-              <li>Recycling must be clean and free of food residue &mdash; dirty items go in trash</li>
+              <li>Recycling must be clean and free of food residue. Dirty items go in trash</li>
               <li>Contaminated recycling can result in the entire bin not being collected</li>
             </ul>
             <div class="rc-note">Pickup is Friday morning. I handle rolling bins to the curb Thursday evening or Friday early morning. Just use the garage bins.</div>
@@ -1949,7 +1949,7 @@
             <h4><span class="rc-icon">&#129414;</span> Wildlife</h4>
             <ul>
               <li>You may see lizards, squirrels, deer, wild turkeys, raccoons, possums, owls, or the occasional coyote</li>
-              <li>Common at dawn and dusk &mdash; they're part of life here</li>
+              <li>Common at dawn and dusk. They're part of life here</li>
             </ul>
           </div>
         </div>
@@ -1968,7 +1968,7 @@
               <span class="energy-time">7:00 AM &ndash; 9:30 AM</span>
               <span class="energy-time">6:45 PM &ndash; 10:30 PM</span>
             </div>
-            <p style="font-size:0.82rem; color:#5c5647; margin-top:8px;">Outside these hours, warm layers and cozy socks make a big difference. If you feel cold, please reach out to me first &mdash; I can provide an approved heater and review safe usage.</p>
+            <p style="font-size:0.82rem; color:#5c5647; margin-top:8px;">Outside these hours, warm layers and cozy socks make a big difference. If you feel cold, please reach out to me first. I can provide an approved heater and review safe usage.</p>
             <div class="rc-note">If a space heater is needed: plug directly into a wall outlet, never leave unattended or running while sleeping, and keep clear of bedding, curtains, and furniture.</div>
           </div>
           <div class="rule-card">
@@ -2091,10 +2091,10 @@
         </div>
       </div>
 
-      <div class="sec-head"><span class="si">&#9749;</span> Downtown Los Altos &mdash; Just 1 Mile Away</div>
+      <div class="sec-head"><span class="si">&#9749;</span> Downtown Los Altos &middot; Just 1 Mile Away</div>
       <div class="callout sage">
         <h4>Thursday Farmers' Market</h4>
-        <p>Every Thursday evening, May through September, on State Street. Fresh produce, artisan goods, live music, and real community spirit &mdash; all walkable from the property.</p>
+        <p>Every Thursday evening, May through September, on State Street. Fresh produce, artisan goods, live music, and real community spirit, all walkable from the property.</p>
       </div>
       <div class="shop-grid">
         <div class="shop-chip"><span class="sc-icon">&#127790;</span><div class="sc-name">Safeway</div><div class="sc-type">Grocery</div></div>
@@ -2128,7 +2128,7 @@
         <div class="host-top">
           <div class="host-avatar">&#9733;</div>
           <div class="host-info">
-            <h3>Henry &mdash; Seasoned Host &amp; Resident Advisor</h3>
+            <h3>Henry &middot; Seasoned Host &amp; Resident Advisor</h3>
             <p>26363 Esperanza Dr, Los Altos Hills, California</p>
             <div class="host-badges">
               <span class="host-badge">&#9733; Experienced Host</span>
@@ -2165,7 +2165,7 @@
             <span class="hl-icon">&#128075;</span>
             <div>
               <h4>I'm Right Here</h4>
-              <p>Something come up? You won't be texting a landlord who takes three days to reply. I live here &mdash; just knock.</p>
+              <p>Something come up? You won't be texting a landlord who takes three days to reply. I live here, just knock.</p>
             </div>
           </div>
           <div class="host-hl">
@@ -2179,7 +2179,7 @@
             <span class="hl-icon">&#128161;</span>
             <div>
               <h4>Your Local Guide</h4>
-              <p>Best trails, hidden restaurants, commute shortcuts, weekend plans &mdash; ask me anything. I love sharing this area.</p>
+              <p>Best trails, hidden restaurants, commute shortcuts, weekend plans, ask me anything. I love sharing this area.</p>
             </div>
           </div>
           <div class="host-hl">
@@ -2193,7 +2193,7 @@
             <span class="hl-icon">&#127946;</span>
             <div>
               <h4>A Home, Not a Rental</h4>
-              <p>Pool, patio, full kitchen, BBQ &mdash; this is a place to actually live, not just sleep. Use it. Enjoy it.</p>
+              <p>Pool, patio, full kitchen, BBQ. This is a place to actually live, not just sleep. Use it. Enjoy it.</p>
             </div>
           </div>
           <div class="host-hl">
@@ -2208,7 +2208,7 @@
 
       <div class="callout warm">
         <h4>What past housemates have said</h4>
-        <p>"Moving across the country for an internship was stressful, but Henry made the transition so much easier. He had everything ready and even drove me around the neighborhood on my first day. It genuinely felt like home." &mdash; Former intern housemate</p>
+        <p>"Moving across the country for an internship was stressful, but Henry made the transition so much easier. He had everything ready and even drove me around the neighborhood on my first day. It genuinely felt like home."<br><span style="color:#8a7245;">Former intern housemate</span></p>
       </div>
 
       <div class="callout sage">
@@ -2222,7 +2222,7 @@
   // ─── Lightbox ───
   function openLightbox(rid, idx) {
     const d = rid === 0 ? homePhotos : rooms.find(r => r.id === rid);
-    lightboxPhotos = d.photos.map(p => ({ src: pp(d.folder,p), caption: `${d.name} \u2014 ${cn(p)}` }));
+    lightboxPhotos = d.photos.map(p => ({ src: pp(d.folder,p), caption: `${d.name} \u00b7 ${cn(p)}` }));
     lightboxIndex = idx;
     updateLightbox();
     document.getElementById('lightbox').classList.add('open');
@@ -2254,7 +2254,7 @@
   function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
   // ═══════════════════════════════════════════════════════════════
-  //  Admin panel — edit price / availability / move-in date, save to GitHub
+  //  Admin panel: edit price / availability / move-in date, save to GitHub
   // ═══════════════════════════════════════════════════════════════
   const GH_REPO = 'fansofhenry/home';
   const GH_PATH = 'data.json';
