@@ -1,19 +1,19 @@
 {
   "version": 1,
-  "updated": "2026-05",
+  "updated": "2026-07",
   "rooms": {
     "1": {
       "name": "Patio View Room",
       "price": 1400,
       "available": false,
-      "availableFrom": "2026-08-01",
+      "availableFrom": "",
       "desc": "Direct view of the patio and backyard"
     },
     "2": {
       "name": "Flower Tree Room",
       "price": 1400,
-      "available": false,
-      "availableFrom": "2026-08-01",
+      "available": true,
+      "availableFrom": "2026-12-01",
       "desc": "Cozy room with a flowering tree view"
     },
     "3": {
@@ -55,7 +55,7 @@
       "name": "Garage Room",
       "price": 1500,
       "available": false,
-      "availableFrom": "2026-08-01",
+      "availableFrom": "",
       "desc": "Converted room with private patio access"
     },
     "9": {
@@ -63,7 +63,7 @@
       "price": 1600,
       "available": true,
       "availableFrom": "",
-      "desc": "Compact studio with private bathroom — ideal for a single occupant"
+      "desc": "Compact studio with private bathroom, ideal for a single occupant"
     }
   }
 }

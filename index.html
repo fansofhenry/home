@@ -1138,7 +1138,7 @@
   <div class="header-pills">
     <div class="header-pill green">
       <div class="dot"></div>
-      6 rooms available
+      7 rooms available
     </div>
     <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn">Apply Now</a>
   </div>
@@ -1252,7 +1252,7 @@
   const fmtPrice = p => '$' + p.toLocaleString() + '/mo';
 
   // Defaults (used if data.json is missing or fails to load).
-  const DEFAULT_AVAIL = new Set([3, 4, 5, 6, 7, 9]);
+  const DEFAULT_AVAIL = new Set([2, 3, 4, 5, 6, 7, 9]);
   const availableRooms = new Set(DEFAULT_AVAIL);   // live set, rebuilt from data.json
   const TOTAL_ROOMS = rooms.length;
   let availCount = rooms.filter(r => availableRooms.has(r.id)).length;
@@ -1461,8 +1461,8 @@
           <div class="hero" onclick="showRoom('home')">
             <img src="${pp(homePhotos.folder, homePhotos.photos[0])}" alt="Front of home">
             <div class="hero-overlay">
-              <h2>Your New Home on Esperanza Dr</h2>
-              <p>Imagine morning coffee by the pool, sunset walks through oak-covered trails, and a host who has your back from day one.</p>
+              <h2>Your next home in the hills</h2>
+              <p>Pool out back, trails out front, and a live-in host who has your back from day one.</p>
               <div class="hero-pills">
                 <span class="hero-pill">Los Altos Hills, CA</span>
                 <span class="hero-pill">${availCount} rooms available</span>
@@ -1482,12 +1482,10 @@
         <div class="scroll-hint"><span>&#9660; scroll to explore</span></div>
 
         <div class="welcome-banner" style="text-align:center; margin-bottom:24px;">
-          <h3 style="font-style:italic; font-size:1.3rem;">This is the place you'll be glad you found</h3>
+          <h3 style="font-style:italic; font-size:1.3rem;">New city, new internship? This part's handled.</h3>
           <p style="max-width:640px; margin:10px auto 0;">
-            Moving somewhere new &mdash; especially for an internship or a fresh start &mdash; can feel uncertain.
-            At 26363 Esperanza Dr, you'll have a real home: a beautiful property surrounded by nature,
-            shared spaces that actually feel welcoming, and a host who's helped dozens of people
-            settle into Silicon Valley life. You won't just have a room. You'll have someone in your corner.</p>
+            A real home surrounded by nature, shared spaces that actually feel welcoming, and a host
+            who's helped dozens of interns settle into Silicon Valley. You get a room and someone in your corner.</p>
         </div>
 
         <div class="amenity-row" style="justify-content:center;">
@@ -1504,17 +1502,13 @@
 
         <div style="text-align:center; margin-bottom:28px;">
           <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn" style="padding:13px 32px; font-size:0.92rem;">Apply for Housing</a>
-          <p style="font-size:0.76rem; color:#b5ae9e; margin-top:8px;">Takes just a few minutes &mdash; no commitment</p>
+          <p style="font-size:0.76rem; color:#b5ae9e; margin-top:8px;">Takes 2 minutes, no commitment.</p>
         </div>
 
         <div class="callout sage" style="margin-bottom:28px;">
-          <h4>A day in the life on Esperanza Dr</h4>
-          <p>You wake up to birdsong and oak-filtered sunlight. Grab coffee in the kitchen
-          and eat on the patio before heading to work. After your day, you swim a few laps or
-          read by the pool. In the evening, you bike to downtown Los Altos for dinner or
-          walk the trails at golden hour while deer graze on the hillside. Back home,
-          you chat with a fellow housemate before settling into your room. It's quiet.
-          It's peaceful. It feels like yours.</p>
+          <h4>A normal day here</h4>
+          <p>Coffee on the patio before work. A few laps in the pool after. Bike downtown for dinner,
+          or catch the sunset on the trails while the deer are out. Then home to a quiet room that feels like yours.</p>
         </div>
 
         <div class="sec-head"><span class="si">&#128204;</span> Explore</div>
@@ -1546,7 +1540,7 @@
           </div>
         </div>
 
-        <div class="sec-head"><span class="si">&#10024;</span> Come on in &mdash; take a look around</div>
+        <div class="sec-head"><span class="si">&#10024;</span> Come on in, take a look around</div>
         <div class="photo-grid">${peekGrid()}</div>
       </div>`;
     }
@@ -1554,12 +1548,11 @@
     else if (id === 'home') {
       h = `<div class="fade-in">
         <h2 class="pg-title">The Home</h2>
-        <p class="pg-sub">Take a look around &mdash; these are the spaces you'll share and enjoy every day</p>
+        <p class="pg-sub">The spaces you'll share and use every day.</p>
         <div class="welcome-banner">
           <h3>26363 Esperanza Dr, Los Altos Hills</h3>
-          <p>A pool for warm afternoons, a patio for morning coffee or evening BBQs, a full kitchen
-          for home-cooked meals, and quiet corners for reading or working. ${TOTAL_ROOMS} rooms total,
-          ${availCount} currently available.</p>
+          <p>Pool, patio and BBQ, a full kitchen, and quiet corners to read or work.
+          ${TOTAL_ROOMS} rooms total, ${availCount} open right now.</p>
         </div>
         <div class="photo-grid">${grid(homePhotos,0)}</div>
       </div>`;
@@ -1569,19 +1562,18 @@
       const stamp = fmtUpdated(dataUpdated);
       h = `<div class="fade-in">
         <h2 class="pg-title">Find Your Room</h2>
-        <p class="pg-sub">Each room has its own character and view. Take a look and see which one feels right for you.</p>
+        <p class="pg-sub">Every room has its own view. See which one feels right.</p>
         ${stamp ? `<p class="updated-stamp">Prices &amp; availability updated ${stamp}</p>` : ''}
         <div class="callout warm" style="margin-bottom:18px;">
           <h4>Rent &amp; Utilities</h4>
-          <p>${rentRangeSentence()} Utilities are <strong>not included</strong> &mdash; they're split evenly
-          among everyone living here and average <strong>$60&ndash;110/mo per person</strong>, with winter months a bit higher
-          since the home heats with central heat and there's not much AC use.</p>
+          <p>${rentRangeSentence()} Utilities aren't included: split evenly between housemates,
+          usually <strong>$60&ndash;110/mo each</strong> (a bit more in winter for heat).</p>
         </div>
         <div class="callout sage" style="margin-bottom:24px;">
           <h4>Bathroom Situation</h4>
-          <p>The <strong>Master Bedroom</strong> and <strong>Tiny Studio</strong> each have their own private bathroom.
-          The remaining rooms share two full bathrooms. At full occupancy that's 7 people across 2 bathrooms,
-          but the house isn't always at capacity &mdash; in practice the ratio is often much more comfortable.</p>
+          <p>The <strong>Master Bedroom</strong> and <strong>Tiny Studio</strong> have private baths.
+          The other rooms share two full bathrooms. That's up to 7 people across 2 baths when the house is full,
+          which it usually isn't.</p>
         </div>
         <div class="filterbar">
           <span class="fb-label">Show</span>
@@ -1626,14 +1618,14 @@
         <p style="font-size:0.78rem; color:#9c9785; margin:-12px 0 16px;">+ utilities (split evenly among housemates, ~$60–110/mo, higher in winter for heating)</p>
         ${(r.id !== 5 && r.id !== 9 && av) ? '<p style="font-size:0.82rem; color:#7a7464; margin:-16px 0 16px;">This room shares two full bathrooms with the other non-suite rooms.</p>' : ''}
         ${av ? `<div class="callout sage" style="margin-bottom:20px;">
-          <h4>This room is available</h4>
-          <p>This could be yours. If you're interested or have questions, reach out to Henry &mdash; he's happy to tell you more, arrange a video tour, or help you plan your move-in.</p>
+          <h4>This one's open</h4>
+          <p>Could be yours. Questions, a video tour, or help planning your move-in? Just ask Henry.</p>
         </div>` : ''}
         <div class="photo-grid">${grid(r,r.id)}</div>
         ${av ? `<div style="text-align:center; margin-top:28px;">
           <div class="callout warm" style="display:inline-block; max-width:520px;">
             <h4>Like what you see?</h4>
-            <p style="margin-bottom:14px;">Fill out a quick application and Henry will get back to you. He's happy to answer questions, arrange a video tour, or help you plan your move-in.</p>
+            <p style="margin-bottom:14px;">Send a quick application and Henry will get back to you. Happy to answer questions or set up a video tour.</p>
             <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn">Apply for This Room</a>
           </div>
         </div>` : ''}
@@ -1669,10 +1661,8 @@
     return `<div class="fade-in">
       <div class="guide-hero">
         <h2>Your Guide to Living Here</h2>
-        <p>Think of this as friendly advice from someone who wants you to have an amazing time.
-        Los Altos Hills is a special place &mdash; nature-rich, peaceful, and full of things to discover.
-        This guide covers what to pack, where to explore, and how we take care of the home together.
-        Whether you're here for 3 months or a year, this will help you live like a local.</p>
+        <p>What to pack, where to explore, and how we keep the house running.
+        Everything you need to live like a local, whether you're here 3 months or a year.</p>
       </div>
 
       <div class="guide-toc">
@@ -1691,7 +1681,7 @@
       <!-- WHAT TO BRING -->
       <div class="guide-section">
         <h3 class="guide-section-title" id="guide-bring">Suggested Items to Bring or Purchase</h3>
-        <p class="pg-sub" style="margin-bottom:16px;">Los Altos Hills is peaceful, beautiful, and nature-forward &mdash; a little preparation goes a long way toward staying safe, cozy, and happy.</p>
+        <p class="pg-sub" style="margin-bottom:16px;">A little prep goes a long way out here. Here's what to grab before you arrive.</p>
         <div class="item-grid">
           <div class="item-card">
             <div class="ic-head"><span class="ic-icon">&#128294;</span><h4>Flashlight or Headlamp</h4></div>
@@ -1853,7 +1843,7 @@
       <!-- BUCKET LIST -->
       <div class="guide-section">
         <h3 class="guide-section-title" id="guide-bucket">Your Los Altos Hills Bucket List</h3>
-        <p class="pg-sub" style="margin-bottom:16px;">Don't just pass through &mdash; make this time count. These are the experiences past housemates have loved most.</p>
+        <p class="pg-sub" style="margin-bottom:16px;">Don't just pass through. These are the things past housemates loved most.</p>
         <div class="bucket-grid">
           <div class="bucket-card">
             <h4>&#127749; Daily &amp; Weekly Rituals</h4>
@@ -1907,7 +1897,7 @@
       <!-- HOUSE GUIDELINES -->
       <div class="guide-section">
         <h3 class="guide-section-title" id="guide-house">Taking Care of Our Home Together</h3>
-        <p class="pg-sub" style="margin-bottom:16px;">Perfection isn't expected &mdash; consideration is. These are the little things that keep the home comfortable and welcoming for everyone who lives here.</p>
+        <p class="pg-sub" style="margin-bottom:16px;">Nobody expects perfect, just considerate. A few small things keep the house good for everyone.</p>
         <div class="rule-grid">
           <div class="rule-card">
             <h4><span class="rc-icon">&#127859;</span> Kitchen</h4>
@@ -2016,15 +2006,12 @@
       <!-- FINAL -->
       <div class="guide-section">
         <div class="host-section" style="text-align:center;">
-          <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:500; color:#2c2a22; margin-bottom:12px; font-style:italic;">You're not just renting a room &mdash; you're joining a home.</h3>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:500; color:#2c2a22; margin-bottom:12px; font-style:italic;">You're not just renting a room. You're joining a home.</h3>
           <p style="font-size:0.9rem; color:#5c5647; max-width:620px; margin:0 auto; line-height:1.75;">
-            Over the years, something special has happened here. People who arrived as strangers
-            became friends. They shared meals, explored the neighborhood together, and supported
-            each other through the intensity of internship life. Many still keep in touch long after
-            they've moved on.</p>
+            Housemates here have arrived as strangers and left as friends, sharing meals, exploring
+            together, and getting each other through intern season. A lot still keep in touch.</p>
           <p style="font-size:0.9rem; color:#5c5647; max-width:620px; margin:8px auto 0; line-height:1.75;">
-            I encourage you to say hello, share a meal, or invite someone on a walk. These small
-            moments are often the ones you remember most.</p>
+            Say hello, share a meal, invite someone on a walk. Those are the moments you'll remember.</p>
           <p style="font-size:0.95rem; color:#8a7245; margin-top:18px; font-weight:500;">Welcome to Esperanza Dr. We're glad you're here.</p>
         </div>
       </div>
@@ -2036,9 +2023,8 @@
     return `<div class="fade-in">
       <div class="nbr-hero">
         <h2>Your New Neighborhood</h2>
-        <p>You're not just moving into a house &mdash; you're moving into one of the most beautiful
-        communities in Silicon Valley. Quiet trails, oak-covered hills, friendly neighbors,
-        and a charming downtown just a mile away. Here's what's waiting for you.</p>
+        <p>One of the prettiest corners of Silicon Valley: quiet trails, oak-covered hills,
+        and a charming downtown a mile away. Here's what's nearby.</p>
         <span class="loc-pill">26363 Esperanza Dr</span>
         <span class="loc-pill">1 mi to Downtown</span>
         <span class="loc-pill">1 mi to Tesla Deer Creek</span>
@@ -2136,7 +2122,7 @@
   function buildHost() {
     return `<div class="fade-in">
       <h2 class="pg-title">Meet Henry</h2>
-      <p class="pg-sub">The person who'll make sure you feel at home from the moment you arrive</p>
+      <p class="pg-sub">The person who'll make sure you feel at home from day one.</p>
 
       <div class="host-section">
         <div class="host-top">
@@ -2163,21 +2149,15 @@
         </div>
 
         <div class="host-body">
-          <p>I live here too. I'm not a distant landlord &mdash; I'm the person who'll help you
-          carry your bags in on move-in day, show you the best coffee spot downtown, and
-          make sure you have everything you need to feel settled. This is my home, and when
-          you live here, it becomes yours too.</p>
+          <p>I live here too. Not a landlord you text and never hear back from. I'll help you carry
+          bags in on move-in day, point you to the good coffee, and make sure you're actually settled.
+          This is my home, and it becomes yours while you're here.</p>
 
-          <p>Over the years, I've helped multiple interns who found themselves in uncomfortable
-          living situations mid-internship &mdash; unresponsive landlords, isolating environments,
-          basic needs that went unmet. Hearing their stories made me even more committed to
-          being the kind of host I'd want if I were in their shoes: present, thoughtful, and
-          genuinely invested in your experience.</p>
+          <p>I've helped interns out of some rough setups mid-internship: landlords who ghosted,
+          isolating places, basic stuff that never got fixed. That's exactly the kind of host I try not to be.</p>
 
-          <p>I anticipate what you'll need before you have to ask. Whether it's directions to
-          the nearest grocery store, gear for a weekend hike at Hidden Villa, advice on your
-          commute, or just a friendly conversation after a long day &mdash; I've been there,
-          and I'm glad to help. Your comfort and wellbeing matter to me.</p>
+          <p>Grocery directions, hiking gear for Hidden Villa, commute tips, or just someone to talk to
+          after a long day, I'm glad to help. Your comfort here matters to me.</p>
         </div>
 
         <div class="host-highlights">
@@ -2233,10 +2213,8 @@
 
       <div class="callout sage">
         <h4>Community at Esperanza Dr</h4>
-        <p>My favorite part of hosting is not just the individual connections, but the shared sense of community
-        that forms within the home. Over the years, I've seen residents support one another, form friendships,
-        and continue to reconnect long after their stay. I encourage you to take the opportunity to meet others,
-        share meals, or just say hello &mdash; these small interactions often lead to meaningful memories.</p>
+        <p>My favorite part of hosting is the community that forms here. Housemates support each other,
+        become friends, and stay in touch long after. Say hello, share a meal, and you'll see what I mean.</p>
       </div>
     </div>`;
   }
