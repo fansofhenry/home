@@ -19,14 +19,14 @@
     "3": {
       "name": "Small Room",
       "price": 1200,
-      "available": false,
+      "available": true,
       "availableFrom": "2026-08-01",
       "desc": "Compact and comfortable bedroom"
     },
     "4": {
       "name": "Pool View Room",
       "price": 1400,
-      "available": false,
+      "available": true,
       "availableFrom": "2026-08-01",
       "desc": "Overlooking the swimming pool"
     },
@@ -40,7 +40,7 @@
     "6": {
       "name": "Sun Shade Room",
       "price": 1400,
-      "available": false,
+      "available": true,
       "availableFrom": "2026-08-01",
       "desc": "Window facing the outdoor sun shade"
     },

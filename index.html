@@ -1138,7 +1138,7 @@
   <div class="header-pills">
     <div class="header-pill green">
       <div class="dot"></div>
-      4 rooms available
+      6 rooms available
     </div>
     <a href="https://forms.gle/QG5dA3XahoxpiGUGA" target="_blank" rel="noopener" class="apply-btn">Apply Now</a>
   </div>
@@ -1252,7 +1252,7 @@
   const fmtPrice = p => '$' + p.toLocaleString() + '/mo';
 
   // Defaults (used if data.json is missing or fails to load).
-  const DEFAULT_AVAIL = new Set([2, 5, 7, 9]);
+  const DEFAULT_AVAIL = new Set([3, 4, 5, 6, 7, 9]);
   const availableRooms = new Set(DEFAULT_AVAIL);   // live set, rebuilt from data.json
   const TOTAL_ROOMS = rooms.length;
   let availCount = rooms.filter(r => availableRooms.has(r.id)).length;
