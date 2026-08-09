@@ -1,2 +1,9 @@
 .DS_Store
 *.pdf
+
+# Tenant data must never be committed - this repo is public.
+# Exports from manager.html contain names, emails and phone numbers.
+esperanza-*.json
+esperanza-*.csv
+seed-*.json
+*backup*.json

@@ -1,0 +1,1370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+</head>
+<body>
+<title>Esperanza House Manager</title>
+<style>
+/* ============ tokens: light is the base, dark redefines tokens only ============ */
+:root{
+  --ground:#FBFAF7; --surface:#FFFFFF; --panel:#F3F2EC; --panel-2:#EAE9E1;
+  --line:#E1E0D6; --line-strong:#CBCBBE;
+  --ink:#1D211C; --ink-2:#585F54; --ink-3:#8A9083;
+  --accent:#3F6B4F; --accent-ink:#2B4B36; --accent-soft:#E3EDE5;
+  --ok:#2C7A57; --ok-soft:#DEEFE6;
+  --warn:#8A6410; --warn-soft:#F7EBD1;
+  --bad:#A03A2C; --bad-soft:#F7E0DB;
+  --vacant:#949A8C; --vacant-soft:#ECEEE7;
+  --on-accent:#FFFFFF;
+  --shadow:0 1px 2px rgba(29,33,28,.06), 0 8px 24px -12px rgba(29,33,28,.18);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#171A16; --surface:#1E221D; --panel:#232722; --panel-2:#2A2F28;
+    --line:#333831; --line-strong:#4A5147;
+    --ink:#ECEFE8; --ink-2:#A9B0A4; --ink-3:#7C8378;
+    --accent:#7EB08D; --accent-ink:#A9CFB4; --accent-soft:#25332A;
+    --ok:#6FBF95; --ok-soft:#1D3128;
+    --warn:#D7A94A; --warn-soft:#332918;
+    --bad:#E08677; --bad-soft:#38201C;
+    --vacant:#7C8378; --vacant-soft:#252A24;
+    --on-accent:#12160F;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#171A16; --surface:#1E221D; --panel:#232722; --panel-2:#2A2F28;
+  --line:#333831; --line-strong:#4A5147;
+  --ink:#ECEFE8; --ink-2:#A9B0A4; --ink-3:#7C8378;
+  --accent:#7EB08D; --accent-ink:#A9CFB4; --accent-soft:#25332A;
+  --ok:#6FBF95; --ok-soft:#1D3128;
+  --warn:#D7A94A; --warn-soft:#332918;
+  --bad:#E08677; --bad-soft:#38201C;
+  --vacant:#7C8378; --vacant-soft:#252A24;
+  --on-accent:#12160F;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:600}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--accent)}
+
+/* ============ shell ============ */
+.shell{display:grid;grid-template-columns:216px minmax(0,1fr);min-height:100vh}
+.rail{background:var(--panel);border-right:1px solid var(--line);
+      padding:22px 14px;display:flex;flex-direction:column;gap:26px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{padding:0 8px}
+.brand h1{font-family:var(--serif);font-size:21px;letter-spacing:-.01em;line-height:1.15}
+.brand p{margin:5px 0 0;font-size:11.5px;color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase}
+nav{display:flex;flex-direction:column;gap:2px}
+nav button{display:flex;justify-content:space-between;align-items:center;gap:8px;
+  background:none;border:0;text-align:left;padding:8px 10px;border-radius:8px;cursor:pointer;
+  color:var(--ink-2);font-size:14px;font-weight:500}
+nav button:hover{background:var(--panel-2);color:var(--ink)}
+nav button[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+nav .tag{font-family:var(--mono);font-size:10.5px;background:var(--bad);color:#fff;
+  border-radius:99px;padding:1px 6px;font-weight:600}
+.rail-foot{margin-top:auto;font-size:11.5px;color:var(--ink-3);padding:0 8px;line-height:1.45}
+.rail-foot button{background:none;border:0;padding:0;color:var(--accent);cursor:pointer;
+  text-decoration:underline;font-size:11.5px}
+
+main{padding:30px 34px 80px;max-width:1240px}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
+  padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:22px;flex-wrap:wrap}
+.page-head h2{font-family:var(--serif);font-size:27px;letter-spacing:-.015em}
+.page-head p{margin:5px 0 0;color:var(--ink-2);font-size:13.5px;max-width:62ch}
+.eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+
+/* ============ primitives ============ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.card-h{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.card-h h3{font-size:14px;letter-spacing:.01em}
+.card-h .sub{font-size:12px;color:var(--ink-3)}
+.pad{padding:16px}
+.stack{display:flex;flex-direction:column;gap:20px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-3)}
+.small{font-size:12.5px}
+
+.btn{background:var(--accent);color:var(--on-accent);border:1px solid transparent;border-radius:7px;
+  padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:var(--surface);border-color:var(--line-strong);color:var(--ink)}
+.btn.ghost:hover{background:var(--panel)}
+.btn.sm{padding:4px 9px;font-size:12.5px;border-radius:6px}
+.btn.danger{background:var(--bad);color:var(--on-accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+label{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;margin-bottom:4px}
+input,select,textarea{width:100%;background:var(--surface);border:1px solid var(--line-strong);
+  border-radius:7px;padding:7px 9px;font-size:14px}
+input[type=date]{min-height:33px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;padding:8px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--panel)}
+.scroll{overflow-x:auto}
+.r{text-align:right}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;
+  padding:2px 8px;border-radius:99px;white-space:nowrap;letter-spacing:.01em}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.neutral{background:var(--vacant-soft);color:var(--vacant)}
+.pill.accent{background:var(--accent-soft);color:var(--accent-ink)}
+
+/* ============ stat tiles ============ */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 15px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:3px}
+.tile .k{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.tile .v{font-family:var(--mono);font-size:25px;font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;line-height:1.15}
+.tile .n{font-size:12px;color:var(--ink-2)}
+.tile.flag{border-left:3px solid var(--bad)}
+
+/* ============ attention queue ============ */
+.q{display:flex;flex-direction:column}
+.q-item{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid var(--line)}
+.q-item:last-child{border-bottom:0}
+.q-stripe{width:3px;align-self:stretch;border-radius:2px;flex:0 0 3px}
+.q-body{flex:1;min-width:0}
+.q-body strong{font-weight:600}
+.q-body .why{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.q-act{flex:0 0 auto}
+
+/* ============ occupancy band chart ============ */
+.gantt{--lbl:150px;font-size:12px}
+.gantt-months{display:grid;grid-template-columns:var(--lbl) 1fr;align-items:end;
+  position:sticky;top:0;background:var(--surface);z-index:2}
+.gantt-months .mlabels{position:relative;height:34px;border-bottom:1px solid var(--line-strong)}
+.mlabel{position:absolute;bottom:5px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;transform:translateX(4px);white-space:nowrap}
+.mtick{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+.grow{display:grid;grid-template-columns:var(--lbl) 1fr;border-bottom:1px solid var(--line)}
+.grow:last-child{border-bottom:0}
+.gname{padding:9px 12px 9px 2px;display:flex;flex-direction:column;gap:1px;justify-content:center}
+.gname b{font-size:13px;font-weight:600}
+.gname span{font-size:11px;color:var(--ink-3);font-family:var(--mono)}
+.gtrack{position:relative;min-height:44px;background:
+  repeating-linear-gradient(90deg,transparent,transparent 0,transparent 0)}
+.gtrack .gl{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+.bar{position:absolute;top:8px;height:28px;border-radius:5px;display:flex;align-items:center;
+  padding:0 8px;overflow:hidden;font-size:11.5px;font-weight:600;cursor:default;
+  background:var(--accent-soft);color:var(--accent-ink);
+  border:1px solid var(--accent);
+  border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.bar.future{background:var(--panel);color:var(--ink-2);border-style:dashed;border-color:var(--line-strong)}
+.bar.ended{opacity:.55}
+.bar .dot{width:5px;height:5px;border-radius:99px;background:currentColor;margin-right:6px;flex:0 0 5px}
+.gap{position:absolute;top:8px;height:28px;border-radius:5px;background:
+  repeating-linear-gradient(135deg,var(--vacant-soft),var(--vacant-soft) 5px,transparent 5px,transparent 10px);
+  border:1px dashed var(--line-strong);display:flex;align-items:center;justify-content:center;
+  font-size:10.5px;color:var(--vacant);font-weight:600;letter-spacing:.04em}
+.today{position:absolute;top:0;bottom:0;width:2px;background:var(--bad);z-index:1}
+.today::after{content:"TODAY";position:absolute;top:-28px;left:3px;font-size:9.5px;font-weight:700;
+  letter-spacing:.08em;color:var(--bad)}
+
+/* ============ rent roll matrix ============ */
+.roll{border-collapse:separate;border-spacing:0}
+.roll th,.roll td{border-bottom:1px solid var(--line);padding:0}
+.roll th.mh{padding:7px 6px;text-align:center;font-size:10px;min-width:66px}
+.roll td.name,.roll th.name{position:sticky;left:0;background:var(--surface);z-index:1;
+  padding:8px 12px;text-align:left;min-width:170px;border-right:1px solid var(--line)}
+.roll tbody tr:hover td.name{background:var(--panel)}
+.cell{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 5px;margin:3px;
+  border-radius:6px;font-size:11px;line-height:1.25}
+.cell b{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:11.5px;font-weight:600}
+.cell small{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;opacity:.9}
+.cell.paid{background:var(--ok-soft);color:var(--ok)}
+.cell.part{background:var(--warn-soft);color:var(--warn)}
+.cell.late{background:var(--bad-soft);color:var(--bad)}
+.cell.due{background:var(--panel-2);color:var(--ink-2)}
+.cell.soon{background:var(--panel);color:var(--ink-3)}
+.cell.pro{outline:1.5px dashed var(--accent);outline-offset:-2px}
+
+/* ============ misc ============ */
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);
+  padding:0;width:min(680px,94vw);box-shadow:0 24px 64px -20px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(20,24,19,.45)}
+.dlg-h{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:center}
+.dlg-h h3{font-family:var(--serif);font-size:19px}
+.dlg-b{padding:18px;max-height:66vh;overflow:auto;display:flex;flex-direction:column;gap:14px}
+.dlg-f{padding:13px 18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.x{background:none;border:0;font-size:22px;line-height:1;cursor:pointer;color:var(--ink-3);padding:0 4px}
+
+.note{background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;
+  padding:11px 14px;font-size:12.5px;color:var(--accent-ink);line-height:1.5}
+.note b{font-weight:700}
+.warnnote{background:var(--warn-soft);border-left-color:var(--warn);color:var(--warn)}
+.empty{padding:36px 16px;text-align:center;color:var(--ink-3);font-size:13.5px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-2)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.hide{display:none!important}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);
+  color:var(--ground);padding:9px 18px;border-radius:99px;font-size:13px;font-weight:600;
+  z-index:99;box-shadow:var(--shadow)}
+@media (prefers-reduced-motion:no-preference){.toast{animation:pop .2s ease-out}}
+@keyframes pop{from{opacity:0;transform:translate(-50%,8px)}}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+@media (max-width:1000px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:14px}
+  nav{flex-direction:row;flex-wrap:wrap}
+  .rail-foot{margin:0;flex-basis:100%}
+  main{padding:22px 16px 70px}
+  .split{grid-template-columns:1fr}
+}
+</style>
+
+<div class="shell">
+  <aside class="rail">
+    <div class="brand">
+      <h1>Esperanza House</h1>
+      <p id="brandAddr">Los Altos Hills, CA</p>
+    </div>
+    <nav id="nav"></nav>
+    <div class="rail-foot">
+      Saved in this browser only.<br>
+      <button id="railExport">Back up now</button> ·
+      <button id="railTheme">Theme</button>
+      <div id="savedAt" style="margin-top:6px"></div>
+    </div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<dialog id="dlg"><form method="dialog" id="dlgForm">
+  <div class="dlg-h"><h3 id="dlgTitle">Edit</h3><button class="x" value="cancel" type="submit" aria-label="Close">&times;</button></div>
+  <div class="dlg-b" id="dlgBody"></div>
+  <div class="dlg-f">
+    <button type="button" class="btn danger sm hide" id="dlgDelete">Delete</button>
+    <div class="row" style="margin-left:auto">
+      <button class="btn ghost" value="cancel" type="submit">Cancel</button>
+      <button class="btn" value="save" type="submit" id="dlgSave">Save</button>
+    </div>
+  </div>
+</form></dialog>
+
+<script>
+"use strict";
+/* =======================================================================
+   Esperanza House Manager
+   Single file. Data lives in localStorage under KEY. Export JSON to back up.
+   Billing clock (lease start/end) is kept separate from the occupancy clock
+   (actual move-in/move-out) on purpose - see leaseCard() note.
+   ======================================================================= */
+const KEY = "esperanza_pm_v1";
+const MONEY = new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"});
+
+/* ---------- date helpers (all dates are 'YYYY-MM-DD', parsed as LOCAL) ---------- */
+const pd  = s => { const [y,m,d]=String(s).split("-").map(Number); return new Date(y,m-1,d); };
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const dim = (y,m) => new Date(y,m,0).getDate();               // m is 1-12
+const pkey = (y,m) => `${y}-${String(m).padStart(2,"0")}`;
+const pnum = p => { const [y,m]=p.split("-").map(Number); return y*12+m; };
+const pAdd = (p,n) => { let v=pnum(p)-1+n; return pkey(Math.floor(v/12), v%12+1); };
+const today = () => { const d=new Date(); return new Date(d.getFullYear(),d.getMonth(),d.getDate()); };
+const TODAY = today();
+const THIS_P = pkey(TODAY.getFullYear(), TODAY.getMonth()+1);
+const days = (a,b) => Math.round((b-a)/86400000);
+const fmtD = s => s ? pd(s).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}) : "—";
+const fmtDS= s => s ? pd(s).toLocaleDateString("en-US",{month:"short",day:"numeric"}) : "—";
+const fmtP = p => { const [y,m]=p.split("-").map(Number);
+  return new Date(y,m-1,1).toLocaleDateString("en-US",{month:"short",year:"numeric"}); };
+const fmtPS= p => { const [y,m]=p.split("-").map(Number);
+  return new Date(y,m-1,1).toLocaleDateString("en-US",{month:"short"}) + (m===1?` '${String(y).slice(2)}`:""); };
+const r2 = n => Math.round((n+Number.EPSILON)*100)/100;
+const $$ = MONEY.format;
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => Math.random().toString(36).slice(2,9);
+
+/* ---------- default data: the 9 rooms, no tenant data ---------- */
+function blank(){
+  return {
+    version:1,
+    property:{name:"Esperanza House", address:"26363 Esperanza Drive, Los Altos Hills, CA 94022"},
+    settings:{dueDay:1, graceDays:4, lateFee:50, cleaningFee:200, depositReturnDays:21},
+    rooms:[
+      {id:"1", name:"Patio View Room",  market:1400},
+      {id:"2", name:"Flower Tree Room", market:1400},
+      {id:"3", name:"Small Room",       market:1200},
+      {id:"4", name:"Pool View Room",   market:1400},
+      {id:"5", name:"Master Bedroom",   market:1800},
+      {id:"6", name:"Sun Shade Room",   market:1400},
+      {id:"7", name:"Front Yard Room",  market:1400},
+      {id:"8", name:"Garage Room",      market:1500},
+      {id:"9", name:"Tiny Studio",      market:1600}
+    ],
+    leases:[], payments:[], utilities:[], adjustments:[]
+  };
+}
+
+/* ---------- store ---------- */
+let DB = load();
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return blank();
+    const d = JSON.parse(raw);
+    const b = blank();
+    return {...b, ...d, settings:{...b.settings,...(d.settings||{})},
+            property:{...b.property,...(d.property||{})},
+            rooms:(d.rooms&&d.rooms.length)?d.rooms:b.rooms,
+            leases:d.leases||[], payments:d.payments||[],
+            utilities:d.utilities||[], adjustments:d.adjustments||[]};
+  }catch(e){ console.warn("load failed",e); return blank(); }
+}
+function save(){
+  DB.savedAt = new Date().toISOString();
+  localStorage.setItem(KEY, JSON.stringify(DB));
+  paintSaved();
+}
+function paintSaved(){
+  const el=document.getElementById("savedAt"); if(!el) return;
+  el.textContent = DB.savedAt ? "Saved " + new Date(DB.savedAt).toLocaleString("en-US",
+    {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) : "Nothing saved yet";
+}
+const room = id => DB.rooms.find(r=>r.id===id) || {id, name:"Room "+id, market:0};
+const lease = id => DB.leases.find(l=>l.id===id);
+
+/* =======================================================================
+   MONEY ENGINE
+   ======================================================================= */
+
+/* Prorate one month. Only partial months prorate; a full month is full rent.
+   method '30'     = banker's month, rent/30 per day (what your leases say for month 1)
+   method 'actual' = rent / real days in that month (what you do on the last month) */
+function prorate(rent, d, y, m, method){
+  const D = dim(y,m);
+  if(d >= D) return r2(rent);
+  const daily = method==="30" ? rent/30 : rent/D;
+  return r2(Math.min(rent, daily*d));
+}
+
+/* Month-by-month rent schedule for one lease. */
+function schedule(L){
+  if(!L.start || !L.end) return [];
+  const s=pd(L.start), e=pd(L.end);
+  if(e<s) return [];
+  const out=[]; let y=s.getFullYear(), m=s.getMonth()+1;
+  const last = e.getFullYear()*12+e.getMonth()+1;
+  let guard=0;
+  while(y*12+m <= last && guard++<600){
+    const D=dim(y,m);
+    const mS=new Date(y,m-1,1), mE=new Date(y,m-1,D);
+    const from = s>mS ? s : mS, to = e<mE ? e : mE;
+    const d = days(from,to)+1;
+    const isFirst = (y===s.getFullYear() && m===s.getMonth()+1);
+    const isLast  = (y===e.getFullYear() && m===e.getMonth()+1);
+    const method  = isFirst ? (L.prorateFirst||"30") : isLast ? (L.prorateLast||"actual") : "actual";
+    out.push({period:pkey(y,m), y, m, d, D, partial:d<D, isFirst, isLast, method,
+              from:iso(from), to:iso(to), rent:prorate(L.rent, d, y, m, method)});
+    m++; if(m>12){m=1;y++;}
+  }
+  return out;
+}
+
+/* Leases whose TERM overlaps a given period - the basis for splitting utilities. */
+function occupantsOf(period){
+  return DB.leases.filter(L=>{
+    if(!L.start||!L.end) return false;
+    const a=pnum(period.slice(0,7)), s=pnum(L.start.slice(0,7)), e=pnum(L.end.slice(0,7));
+    return s<=a && a<=e;
+  });
+}
+/* Equal split among occupants, per Clause 8(a). */
+function utilShare(period){
+  const bill = DB.utilities.find(u=>u.period===period);
+  if(!bill) return null;
+  const n = occupantsOf(period).length || 1;
+  return {total:bill.total, n, each:r2(bill.total/n), note:bill.note||""};
+}
+
+/* Full ledger for one lease: every period with rent + utilities + adjustments,
+   payments applied (period-tagged first, then untagged oldest-first). */
+function ledger(L){
+  const rows = schedule(L).map(s=>{
+    const u = utilShare(s.period);
+    let util=0, utilNote="";
+    if(u){ util=u.each; utilNote=`${$$(u.total)} ÷ ${u.n}`; }
+    else if(s.isLast){                          // Clause 8(c): final month carries prior month's share
+      const prev = utilShare(pAdd(s.period,-1));
+      if(prev){ util=prev.each; utilNote="carried from "+fmtP(pAdd(s.period,-1))+" (Clause 8c)"; }
+    }
+    const adj = DB.adjustments.filter(a=>a.leaseId===L.id && a.period===s.period);
+    const adjTotal = r2(adj.reduce((t,a)=>t+Number(a.amount||0),0));
+    return {...s, util:r2(util), utilNote, adj, adjTotal,
+            due:r2(s.rent + util + adjTotal), paid:0, pmts:[]};
+  });
+  const byP = Object.fromEntries(rows.map(r=>[r.period,r]));
+  const mine = DB.payments.filter(p=>p.leaseId===L.id)
+                          .sort((a,b)=> (a.date<b.date?-1:a.date>b.date?1:0));
+  const loose=[];
+  for(const p of mine){
+    if(p.period && byP[p.period]){ byP[p.period].paid=r2(byP[p.period].paid+Number(p.amount)); byP[p.period].pmts.push(p); }
+    else loose.push(p);
+  }
+  for(const p of loose){                        // waterfall onto the oldest unpaid period
+    let left = Number(p.amount);
+    for(const r of rows){
+      if(left<=0.005) break;
+      const gap = r2(r.due - r.paid);
+      if(gap<=0.005) continue;
+      const take = Math.min(gap,left);
+      r.paid=r2(r.paid+take); left=r2(left-take); r.pmts.push({...p,_applied:take});
+    }
+    if(left>0.005 && rows.length) { rows[rows.length-1].paid=r2(rows[rows.length-1].paid+left);
+                                    rows[rows.length-1].pmts.push({...p,_applied:left,_over:true}); }
+  }
+  for(const r of rows){ r.bal=r2(r.due-r.paid); r.state=stateOf(L,r); }
+  const due=r2(rows.reduce((t,r)=>t+r.due,0)), paid=r2(rows.reduce((t,r)=>t+r.paid,0));
+  return {rows, due, paid, bal:r2(due-paid)};
+}
+function stateOf(L,r){
+  const dueDay = L.dueDay ?? DB.settings.dueDay;
+  const grace  = L.graceDays ?? DB.settings.graceDays;
+  if(r.due<=0.005 || r.paid>=r.due-0.005) return "paid";
+  if(TODAY < pd(r.from)) return r.paid>0 ? "part" : "soon";   // paid ahead still reads as partial
+  const deadline = new Date(r.y, r.m-1, Math.min(dueDay+grace, r.D));
+  if(TODAY > deadline) return "late";
+  return r.paid>0 ? "part" : "due";
+}
+const STATE = {paid:["ok","Paid"], part:["warn","Partial"], late:["bad","Late"],
+               due:["neutral","Due"], soon:["neutral","Upcoming"]};
+
+/* occupancy dates fall back to the lease term when actuals aren't recorded */
+const occIn  = L => L.moveIn  || L.start;
+const occOut = L => L.moveOut || L.end;
+function status(L){
+  if(!L.start||!L.end) return "draft";
+  if(pd(L.end) < TODAY) return "ended";
+  if(pd(L.start) > TODAY) return "upcoming";
+  return "active";
+}
+
+/* =======================================================================
+   VIEWS
+   ======================================================================= */
+const VIEWS = [
+  ["dash","Dashboard"], ["occ","Occupancy"], ["leases","Leases & rooms"],
+  ["roll","Rent roll"], ["util","Utilities"], ["out","Move-out & deposits"], ["data","Data"]
+];
+let view = "dash";
+
+function render(){
+  document.getElementById("brandAddr").textContent =
+    (DB.property.address||"").split(",").slice(1).join(",").trim() || "Property";
+  const flags = attention().filter(a=>a.level==="bad").length;
+  document.getElementById("nav").innerHTML = VIEWS.map(([k,t])=>
+    `<button data-v="${k}" aria-current="${k===view}">${t}${
+      k==="dash"&&flags?`<span class="tag">${flags}</span>`:""}</button>`).join("");
+  document.querySelectorAll("#nav button").forEach(b=>
+    b.onclick=()=>{view=b.dataset.v; render(); window.scrollTo(0,0);});
+  document.getElementById("main").innerHTML = ({
+    dash:vDash, occ:vOcc, leases:vLeases, roll:vRoll, util:vUtil, out:vOut, data:vData
+  })[view]();
+  wire();
+  paintSaved();
+}
+
+function head(title, sub, actions=""){
+  return `<div class="page-head"><div><h2>${title}</h2><p>${sub}</p></div>
+          <div class="row">${actions}</div></div>`;
+}
+
+/* ---------------------------- DASHBOARD ---------------------------- */
+function attention(){
+  const out=[];
+  for(const L of DB.leases){
+    const st=status(L); if(st==="draft") continue;
+    const lg=ledger(L);
+    for(const r of lg.rows){
+      if(r.state==="late") out.push({level:"bad", who:L.tenant, leaseId:L.id,
+        what:`${fmtP(r.period)} rent unpaid — ${$$(r.bal)} outstanding`,
+        why:`Due ${fmtDS(iso(new Date(r.y,r.m-1,L.dueDay??DB.settings.dueDay)))}, late after the ${ordinal((L.dueDay??DB.settings.dueDay)+(L.graceDays??DB.settings.graceDays))}. ${$$(L.lateFee??DB.settings.lateFee)} late fee is chargeable.`,
+        act:`<button class="btn sm" data-pay="${L.id}" data-period="${r.period}">Record payment</button>`});
+      else if(r.state==="part") out.push({level:"warn", who:L.tenant, leaseId:L.id,
+        what:`${fmtP(r.period)} partially paid — ${$$(r.bal)} left`,
+        why:`Charged ${$$(r.due)}, received ${$$(r.paid)}.`,
+        act:`<button class="btn sm ghost" data-pay="${L.id}" data-period="${r.period}">Record payment</button>`});
+    }
+    if(st!=="ended"){
+      const dleft = days(TODAY, pd(L.end));
+      if(dleft<=60) out.push({level: dleft<=30?"warn":"info", who:L.tenant, leaseId:L.id,
+        what:`Lease ends ${fmtD(L.end)} — ${dleft} days out`,
+        why:`${room(L.roomId).name} opens up. Final month prorates to ${$$(schedule(L).slice(-1)[0]?.rent||0)} for ${schedule(L).slice(-1)[0]?.d||0} days.`,
+        act:`<button class="btn sm ghost" data-lease="${L.id}">Open lease</button>`});
+    }
+    if(st==="active" && !L.moveIn) out.push({level:"info", who:L.tenant, leaseId:L.id,
+      what:`Move-in date not recorded`,
+      why:`Term began ${fmtD(L.start)} and billing has started, but you haven't logged the day they actually arrived.`,
+      act:`<button class="btn sm ghost" data-lease="${L.id}">Add move-in</button>`});
+    if(st==="ended" && Number(L.deposit)>0 && !L.depositReturned){
+      const dl = new Date(pd(L.moveOut||L.end)); dl.setDate(dl.getDate()+DB.settings.depositReturnDays);
+      const left = days(TODAY,dl);
+      out.push({level: left<0?"bad":left<=7?"warn":"info", who:L.tenant, leaseId:L.id,
+        what:`Deposit of ${$$(L.deposit)} not yet returned`,
+        why: left<0 ? `Statutory 21-day deadline passed ${fmtD(iso(dl))} (Civil Code §1950.5(g)).`
+                    : `Itemized statement + balance due to tenant by ${fmtD(iso(dl))} — ${left} days left.`,
+        act:`<button class="btn sm ghost" data-out="${L.id}">Deposit worksheet</button>`});
+    }
+  }
+  const rank={bad:0,warn:1,info:2};
+  return out.sort((a,b)=>rank[a.level]-rank[b.level]);
+}
+const ordinal = n => n + (["th","st","nd","rd"][(n%100-20)%10]||["th","st","nd","rd"][n%100]||"th");
+
+function vDash(){
+  const active = DB.leases.filter(L=>status(L)==="active");
+  const occupiedRooms = new Set(active.map(L=>L.roomId));
+  const gross = r2(active.reduce((t,L)=>t+Number(L.rent||0),0));
+  const potential = r2(DB.rooms.reduce((t,r)=>t+Number(r.market||0),0));
+  let collected=0, dueThis=0, outstanding=0, deposits=0;
+  for(const L of DB.leases){
+    const lg=ledger(L);
+    const row=lg.rows.find(r=>r.period===THIS_P);
+    if(row){ collected=r2(collected+row.paid); dueThis=r2(dueThis+row.due); }
+    outstanding = r2(outstanding + lg.rows.filter(r=>r.state!=="soon").reduce((t,r)=>t+Math.max(0,r.bal),0));
+    if(status(L)!=="ended" || !L.depositReturned) deposits=r2(deposits+Number(L.deposit||0));
+  }
+  const q = attention();
+  const vac = DB.rooms.filter(r=>!occupiedRooms.has(r.id));
+
+  return head("Today", `${DB.property.address}. ${occupiedRooms.size} of ${DB.rooms.length} rooms occupied, ${$$(gross)} contracted this month.`,
+      `<button class="btn" data-new="lease">Add a lease</button>`) + `
+  <div class="stack">
+    <div class="tiles">
+      <div class="tile"><span class="k">Rooms occupied</span>
+        <span class="v">${occupiedRooms.size}<span style="font-size:15px;color:var(--ink-3)">/${DB.rooms.length}</span></span>
+        <span class="n">${vac.length} vacant · ${Math.round(occupiedRooms.size/DB.rooms.length*100)}% filled</span></div>
+      <div class="tile"><span class="k">Contracted rent</span><span class="v">${$$(gross)}</span>
+        <span class="n">${$$(r2(potential-gross))} of market unfilled</span></div>
+      <div class="tile"><span class="k">Collected · ${fmtP(THIS_P)}</span><span class="v">${$$(collected)}</span>
+        <span class="n">of ${$$(dueThis)} charged</span></div>
+      <div class="tile ${outstanding>0.005?"flag":""}"><span class="k">Outstanding</span><span class="v">${$$(outstanding)}</span>
+        <span class="n">${outstanding>0.005?"across all open months":"everyone is square"}</span></div>
+      <div class="tile"><span class="k">Deposits held</span><span class="v">${$$(deposits)}</span>
+        <span class="n">security deposits on hand</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>Needs your attention</h3>
+        <span class="sub">${q.length? q.length+" item"+(q.length>1?"s":"") : "Clear"}</span></div>
+      ${q.length ? `<div class="q">${q.map(a=>`
+        <div class="q-item">
+          <span class="q-stripe" style="background:var(--${a.level==="bad"?"bad":a.level==="warn"?"warn":"line-strong"})"></span>
+          <div class="q-body"><strong>${esc(a.who)}</strong> — ${esc(a.what)}
+            <div class="why">${a.why}</div></div>
+          <div class="q-act">${a.act||""}</div>
+        </div>`).join("")}</div>`
+      : `<div class="empty">Nothing outstanding. Every charged month is paid and no lease ends in the next 60 days.</div>`}
+    </div>
+
+    <div class="split">
+      <div class="card">
+        <div class="card-h"><h3>Who is in the house right now</h3><span class="sub">${fmtD(iso(TODAY))}</span></div>
+        <div class="scroll"><table>
+          <thead><tr><th>Room</th><th>Tenant</th><th>Term</th><th>Actually moved in</th><th class="r">Rent</th><th>This month</th></tr></thead>
+          <tbody>${DB.rooms.map(rm=>{
+            const L = active.find(x=>x.roomId===rm.id);
+            if(!L) return `<tr><td><b>${rm.id}</b> · ${esc(rm.name)}</td>
+              <td colspan="4"><span class="pill neutral">Vacant</span> <span class="muted small">market ${$$(rm.market)}</span></td>
+              <td><span class="muted small">—</span></td></tr>`;
+            const row = ledger(L).rows.find(r=>r.period===THIS_P);
+            const [cls,lbl] = row ? STATE[row.state] : ["neutral","—"];
+            const drift = L.moveIn && L.moveIn!==L.start;
+            return `<tr><td><b>${rm.id}</b> · ${esc(rm.name)}</td>
+              <td><strong>${esc(L.tenant)}</strong></td>
+              <td class="small num">${fmtDS(L.start)} → ${fmtD(L.end)}</td>
+              <td class="small">${L.moveIn? fmtD(L.moveIn) + (drift?` <span class="pill accent">${days(pd(L.start),pd(L.moveIn))>0?"+":""}${days(pd(L.start),pd(L.moveIn))}d</span>`:"") : `<span class="muted">not logged</span>`}</td>
+              <td class="r num">${$$(L.rent)}</td>
+              <td><span class="pill ${cls}">${lbl}</span></td></tr>`;
+          }).join("")}</tbody></table></div>
+      </div>
+      <div class="card pad">
+        <div class="eyebrow" style="margin-bottom:8px">Vacancy ahead</div>
+        ${nextOpenings().map(o=>`<div style="padding:7px 0;border-bottom:1px solid var(--line)">
+            <div style="font-size:13px"><b>${o.roomId}</b> · ${esc(o.name)}</div>
+            <div class="small muted">${o.text}</div></div>`).join("") || `<div class="muted small">No rooms turning over.</div>`}
+      </div>
+    </div>
+  </div>`;
+}
+function nextOpenings(){
+  const out=[];
+  for(const rm of DB.rooms){
+    const ls = DB.leases.filter(L=>L.roomId===rm.id && L.start && L.end && pd(L.end)>=TODAY)
+                        .sort((a,b)=>a.start<b.start?-1:1);
+    if(!ls.length){ out.push({roomId:rm.id, name:rm.name, open:true,
+      text:`Open now · ${$$(rm.market)}/mo`}); continue; }
+    const cur = ls.find(L=>pd(L.start)<=TODAY && pd(L.end)>=TODAY);
+    if(!cur){ out.push({roomId:rm.id, name:rm.name, open:true,
+      text:`Open now, then ${esc(ls[0].tenant)} from ${fmtD(ls[0].start)}`}); continue; }
+    const nxt = ls.find(L=>pd(L.start)>pd(cur.end));
+    const free = new Date(pd(cur.end)); free.setDate(free.getDate()+1);
+    out.push({roomId:rm.id, name:rm.name, open:false, turns:days(TODAY,pd(cur.end)),
+      text:`${esc(cur.tenant)} out ${fmtD(cur.end)} → open ${fmtD(iso(free))}` +
+           (nxt?`, ${esc(nxt.tenant)} in ${fmtD(nxt.start)}`:"")});
+  }
+  return out.filter(o=>o.open || o.turns<=180).sort((a,b)=>(a.open?-1:0)-(b.open?-1:0));
+}
+
+/* ---------------------------- OCCUPANCY BAND CHART ---------------------------- */
+let occStart = pkey(TODAY.getFullYear(), TODAY.getMonth()+1);
+let occLen = 12;
+function vOcc(){
+  const wS = pd(occStart+"-01");
+  const endP = pAdd(occStart, occLen-1);
+  const [ey,em] = endP.split("-").map(Number);
+  const wE = new Date(ey, em-1, dim(ey,em));
+  const span = days(wS,wE)+1;
+  const pos = d => Math.max(0, Math.min(100, days(wS,d)/span*100));
+
+  const ticks=[]; for(let i=0;i<occLen;i++){ const p=pAdd(occStart,i);
+    ticks.push({p, left:pos(pd(p+"-01"))}); }
+
+  const rows = DB.rooms.map(rm=>{
+    const ls = DB.leases.filter(L=>L.roomId===rm.id && L.start && L.end)
+      .filter(L=> pd(occOut(L))>=wS && pd(occIn(L))<=wE)
+      .sort((a,b)=>occIn(a)<occIn(b)?-1:1);
+    const bars = ls.map(L=>{
+      const a=pd(occIn(L)), b=pd(occOut(L));
+      const l=pos(a<wS?wS:a), r=pos(b>wE?wE:b);
+      const w=Math.max(1.2, r-l + (100/span));
+      const st=status(L);
+      const drift = (L.moveIn&&L.moveIn!==L.start) || (L.moveOut&&L.moveOut!==L.end);
+      return `<div class="bar ${st==="upcoming"?"future":st==="ended"?"ended":""}"
+        style="left:${l}%;width:${Math.min(w,100-l)}%"
+        title="${esc(L.tenant)} · ${fmtD(occIn(L))} to ${fmtD(occOut(L))}${drift?" (actual dates; lease term "+fmtD(L.start)+" to "+fmtD(L.end)+")":""}">
+        <span class="dot"></span>${esc(L.tenant)}${drift?" *":""}</div>`;
+    }).join("");
+    // vacancy gaps inside the window
+    let gaps="", cursor=new Date(wS);
+    for(const L of ls){
+      const a = pd(occIn(L))<wS?wS:pd(occIn(L));
+      if(days(cursor,a)>=1){
+        const l=pos(cursor), r=pos(a), w=r-l;
+        if(w>0.6) gaps+=`<div class="gap" style="left:${l}%;width:${w}%" title="Vacant ${fmtD(iso(cursor))} to ${fmtD(iso(new Date(a-86400000)))}">${w>7?"vacant":""}</div>`;
+      }
+      const nb=new Date(pd(occOut(L))); nb.setDate(nb.getDate()+1);
+      if(nb>cursor) cursor=nb;
+    }
+    if(days(cursor,wE)>=1){ const l=pos(cursor), w=100-l;
+      if(w>0.6) gaps+=`<div class="gap" style="left:${l}%;width:${w}%" title="Vacant from ${fmtD(iso(cursor))}">${w>7?"vacant":""}</div>`; }
+
+    return `<div class="grow">
+      <div class="gname"><b>${rm.id} · ${esc(rm.name)}</b><span>${$$(rm.market)}/mo</span></div>
+      <div class="gtrack">${ticks.map(t=>`<div class="gl" style="left:${t.left}%"></div>`).join("")}
+        ${gaps}${bars}
+        ${TODAY>=wS&&TODAY<=wE?`<div class="today" style="left:${pos(TODAY)}%"></div>`:""}</div>
+    </div>`;
+  }).join("");
+
+  return head("Occupancy", `Every tenancy drawn to the exact day, so a lease that ends on the 5th shows as a five-day sliver, not a whole month. Bars marked <b>*</b> use recorded move-in/move-out dates that differ from the lease term.`,
+    `<button class="btn ghost sm" data-occ="-6">‹ Back 6 mo</button>
+     <button class="btn ghost sm" data-occ="today">Today</button>
+     <button class="btn ghost sm" data-occ="6">Forward 6 mo ›</button>
+     <select id="occLen" style="width:auto"><option value="6">6 months</option>
+       <option value="12" selected>12 months</option><option value="18">18 months</option>
+       <option value="24">24 months</option></select>`) + `
+  <div class="stack">
+    <div class="card pad">
+      <div class="gantt">
+        <div class="gantt-months"><div></div><div class="mlabels">
+          ${ticks.map(t=>`<div class="mtick" style="left:${t.left}%"></div>
+            <div class="mlabel" style="left:${t.left}%">${fmtPS(t.p)}</div>`).join("")}
+        </div></div>
+        ${rows}
+      </div>
+      <div class="legend" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
+        <span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>Current or past tenancy</span>
+        <span><i style="background:var(--panel);border:1px dashed var(--line-strong)"></i>Signed, not started</span>
+        <span><i style="background:var(--vacant-soft);border:1px dashed var(--line-strong)"></i>Vacant</span>
+        <span><i style="background:var(--bad)"></i>Today</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Month-by-month headcount</h3>
+        <span class="sub">Drives the utility split</span></div>
+      <div class="scroll"><table><thead><tr><th>Month</th><th class="r">Occupied rooms</th>
+        <th class="r">Contracted rent</th><th>Who</th></tr></thead><tbody>
+        ${Array.from({length:occLen},(_,i)=>{
+          const p=pAdd(occStart,i), occ=occupantsOf(p);
+          const rent=r2(occ.reduce((t,L)=>t+(schedule(L).find(s=>s.period===p)?.rent||0),0));
+          return `<tr><td><b>${fmtP(p)}</b></td><td class="r num">${occ.length} / ${DB.rooms.length}</td>
+            <td class="r num">${$$(rent)}</td>
+            <td class="small muted">${occ.map(L=>esc(L.tenant)).join(", ")||"—"}</td></tr>`;
+        }).join("")}
+      </tbody></table></div>
+    </div>
+  </div>`;
+}
+
+/* ---------------------------- LEASES ---------------------------- */
+function vLeases(){
+  const order = {active:0, upcoming:1, draft:2, ended:3};
+  const ls = [...DB.leases].sort((a,b)=> (order[status(a)]-order[status(b)]) || (a.roomId>b.roomId?1:-1));
+  return head("Leases & rooms",
+    "One row per tenancy. The lease term drives billing; the move-in and move-out dates drive occupancy. They are stored separately because they are frequently not the same day.",
+    `<button class="btn ghost" data-new="room">Edit rooms</button>
+     <button class="btn" data-new="lease">Add a lease</button>`) + `
+  <div class="stack">
+    <div class="card">
+      <div class="card-h"><h3>Tenancies</h3><span class="sub">${ls.length} on file</span></div>
+      ${ls.length? `<div class="scroll"><table>
+        <thead><tr><th>Room</th><th>Tenant</th><th>Lease term</th><th>Occupancy</th>
+          <th class="r">Rent</th><th class="r">First month</th><th class="r">Last month</th>
+          <th class="r">Balance</th><th></th></tr></thead>
+        <tbody>${ls.map(L=>{
+          const sc=schedule(L), f=sc[0], l=sc[sc.length-1], lg=ledger(L), st=status(L);
+          const stPill = {active:["ok","Active"],upcoming:["accent","Upcoming"],
+                          ended:["neutral","Ended"],draft:["warn","Incomplete"]}[st];
+          const drift = (L.moveIn&&L.moveIn!==L.start)||(L.moveOut&&L.moveOut!==L.end);
+          return `<tr>
+            <td><b>${L.roomId}</b> <span class="small muted">${esc(room(L.roomId).name)}</span></td>
+            <td><strong>${esc(L.tenant)}</strong><br><span class="pill ${stPill[0]}">${stPill[1]}</span></td>
+            <td class="small num">${fmtD(L.start)}<br>→ ${fmtD(L.end)}</td>
+            <td class="small num">${L.moveIn?fmtD(L.moveIn):`<span class="muted">—</span>`}<br>
+                → ${L.moveOut?fmtD(L.moveOut):`<span class="muted">—</span>`}
+                ${drift?`<br><span class="pill accent">differs from term</span>`:""}</td>
+            <td class="r num">${$$(L.rent)}</td>
+            <td class="r num">${f? (f.partial? `${$$(f.rent)}<br><span class="small muted">${f.d} of ${f.D} d · ÷${f.method==="30"?"30":f.D}</span>` : `${$$(f.rent)}<br><span class="small muted">full</span>`) : "—"}</td>
+            <td class="r num">${l&&l!==f? (l.partial? `${$$(l.rent)}<br><span class="small muted">${l.d} of ${l.D} d · ÷${l.method==="30"?"30":l.D}</span>` : `${$$(l.rent)}<br><span class="small muted">full</span>`) : "—"}</td>
+            <td class="r num">${lg.bal>0.005?`<span class="pill bad">${$$(lg.bal)}</span>`:
+                               lg.bal<-0.005?`<span class="pill accent">${$$(-lg.bal)} credit</span>`:
+                               `<span class="pill ok">Square</span>`}</td>
+            <td class="r"><button class="btn ghost sm" data-lease="${L.id}">Edit</button></td>
+          </tr>`;}).join("")}</tbody></table></div>`
+      : `<div class="empty">No leases yet. Add one, or import your data from the <b>Data</b> tab.</div>`}
+    </div>
+
+    <div class="note"><b>Why two sets of dates.</b> Rent is owed from the lease start whether or not the
+      tenant has arrived, so every charge on the rent roll is generated from the term. The occupancy chart
+      and the headcount that splits the utility bill use the actual move-in and move-out dates when you
+      record them, and quietly fall back to the term when you haven't. Recording a late arrival therefore
+      changes who shows up in the house on a given day, and never silently changes what they owe.</div>
+
+    <div class="card">
+      <div class="card-h"><h3>Rooms</h3><span class="sub">Market rent from your listing site</span></div>
+      <div class="scroll"><table><thead><tr><th>#</th><th>Room</th><th class="r">Market rent</th>
+        <th>Status today</th><th>Next change</th></tr></thead><tbody>
+        ${DB.rooms.map(rm=>{
+          const cur = DB.leases.find(L=>L.roomId===rm.id && status(L)==="active");
+          const nxt = DB.leases.filter(L=>L.roomId===rm.id && status(L)==="upcoming")
+                               .sort((a,b)=>a.start<b.start?-1:1)[0];
+          return `<tr><td class="num">${rm.id}</td><td>${esc(rm.name)}</td>
+            <td class="r num">${$$(rm.market)}</td>
+            <td>${cur?`<span class="pill ok">${esc(cur.tenant)}</span>`:`<span class="pill neutral">Vacant</span>`}</td>
+            <td class="small muted">${cur?`Ends ${fmtD(cur.end)}`:""}${nxt?`${cur?" · ":""}${esc(nxt.tenant)} in ${fmtD(nxt.start)}`:""}${!cur&&!nxt?"Available now":""}</td>
+          </tr>`;}).join("")}
+      </tbody></table></div>
+    </div>
+  </div>`;
+}
+
+/* ---------------------------- RENT ROLL ---------------------------- */
+let rollStart = pAdd(THIS_P,-2), rollLen = 8;
+function vRoll(){
+  const periods = Array.from({length:rollLen},(_,i)=>pAdd(rollStart,i));
+  const ls = DB.leases.filter(L=>L.start&&L.end)
+    .sort((a,b)=>(a.roomId>b.roomId?1:a.roomId<b.roomId?-1:0));
+  const cols = {};
+  periods.forEach(p=>cols[p]={due:0,paid:0});
+  const body = ls.map(L=>{
+    const lg=ledger(L);
+    return `<tr><td class="name"><strong>${esc(L.tenant)}</strong>
+      <div class="small muted">Room ${L.roomId} · ${$$(L.rent)}/mo</div></td>
+      ${periods.map(p=>{
+        const r=lg.rows.find(x=>x.period===p);
+        if(!r) return `<td></td>`;
+        cols[p].due=r2(cols[p].due+r.due); cols[p].paid=r2(cols[p].paid+r.paid);
+        const [cls,lbl]=STATE[r.state];
+        return `<td><div class="cell ${r.state}${r.partial?" pro":""}"
+            title="${fmtP(p)} · rent ${$$(r.rent)}${r.partial?` (${r.d} of ${r.D} days, ÷${r.method==="30"?"30":r.D})`:""}${r.util?` · utilities ${$$(r.util)}`:""}${r.adjTotal?` · adjustments ${$$(r.adjTotal)}`:""} · paid ${$$(r.paid)}">
+          <b>${$$(r.due).replace(".00","")}</b><small>${lbl}</small></div></td>`;
+      }).join("")}
+      <td class="r num" style="padding:8px 12px">${lg.bal>0.005?`<span class="pill bad">${$$(lg.bal)}</span>`:`<span class="pill ok">0</span>`}</td>
+      <td class="r" style="padding:8px 12px"><button class="btn sm" data-pay="${L.id}">Payment</button></td>
+    </tr>`;}).join("");
+
+  return head("Rent roll", `Every tenant against every month. A dashed outline means the month is prorated. Hover a cell for the arithmetic.`,
+    `<button class="btn ghost sm" data-roll="-6">‹</button>
+     <button class="btn ghost sm" data-roll="today">Today</button>
+     <button class="btn ghost sm" data-roll="6">›</button>
+     <button class="btn" data-pay="">Record a payment</button>`) + `
+  <div class="stack">
+    <div class="card">
+      <div class="card-h"><h3>${fmtP(periods[0])} – ${fmtP(periods[periods.length-1])}</h3>
+        <div class="legend">
+          <span><i style="background:var(--ok-soft)"></i>Paid</span>
+          <span><i style="background:var(--warn-soft)"></i>Partial</span>
+          <span><i style="background:var(--bad-soft)"></i>Late</span>
+          <span><i style="background:var(--panel-2)"></i>Due</span>
+          <span><i style="outline:1.5px dashed var(--accent);outline-offset:-2px;background:var(--panel)"></i>Prorated</span>
+        </div></div>
+      ${ls.length? `<div class="scroll"><table class="roll">
+        <thead><tr><th class="name">Tenant</th>
+          ${periods.map(p=>`<th class="mh">${fmtPS(p)}</th>`).join("")}
+          <th class="mh">Balance</th><th class="mh"></th></tr></thead>
+        <tbody>${body}</tbody>
+        <tfoot><tr><td class="name"><strong>Charged / collected</strong></td>
+          ${periods.map(p=>`<td><div class="cell ${cols[p].paid>=cols[p].due-0.005&&cols[p].due>0?"paid":"due"}">
+            <b>${$$(cols[p].due).replace(".00","")}</b><small>${$$(cols[p].paid).replace(".00","")}</small></div></td>`).join("")}
+          <td></td><td></td></tr></tfoot>
+      </table></div>` : `<div class="empty">No leases to bill yet.</div>`}
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>Payments received</h3>
+        <span class="sub">${DB.payments.length} recorded</span></div>
+      ${DB.payments.length? `<div class="scroll"><table>
+        <thead><tr><th>Date received</th><th>Tenant</th><th class="r">Amount</th><th>Method</th>
+          <th>Applied to</th><th>Note</th><th></th></tr></thead>
+        <tbody>${[...DB.payments].sort((a,b)=>a.date<b.date?1:-1).map(p=>{
+          const L=lease(p.leaseId);
+          return `<tr><td class="num">${fmtD(p.date)}</td>
+            <td>${L?esc(L.tenant):`<span class="muted">deleted lease</span>`}</td>
+            <td class="r num"><strong>${$$(p.amount)}</strong></td>
+            <td class="small">${esc(p.method||"—")}</td>
+            <td class="small">${p.period?fmtP(p.period):`<span class="muted">oldest unpaid</span>`}</td>
+            <td class="small muted">${esc(p.note||"")}</td>
+            <td class="r"><button class="btn ghost sm" data-delpay="${p.id}">Remove</button></td></tr>`;
+        }).join("")}</tbody></table></div>`
+      : `<div class="empty">No payments recorded yet.</div>`}
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>Adjustments</h3>
+        <span class="sub">Late fees, guest nights, cleaning, credits</span>
+        <button class="btn ghost sm" data-new="adj">Add adjustment</button></div>
+      ${DB.adjustments.length? `<div class="scroll"><table>
+        <thead><tr><th>Month</th><th>Tenant</th><th>What</th><th class="r">Amount</th><th></th></tr></thead>
+        <tbody>${[...DB.adjustments].sort((a,b)=>a.period<b.period?1:-1).map(a=>{
+          const L=lease(a.leaseId);
+          return `<tr><td>${fmtP(a.period)}</td><td>${L?esc(L.tenant):"—"}</td>
+            <td>${esc(a.label)}</td>
+            <td class="r num">${Number(a.amount)<0?`<span style="color:var(--ok)">${$$(a.amount)}</span>`:$$(a.amount)}</td>
+            <td class="r"><button class="btn ghost sm" data-deladj="${a.id}">Remove</button></td></tr>`;
+        }).join("")}</tbody></table></div>`
+      : `<div class="empty">No adjustments. Use these for the $${DB.settings.lateFee} late charge, $30 guest nights, or a credit.</div>`}
+    </div>
+  </div>`;
+}
+
+/* ---------------------------- UTILITIES ---------------------------- */
+function vUtil(){
+  const start = pAdd(THIS_P,-5);
+  const periods = Array.from({length:12},(_,i)=>pAdd(start,i));
+  return head("Utilities", `PG&amp;E, water, internet and garbage are billed to the landlord and split equally among everyone under lease that month, per Clause 8(a). Enter the household total and the share lands on each tenant's rent roll automatically.`,
+    `<button class="btn" data-new="util">Enter a month's bill</button>`) + `
+  <div class="stack">
+    <div class="card">
+      <div class="card-h"><h3>Monthly bills and splits</h3>
+        <span class="sub">Historical range per the lease: $60–$140 per person</span></div>
+      <div class="scroll"><table>
+        <thead><tr><th>Month</th><th class="r">Household total</th><th class="r">Occupants</th>
+          <th class="r">Each pays</th><th>Who is charged</th><th></th></tr></thead>
+        <tbody>${periods.map(p=>{
+          const u=utilShare(p), occ=occupantsOf(p);
+          const isPast = pnum(p)<=pnum(THIS_P);
+          if(!u) return `<tr><td><b>${fmtP(p)}</b></td>
+            <td class="r"><span class="muted small">${isPast?"not entered":"—"}</span></td>
+            <td class="r num">${occ.length}</td><td class="r">—</td>
+            <td class="small muted">${occ.map(L=>esc(L.tenant)).join(", ")||"—"}</td>
+            <td class="r">${isPast&&occ.length?`<button class="btn ghost sm" data-utiladd="${p}">Enter</button>`:""}</td></tr>`;
+          return `<tr><td><b>${fmtP(p)}</b></td>
+            <td class="r num"><strong>${$$(u.total)}</strong></td>
+            <td class="r num">${u.n}</td>
+            <td class="r num"><span class="pill accent">${$$(u.each)}</span></td>
+            <td class="small muted">${occ.map(L=>esc(L.tenant)).join(", ")}</td>
+            <td class="r"><button class="btn ghost sm" data-utiladd="${p}">Edit</button></td></tr>`;
+        }).join("")}</tbody></table></div>
+    </div>
+    <div class="note"><b>Final month is handled for you.</b> Clause 8(c) says a departing tenant's last
+      utility share is billed at the same rate as the month before, and settled out of the deposit rather
+      than reconciled later. If you haven't entered a bill for someone's final month, the rent roll carries
+      the prior month's share forward and labels it. Enter a real bill for that month and the real number wins.</div>
+  </div>`;
+}
+
+/* ---------------------------- MOVE-OUT / DEPOSITS ---------------------------- */
+function vOut(){
+  const ls = DB.leases.filter(L=>L.start&&L.end)
+    .filter(L=> status(L)==="ended" || days(TODAY,pd(L.end))<=90 )
+    .sort((a,b)=>a.end<b.end?-1:1);
+  return head("Move-out & deposits",
+    `Everything that has to be settled when someone leaves, in the order it gets settled. California gives you ${DB.settings.depositReturnDays} days from the day they vacate to send an itemized statement and the balance.`) + `
+  <div class="stack">
+    ${ls.length? ls.map(L=>{
+      const sc=schedule(L), last=sc[sc.length-1], lg=ledger(L);
+      const prevU = utilShare(pAdd(last.period,-1));
+      const finalU = utilShare(last.period)?.each ?? prevU?.each ?? 0;
+      const clean = Number(L.cleaningFee ?? DB.settings.cleaningFee);
+      const dmg = Number(L.damages||0);
+      const unpaid = Math.max(0, lg.bal);
+      const back = r2(Number(L.deposit||0) - unpaid - finalU - clean - dmg);
+      const vac = L.moveOut||L.end;
+      const dl = new Date(pd(vac)); dl.setDate(dl.getDate()+DB.settings.depositReturnDays);
+      const left = days(TODAY,dl);
+      return `<div class="card">
+        <div class="card-h"><h3>${esc(L.tenant)} — Room ${L.roomId}, ${esc(room(L.roomId).name)}</h3>
+          <span class="sub">${status(L)==="ended"?
+            (L.depositReturned?`<span class="pill ok">Deposit returned</span>`:
+             `<span class="pill ${left<0?"bad":"warn"}">${left<0?`${-left} days past the ${DB.settings.depositReturnDays}-day deadline`:`${left} days to settle`}</span>`)
+            :`<span class="pill accent">Leaves in ${days(TODAY,pd(L.end))} days</span>`}</span></div>
+        <div class="pad" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+          <div>
+            <div class="eyebrow" style="margin-bottom:8px">Final month of rent</div>
+            <table><tbody>
+              <tr><td>Lease ends</td><td class="r num">${fmtD(L.end)}</td></tr>
+              <tr><td>Actually vacated</td><td class="r num">${L.moveOut?fmtD(L.moveOut):`<span class="muted">not logged</span>`}</td></tr>
+              <tr><td>Billable days in ${fmtP(last.period)}</td><td class="r num">${last.d} of ${last.D}</td></tr>
+              <tr><td>Daily rate (÷${last.method==="30"?"30":last.D})</td>
+                  <td class="r num">${$$(r2(L.rent/(last.method==="30"?30:last.D)))}</td></tr>
+              <tr><td><strong>Prorated final rent</strong></td><td class="r num"><strong>${$$(last.rent)}</strong></td></tr>
+            </tbody></table>
+          </div>
+          <div>
+            <div class="eyebrow" style="margin-bottom:8px">Deposit settlement</div>
+            <table><tbody>
+              <tr><td>Security deposit held</td><td class="r num">${$$(L.deposit||0)}</td></tr>
+              <tr><td>Less unpaid rent &amp; utilities</td><td class="r num">${unpaid?`−${$$(unpaid)}`:"—"}</td></tr>
+              <tr><td>Less final utility share <span class="small muted">${utilShare(last.period)?"(billed)":"(carried, Clause 8c)"}</span></td>
+                  <td class="r num">${finalU?`−${$$(finalU)}`:"—"}</td></tr>
+              <tr><td>Less cleaning fee</td><td class="r num">−${$$(clean)}</td></tr>
+              <tr><td>Less damages</td><td class="r num">${dmg?`−${$$(dmg)}`:"—"}</td></tr>
+              <tr><td><strong>Return to tenant by ${fmtD(iso(dl))}</strong></td>
+                  <td class="r num"><strong style="color:var(--${back<0?"bad":"ok"})">${$$(back)}</strong></td></tr>
+            </tbody></table>
+            ${back<0?`<div class="note warnnote" style="margin-top:10px">Deductions exceed the deposit by ${$$(-back)}. You would have to bill the tenant for the difference.</div>`:""}
+          </div>
+        </div>
+        <div class="pad" style="border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn ghost sm" data-lease="${L.id}">Edit dates, damages, cleaning fee</button>
+          ${status(L)==="ended"&&!L.depositReturned?
+            `<button class="btn sm" data-returned="${L.id}">Mark deposit returned</button>`:""}
+        </div>
+      </div>`;}).join("")
+    : `<div class="card"><div class="empty">Nobody is leaving in the next 90 days and no past tenancy is unsettled.</div></div>`}
+  </div>`;
+}
+
+/* ---------------------------- DATA ---------------------------- */
+function vData(){
+  return head("Data", "Everything lives in this browser's local storage. That means it does not sync between your laptop and your phone, and clearing site data wipes it. Export a JSON backup after any session where you changed something real.") + `
+  <div class="stack">
+    <div class="grid3">
+      <div class="card pad stack">
+        <div><div class="eyebrow">Back up</div>
+          <p class="small muted" style="margin:6px 0 0">One file with every lease, payment, utility bill and adjustment.</p></div>
+        <button class="btn" id="expJson">Export JSON backup</button>
+      </div>
+      <div class="card pad stack">
+        <div><div class="eyebrow">Restore or seed</div>
+          <p class="small muted" style="margin:6px 0 0">Load a backup, or the seed file with your five current leases.</p></div>
+        <input type="file" id="impFile" accept=".json,application/json">
+      </div>
+      <div class="card pad stack">
+        <div><div class="eyebrow">Spreadsheet</div>
+          <p class="small muted" style="margin:6px 0 0">The full rent roll and payment history as CSV, for Excel or Google Sheets.</p></div>
+        <div class="row"><button class="btn ghost" id="expRoll">Rent roll CSV</button>
+        <button class="btn ghost" id="expPay">Payments CSV</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Property &amp; house rules</h3>
+        <span class="sub">Defaults applied to new leases</span></div>
+      <div class="pad grid2">
+        <div><label for="sAddr">Address</label><input id="sAddr" value="${esc(DB.property.address)}"></div>
+        <div><label for="sDue">Rent due on day</label><input id="sDue" type="number" min="1" max="28" value="${DB.settings.dueDay}"></div>
+        <div><label for="sGrace">Grace days before late</label><input id="sGrace" type="number" min="0" max="15" value="${DB.settings.graceDays}"></div>
+        <div><label for="sLate">Late fee</label><input id="sLate" type="number" step="1" value="${DB.settings.lateFee}"></div>
+        <div><label for="sClean">Default cleaning fee</label><input id="sClean" type="number" step="1" value="${DB.settings.cleaningFee}"></div>
+        <div><label for="sRet">Deposit return window (days)</label><input id="sRet" type="number" value="${DB.settings.depositReturnDays}"></div>
+      </div>
+      <div class="pad" style="border-top:1px solid var(--line)"><button class="btn" id="saveSettings">Save settings</button></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Start over</h3></div>
+      <div class="pad row"><button class="btn danger" id="wipe">Erase everything in this browser</button>
+        <span class="small muted">Export a backup first. There is no undo.</span></div>
+    </div>
+  </div>`;
+}
+
+/* =======================================================================
+   FORMS
+   ======================================================================= */
+const dlg = document.getElementById("dlg");
+function openDlg(title, bodyHtml, onSave, onDelete){
+  document.getElementById("dlgTitle").textContent = title;
+  document.getElementById("dlgBody").innerHTML = bodyHtml;
+  const del = document.getElementById("dlgDelete");
+  del.classList.toggle("hide", !onDelete);
+  del.onclick = () => { if(confirm("Delete this permanently?")){ onDelete(); dlg.close(); save(); render(); } };
+  document.getElementById("dlgForm").onsubmit = e => {
+    if(e.submitter && e.submitter.value==="save"){
+      const ok = onSave();
+      if(ok===false){ e.preventDefault(); return; }
+      save();
+      setTimeout(()=>{render(); toast("Saved");},0);
+    }
+  };
+  dlg.showModal();
+}
+const val = id => document.getElementById(id).value.trim();
+const numv = id => Number(document.getElementById(id).value||0);
+
+function leaseForm(L){
+  const isNew = !L;
+  L = L || {id:uid(), roomId:DB.rooms[0]?.id||"1", rent:DB.rooms[0]?.market||1400,
+            prorateFirst:"30", prorateLast:"actual", deposit:0, utilDeposit:0};
+  openDlg(isNew?"New lease":"Edit lease — "+L.tenant, `
+    <div class="grid2">
+      <div><label for="f_t">Tenant name</label><input id="f_t" value="${esc(L.tenant||"")}" required></div>
+      <div><label for="f_r">Room</label><select id="f_r">${DB.rooms.map(r=>
+        `<option value="${r.id}" ${r.id===L.roomId?"selected":""}>${r.id} · ${esc(r.name)} (${$$(r.market)})</option>`).join("")}</select></div>
+      <div><label for="f_e">Email</label><input id="f_e" type="email" value="${esc(L.email||"")}"></div>
+      <div><label for="f_p">Phone</label><input id="f_p" value="${esc(L.phone||"")}"></div>
+    </div>
+    <div style="border-top:1px solid var(--line);padding-top:14px">
+      <div class="eyebrow" style="margin-bottom:8px">Lease term — this drives billing</div>
+      <div class="grid2">
+        <div><label for="f_s">Term begins</label><input id="f_s" type="date" value="${L.start||""}" required></div>
+        <div><label for="f_x">Term ends</label><input id="f_x" type="date" value="${L.end||""}" required></div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--line);padding-top:14px">
+      <div class="eyebrow" style="margin-bottom:4px">Actual occupancy — leave blank if same as the term</div>
+      <p class="small muted" style="margin:0 0 8px">A lease starting 9/1 does not mean they arrived 9/1. These dates
+        move the occupancy chart and the utility headcount. They never change what is owed.</p>
+      <div class="grid2">
+        <div><label for="f_mi">Actually moved in</label><input id="f_mi" type="date" value="${L.moveIn||""}"></div>
+        <div><label for="f_mo">Actually moved out</label><input id="f_mo" type="date" value="${L.moveOut||""}"></div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--line);padding-top:14px">
+      <div class="eyebrow" style="margin-bottom:8px">Money</div>
+      <div class="grid2">
+        <div><label for="f_rent">Monthly rent</label><input id="f_rent" type="number" step="1" value="${L.rent||0}" required></div>
+        <div><label for="f_dep">Security deposit</label><input id="f_dep" type="number" step="1" value="${L.deposit||0}"></div>
+        <div><label for="f_ud">Utility deposit</label><input id="f_ud" type="number" step="1" value="${L.utilDeposit||0}"></div>
+        <div><label for="f_cl">Cleaning fee at move-out</label><input id="f_cl" type="number" step="1" value="${L.cleaningFee ?? DB.settings.cleaningFee}"></div>
+        <div><label for="f_dm">Damages beyond wear</label><input id="f_dm" type="number" step="1" value="${L.damages||0}"></div>
+        <div><label for="f_dd">Rent due on day</label><input id="f_dd" type="number" min="1" max="28" value="${L.dueDay ?? DB.settings.dueDay}"></div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--line);padding-top:14px">
+      <div class="eyebrow" style="margin-bottom:4px">How partial months are prorated</div>
+      <div class="grid2">
+        <div><label for="f_pf">First month</label><select id="f_pf">
+          <option value="30" ${(L.prorateFirst||"30")==="30"?"selected":""}>÷ 30 (banker's month) — what your lease says</option>
+          <option value="actual" ${L.prorateFirst==="actual"?"selected":""}>÷ actual days in the month</option></select></div>
+        <div><label for="f_pl">Last month</label><select id="f_pl">
+          <option value="actual" ${(L.prorateLast||"actual")==="actual"?"selected":""}>÷ actual days in the month — what you do</option>
+          <option value="30" ${L.prorateLast==="30"?"selected":""}>÷ 30 (banker's month)</option></select></div>
+      </div>
+      <div id="proPreview" class="note" style="margin-top:12px"></div>
+    </div>
+    <div><label for="f_n">Notes</label><textarea id="f_n" rows="2">${esc(L.notes||"")}</textarea></div>
+    ${status(L)==="ended"?`<div><label><input type="checkbox" id="f_dr" style="width:auto;margin-right:6px" ${L.depositReturned?"checked":""}>Deposit has been returned</label></div>`:""}
+  `, ()=>{
+    const t=val("f_t"), s=val("f_s"), e=val("f_x");
+    if(!t||!s||!e){ alert("Tenant name and both term dates are required."); return false; }
+    if(pd(e)<pd(s)){ alert("The term cannot end before it begins."); return false; }
+    const obj={id:L.id, tenant:t, roomId:val("f_r"), email:val("f_e"), phone:val("f_p"),
+      start:s, end:e, moveIn:val("f_mi")||"", moveOut:val("f_mo")||"",
+      rent:numv("f_rent"), deposit:numv("f_dep"), utilDeposit:numv("f_ud"),
+      cleaningFee:numv("f_cl"), damages:numv("f_dm"), dueDay:numv("f_dd"),
+      prorateFirst:val("f_pf"), prorateLast:val("f_pl"), notes:val("f_n"),
+      depositReturned: document.getElementById("f_dr")?.checked || false,
+      graceDays:L.graceDays, lateFee:L.lateFee};
+    const i=DB.leases.findIndex(x=>x.id===L.id);
+    if(i<0) DB.leases.push(obj); else DB.leases[i]=obj;
+  }, isNew?null:()=>{
+    DB.leases=DB.leases.filter(x=>x.id!==L.id);
+    DB.payments=DB.payments.filter(p=>p.leaseId!==L.id);
+    DB.adjustments=DB.adjustments.filter(a=>a.leaseId!==L.id);
+  });
+
+  // live proration preview
+  const upd = () => {
+    const el=document.getElementById("proPreview"); if(!el) return;
+    const t={rent:numv("f_rent"), start:val("f_s"), end:val("f_x"),
+             prorateFirst:val("f_pf"), prorateLast:val("f_pl")};
+    if(!t.start||!t.end||!t.rent||pd(t.end)<pd(t.start)){ el.textContent="Enter the term and rent to see the prorated months."; return; }
+    const sc=schedule(t), f=sc[0], l=sc[sc.length-1];
+    const alt = (s,m) => prorate(t.rent, s.d, s.y, s.m, m);
+    const line = (s,lab,m) => !s ? "" :
+      `<div><b>${lab} (${fmtP(s.period)}):</b> ${s.partial
+        ? `${s.d} of ${s.D} days → <b>${$$(s.rent)}</b>. <span style="opacity:.75">Same days the other way: ${$$(alt(s, m==="30"?"actual":"30"))}.</span>`
+        : `full month → <b>${$$(s.rent)}</b>`}</div>`;
+    const total = r2(sc.reduce((a,b)=>a+b.rent,0));
+    el.innerHTML = line(f,"First month",t.prorateFirst) +
+      (l&&l!==f ? line(l,"Last month",t.prorateLast) : "") +
+      `<div style="margin-top:6px;opacity:.8">${sc.length} month${sc.length>1?"s":""} of rent, ${$$(total)} over the whole term.</div>`;
+  };
+  ["f_rent","f_s","f_x","f_pf","f_pl"].forEach(id=>{
+    const n=document.getElementById(id); if(n){ n.oninput=upd; n.onchange=upd; }});
+  const rSel=document.getElementById("f_r");
+  if(rSel) rSel.onchange=()=>{ if(isNew){ document.getElementById("f_rent").value=room(rSel.value).market; upd(); } };
+  upd();
+}
+
+function paymentForm(leaseId, period){
+  const ls = DB.leases.filter(L=>L.start&&L.end);
+  if(!ls.length){ alert("Add a lease first."); return; }
+  const L0 = lease(leaseId) || ls[0];
+  const opts = L => schedule(L).map(s=>
+    `<option value="${s.period}" ${s.period===(period||THIS_P)?"selected":""}>${fmtP(s.period)} — ${$$(s.rent)}${s.partial?" (prorated)":""}</option>`).join("");
+  openDlg("Record a payment", `
+    <div class="grid2">
+      <div><label for="p_l">Tenant</label><select id="p_l">${ls.map(L=>
+        `<option value="${L.id}" ${L.id===L0.id?"selected":""}>${esc(L.tenant)} — Room ${L.roomId}</option>`).join("")}</select></div>
+      <div><label for="p_d">Date the money landed</label><input id="p_d" type="date" value="${iso(TODAY)}"></div>
+      <div><label for="p_a">Amount</label><input id="p_a" type="number" step="0.01" value="" required></div>
+      <div><label for="p_m">Method</label><select id="p_m">
+        <option>Zelle — Wells Fargo</option><option>Zelle — Chase</option><option>ACH / direct deposit</option>
+        <option>Bank transfer</option><option>Check</option><option>Cash</option><option>Other</option></select></div>
+    </div>
+    <div><label for="p_p">Apply to</label><select id="p_p"><option value="">Oldest unpaid month</option>${opts(L0)}</select></div>
+    <div id="p_ctx" class="note"></div>
+    <div><label for="p_n">Note</label><input id="p_n" placeholder="e.g. rent + utilities, or first month + deposit"></div>
+  `, ()=>{
+    const a=numv("p_a");
+    if(!a){ alert("Enter an amount."); return false; }
+    DB.payments.push({id:uid(), leaseId:val("p_l"), date:val("p_d"), amount:a,
+                      method:val("p_m"), period:val("p_p"), note:val("p_n")});
+  });
+  const lSel=document.getElementById("p_l"), pSel=document.getElementById("p_p");
+  const ctx=()=>{
+    const L=lease(lSel.value); if(!L) return;
+    const lg=ledger(L), p=pSel.value;
+    const row = p ? lg.rows.find(r=>r.period===p) : lg.rows.find(r=>r.bal>0.005);
+    const box=document.getElementById("p_ctx");
+    if(!row){ box.textContent = `${L.tenant} has no open balance.`; return; }
+    box.innerHTML = `<b>${fmtP(row.period)} for ${esc(L.tenant)}:</b> rent ${$$(row.rent)}${
+      row.partial?` <span style="opacity:.8">(${row.d} of ${row.D} days, prorated ÷${row.method==="30"?"30":row.D})</span>`:""}${
+      row.util?` + utilities ${$$(row.util)}`:""}${row.adjTotal?` + adjustments ${$$(row.adjTotal)}`:""}
+      = <b>${$$(row.due)}</b> charged, ${$$(row.paid)} received, <b>${$$(row.bal)} outstanding</b>.`;
+    if(!document.getElementById("p_a").value) document.getElementById("p_a").value = row.bal.toFixed(2);
+  };
+  lSel.onchange=()=>{ pSel.innerHTML=`<option value="">Oldest unpaid month</option>`+opts(lease(lSel.value));
+                      document.getElementById("p_a").value=""; ctx(); };
+  pSel.onchange=()=>{ document.getElementById("p_a").value=""; ctx(); };
+  ctx();
+}
+
+function utilForm(period){
+  const p = period || THIS_P;
+  const ex = DB.utilities.find(u=>u.period===p);
+  const occ = occupantsOf(p);
+  openDlg("Utility bill — "+fmtP(p), `
+    <div class="grid2">
+      <div><label for="u_p">Month</label><input id="u_p" type="month" value="${p}"></div>
+      <div><label for="u_t">Household total</label><input id="u_t" type="number" step="0.01" value="${ex?ex.total:""}" placeholder="PG&E + water + internet + garbage"></div>
+    </div>
+    <div><label for="u_n">Note</label><input id="u_n" value="${esc(ex?.note||"")}" placeholder="e.g. PG&E 214.10, water 88, internet 70, garbage 62"></div>
+    <div class="note" id="u_prev"></div>
+  `, ()=>{
+    const per=val("u_p"), t=numv("u_t");
+    if(!per||!t){ alert("Enter the month and the total."); return false; }
+    const i=DB.utilities.findIndex(u=>u.period===per);
+    const obj={id:ex?.id||uid(), period:per, total:t, note:val("u_n")};
+    if(i<0) DB.utilities.push(obj); else DB.utilities[i]=obj;
+  }, ex?()=>{ DB.utilities=DB.utilities.filter(u=>u.id!==ex.id); }:null);
+  const upd=()=>{
+    const per=val("u_p"), t=numv("u_t"), o=occupantsOf(per);
+    document.getElementById("u_prev").innerHTML = !o.length
+      ? "Nobody is under lease that month, so there is nobody to split it between."
+      : `<b>${$$(t)} ÷ ${o.length} occupants = ${$$(r2(t/(o.length||1)))} each.</b><br>
+         <span style="opacity:.85">${o.map(L=>esc(L.tenant)).join(", ")}</span>`;
+  };
+  ["u_p","u_t"].forEach(id=>{document.getElementById(id).oninput=upd;});
+  upd();
+}
+
+function adjForm(){
+  const ls=DB.leases.filter(L=>L.start&&L.end);
+  if(!ls.length){ alert("Add a lease first."); return; }
+  openDlg("Add an adjustment", `
+    <div class="grid2">
+      <div><label for="a_l">Tenant</label><select id="a_l">${ls.map(L=>
+        `<option value="${L.id}">${esc(L.tenant)} — Room ${L.roomId}</option>`).join("")}</select></div>
+      <div><label for="a_p">Month it belongs to</label><input id="a_p" type="month" value="${THIS_P}"></div>
+    </div>
+    <div><label for="a_w">What is it</label><select id="a_w">
+      <option value="Late charge|${DB.settings.lateFee}">Late charge — $${DB.settings.lateFee}</option>
+      <option value="Returned payment fee|25">Returned payment fee — $25</option>
+      <option value="Guest nights|30">Guest nights beyond 3 — $30 each</option>
+      <option value="Cleaning|200">Cleaning — $200</option>
+      <option value="Damage|0">Damage beyond wear</option>
+      <option value="Credit|-0">Credit to the tenant</option>
+      <option value="Other|0">Something else</option></select></div>
+    <div class="grid2">
+      <div><label for="a_lbl">Description on the ledger</label><input id="a_lbl" value="Late charge"></div>
+      <div><label for="a_amt">Amount (negative for a credit)</label><input id="a_amt" type="number" step="0.01" value="${DB.settings.lateFee}"></div>
+    </div>
+  `, ()=>{
+    const amt=numv("a_amt");
+    if(!amt){ alert("Enter an amount."); return false; }
+    DB.adjustments.push({id:uid(), leaseId:val("a_l"), period:val("a_p"), label:val("a_lbl"), amount:amt});
+  });
+  document.getElementById("a_w").onchange = e => {
+    const [lbl,amt]=e.target.value.split("|");
+    document.getElementById("a_lbl").value=lbl;
+    document.getElementById("a_amt").value=amt;
+  };
+}
+
+function roomsForm(){
+  openDlg("Rooms", `
+    <p class="small muted" style="margin:0">Market rent is what you list the room at. It seeds the rent field on a new lease and measures unfilled income on the dashboard.</p>
+    ${DB.rooms.map(r=>`<div class="grid2" style="align-items:end">
+      <div><label for="rm_n_${r.id}">Room ${r.id}</label><input id="rm_n_${r.id}" value="${esc(r.name)}"></div>
+      <div><label for="rm_m_${r.id}">Market rent</label><input id="rm_m_${r.id}" type="number" step="1" value="${r.market}"></div>
+    </div>`).join("")}
+  `, ()=>{ DB.rooms.forEach(r=>{ r.name=val("rm_n_"+r.id); r.market=numv("rm_m_"+r.id); }); });
+}
+
+/* =======================================================================
+   EVENTS + IO
+   ======================================================================= */
+function wire(){
+  const on=(sel,fn)=>document.querySelectorAll(sel).forEach(el=>el.onclick=e=>fn(el,e));
+  on("[data-lease]", el=>leaseForm(lease(el.dataset.lease)));
+  on("[data-new='lease']", ()=>leaseForm(null));
+  on("[data-new='room']", ()=>roomsForm());
+  on("[data-new='adj']", ()=>adjForm());
+  on("[data-new='util']", ()=>utilForm());
+  on("[data-utiladd]", el=>utilForm(el.dataset.utiladd));
+  on("[data-pay]", el=>paymentForm(el.dataset.pay, el.dataset.period));
+  on("[data-delpay]", el=>{ if(confirm("Remove this payment?")){
+    DB.payments=DB.payments.filter(p=>p.id!==el.dataset.delpay); save(); render(); toast("Payment removed"); }});
+  on("[data-deladj]", el=>{ if(confirm("Remove this adjustment?")){
+    DB.adjustments=DB.adjustments.filter(a=>a.id!==el.dataset.deladj); save(); render(); toast("Adjustment removed"); }});
+  on("[data-returned]", el=>{ const L=lease(el.dataset.returned); L.depositReturned=true;
+    save(); render(); toast("Marked returned"); });
+  on("[data-out]", el=>{ view="out"; render(); });
+  on("[data-occ]", el=>{ const v=el.dataset.occ;
+    occStart = v==="today" ? pkey(TODAY.getFullYear(),TODAY.getMonth()+1) : pAdd(occStart, Number(v));
+    render(); });
+  on("[data-roll]", el=>{ const v=el.dataset.roll;
+    rollStart = v==="today" ? pAdd(THIS_P,-2) : pAdd(rollStart, Number(v));
+    render(); });
+
+  const ol=document.getElementById("occLen");
+  if(ol){ ol.value=occLen; ol.onchange=()=>{occLen=Number(ol.value); render();}; }
+
+  const g=id=>document.getElementById(id);
+  if(g("expJson")) g("expJson").onclick=exportJson;
+  if(g("expRoll")) g("expRoll").onclick=exportRollCsv;
+  if(g("expPay")) g("expPay").onclick=exportPayCsv;
+  if(g("impFile")) g("impFile").onchange=importJson;
+  if(g("saveSettings")) g("saveSettings").onclick=()=>{
+    DB.property.address=val("sAddr");
+    DB.settings={dueDay:numv("sDue"), graceDays:numv("sGrace"), lateFee:numv("sLate"),
+                 cleaningFee:numv("sClean"), depositReturnDays:numv("sRet")};
+    save(); render(); toast("Settings saved");
+  };
+  if(g("wipe")) g("wipe").onclick=()=>{
+    if(confirm("Erase every lease, payment and bill stored in this browser?")){
+      localStorage.removeItem(KEY); DB=blank(); render(); toast("Erased"); }};
+}
+document.getElementById("railExport").onclick = exportJson;
+document.getElementById("railTheme").onclick = () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const next = cur==="dark" ? "light" : cur==="light" ? "" : "dark";
+  if(next) document.documentElement.setAttribute("data-theme",next);
+  else document.documentElement.removeAttribute("data-theme");
+  try{ localStorage.setItem(KEY+"_theme", next); }catch(e){}
+};
+try{ const t=localStorage.getItem(KEY+"_theme"); if(t) document.documentElement.setAttribute("data-theme",t); }catch(e){}
+
+function dl(name, text, type="application/json"){
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([text],{type}));
+  a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+function exportJson(){
+  dl(`esperanza-backup-${iso(TODAY)}.json`, JSON.stringify(DB,null,2));
+  toast("Backup downloaded");
+}
+const q = s => `"${String(s??"").replace(/"/g,'""')}"`;
+function exportRollCsv(){
+  const rows=[["Tenant","Room","Room name","Month","Days billed","Days in month","Prorated",
+               "Divisor","Rent","Utilities","Adjustments","Total charged","Paid","Balance","Status"]];
+  for(const L of DB.leases){
+    if(!L.start||!L.end) continue;
+    for(const r of ledger(L).rows) rows.push([L.tenant, L.roomId, room(L.roomId).name, r.period,
+      r.d, r.D, r.partial?"yes":"no", r.partial?(r.method==="30"?30:r.D):"", r.rent, r.util,
+      r.adjTotal, r.due, r.paid, r.bal, STATE[r.state][1]]);
+  }
+  dl(`esperanza-rent-roll-${iso(TODAY)}.csv`, rows.map(r=>r.map(q).join(",")).join("\n"), "text/csv");
+  toast("Rent roll exported");
+}
+function exportPayCsv(){
+  const rows=[["Date received","Tenant","Room","Amount","Method","Applied to","Note"]];
+  for(const p of [...DB.payments].sort((a,b)=>a.date<b.date?-1:1)){
+    const L=lease(p.leaseId);
+    rows.push([p.date, L?L.tenant:"(deleted)", L?L.roomId:"", p.amount, p.method,
+               p.period||"oldest unpaid", p.note]);
+  }
+  dl(`esperanza-payments-${iso(TODAY)}.csv`, rows.map(r=>r.map(q).join(",")).join("\n"), "text/csv");
+  toast("Payments exported");
+}
+function importJson(e){
+  const f=e.target.files[0]; if(!f) return;
+  const fr=new FileReader();
+  fr.onload=()=>{
+    try{
+      const d=JSON.parse(fr.result);
+      if(!d || !Array.isArray(d.leases)) throw new Error("That file has no leases in it.");
+      const n=d.leases.length, p=(d.payments||[]).length;
+      if(!confirm(`Replace what is in this browser with ${n} lease${n===1?"":"s"} and ${p} payment${p===1?"":"s"} from this file?`)) return;
+      const b=blank();
+      DB={...b, ...d, settings:{...b.settings,...(d.settings||{})},
+          property:{...b.property,...(d.property||{})},
+          rooms:(d.rooms&&d.rooms.length)?d.rooms:b.rooms,
+          leases:d.leases, payments:d.payments||[], utilities:d.utilities||[],
+          adjustments:d.adjustments||[]};
+      save(); render(); toast(`Loaded ${n} leases`);
+    }catch(err){ alert("Could not read that file. "+err.message); }
+  };
+  fr.readAsText(f);
+  e.target.value="";
+}
+let toastT;
+function toast(msg){
+  document.querySelectorAll(".toast").forEach(t=>t.remove());
+  const el=document.createElement("div"); el.className="toast"; el.textContent=msg;
+  document.body.appendChild(el); clearTimeout(toastT);
+  toastT=setTimeout(()=>el.remove(),2200);
+}
+
+render();
+</script>
+</body>
+</html>
