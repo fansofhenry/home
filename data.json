@@ -4,7 +4,7 @@
   "rooms": {
     "1": {
       "name": "Patio View Room",
-      "price": 1400,
+      "price": 1100,
       "available": false,
       "availableFrom": "",
       "desc": "Direct view of the patio and backyard"
@@ -53,7 +53,7 @@
     },
     "8": {
       "name": "Garage Room",
-      "price": 1500,
+      "price": 1300,
       "available": false,
       "availableFrom": "",
       "desc": "Converted room with private patio access"
